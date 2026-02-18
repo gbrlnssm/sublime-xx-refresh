@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nav — xx3 (Figma 1827-5001)</title>
+  <link rel="preload" href="../assets/click.mp3" as="audio" />
+  <link rel="stylesheet" href="xx3.css" />
+</head>
+<body>
+  <main class="content">
+    <!-- Sublime view (visible when Sublime tab active) — top nav bar full width -->
+    <section class="sublime-view" id="sublime-view" aria-label="Sublime">
+      <header class="sublime-top-bar">
+        <div class="sublime-top-bar-inner">
+          <div class="sublime-categories" role="group" aria-label="Sublime views">
+            <button type="button" class="sublime-category-btn active" data-sublime="staff-picks" aria-pressed="true">
+              <img src="../assets/staff-picks-inactive.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--inactive" aria-hidden="true" />
+              <img src="../assets/staff-picks.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--active" aria-hidden="true" />
+              <span class="sublime-category-label">Staff picks</span>
+            </button>
+            <button type="button" class="sublime-category-btn" data-sublime="following" aria-pressed="false">
+              <img src="../assets/following.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--inactive" aria-hidden="true" />
+              <img src="../assets/following-active.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--active" aria-hidden="true" />
+              <span class="sublime-category-label">Following</span>
+            </button>
+          </div>
+          <div class="sublime-search-wrap" id="sublime-search-wrap">
+            <img src="../assets/search.svg" alt="" width="35" height="35" class="sublime-search-icon" aria-hidden="true" />
+            <input type="search" class="sublime-search" id="sublime-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+            <button type="button" class="sublime-search-clear" id="sublime-search-clear" aria-label="Clear search" aria-hidden="true" tabindex="-1">
+              <img src="../assets/close.svg" alt="" width="35" height="35" class="sublime-search-clear-icon" />
+            </button>
+          </div>
+          <div class="sublime-actions" role="group" aria-label="Sublime actions">
+            <button type="button" class="sublime-action-btn" aria-label="Shuffle">
+              <img src="../assets/shuffle.svg" alt="" width="35" height="35" class="sublime-action-icon" aria-hidden="true" />
+            </button>
+            <button type="button" class="sublime-action-btn" aria-label="Filters">
+              <img src="../assets/filters.svg" alt="" width="35" height="35" class="sublime-action-icon" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </header>
+      <div class="sublime-content" aria-label="Sublime content">
+        <div class="sublime-feed" role="feed" aria-label="Sublime feed">
+          <div class="sublime-feed__col" id="sublime-feed-col-1" aria-label="Column 1"></div>
+          <div class="sublime-feed__col" id="sublime-feed-col-2" aria-label="Column 2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Library default view (visible when library tab active) -->
+    <section class="library-view" id="library-view" aria-label="My Library">
+      <div class="library-view-inner">
+        <!-- Search -->
+        <div class="library-search-wrap" id="library-search-wrap">
+          <img src="../assets/search.svg" alt="" width="35" height="35" class="library-search-icon" aria-hidden="true" />
+          <input type="search" class="library-search" id="library-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+          <button type="button" class="library-search-clear" id="library-search-clear" aria-label="Clear search" aria-hidden="true" tabindex="-1">
+            <img src="../assets/close.svg" alt="" width="35" height="35" class="library-search-clear-icon" />
+          </button>
+        </div>
+
+        <!-- Section 2 — Main modules: All cards, Collections, Canvases, Favorites (stacked icon + text, default state) -->
+        <div class="library-filters" role="group" aria-label="Library views">
+          <button type="button" class="library-filter-btn" data-filter="all-cards">
+            <img src="../assets/all-cards.svg" alt="" width="35" height="35" class="library-filter-icon" />
+            <span class="library-filter-label">All cards</span>
+          </button>
+          <button type="button" class="library-filter-btn" data-filter="collections">
+            <img src="../assets/collection.svg" alt="" width="35" height="35" class="library-filter-icon" />
+            <span class="library-filter-label">Collections</span>
+          </button>
+          <button type="button" class="library-filter-btn" data-filter="canvases">
+            <img src="../assets/canvas.svg" alt="" width="35" height="35" class="library-filter-icon" />
+            <span class="library-filter-label">Canvases</span>
+          </button>
+          <button type="button" class="library-filter-btn" data-filter="favorites">
+            <img src="../assets/favorite.svg" alt="" width="35" height="35" class="library-filter-icon" />
+            <span class="library-filter-label">Favorites</span>
+          </button>
+        </div>
+
+        <!-- Section 3 — Pinned collections -->
+        <div class="library-section">
+          <h2 class="library-section-title">Pinned</h2>
+          <ul class="library-pinned-list" aria-label="Pinned items">
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Child wisdom</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Artifacts</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Where is my 🧀🧀🧀??</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item library-pinned-item--locked"><span class="library-pinned-label-wrap"><span class="library-pinned-label">Nice words sent my way</span><img src="../assets/private-lock.svg" alt="" width="35" height="35" class="library-pinned-lock" aria-hidden="true" /></span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Anti-Networking Event</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+          </ul>
+        </div>
+
+        <!-- Section 4 — Media types -->
+        <div class="library-section">
+          <h2 class="library-section-title">Media types</h2>
+          <div class="library-media-grid" role="group" aria-label="Filter by media type">
+            <button type="button" class="library-media-btn" data-media="articles"><img src="../assets/articles.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Articles</span></button>
+            <button type="button" class="library-media-btn" data-media="audio"><img src="../assets/audio.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Audio</span></button>
+            <button type="button" class="library-media-btn" data-media="books"><img src="../assets/books.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Books</span></button>
+            <button type="button" class="library-media-btn" data-media="files"><img src="../assets/files.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Files</span></button>
+            <button type="button" class="library-media-btn" data-media="highlights"><img src="../assets/highlights.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Highlights</span></button>
+            <button type="button" class="library-media-btn" data-media="images"><img src="../assets/images.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Images</span></button>
+            <button type="button" class="library-media-btn" data-media="links"><img src="../assets/links.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Links</span></button>
+            <button type="button" class="library-media-btn" data-media="text"><img src="../assets/text.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Text</span></button>
+            <button type="button" class="library-media-btn" data-media="tweets"><img src="../assets/tweets.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Tweets</span></button>
+            <button type="button" class="library-media-btn" data-media="videos"><img src="../assets/videos.svg" alt="" width="35" height="35" class="library-media-icon" /><span class="library-media-label">Videos</span></button>
+          </div>
+        </div>
+
+        <!-- Section 5 — Utilities -->
+        <div class="library-section">
+          <h2 class="library-section-title">Utilities</h2>
+          <ul class="library-pinned-list" aria-label="Utilities">
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Private</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">No collections</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">With notes</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Created by me</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Imported</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label">Not imported</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Nav: fixed bottom-left, fixed width. Base from xx2; styling tweaks per Figma 1827-5001. -->
+  <nav class="nav-bar-e3" aria-label="Navigation">
+    <div class="nav-e3-inner">
+      <!-- Left group: Sublime, Library (icon + label each) -->
+      <div class="nav-e3-left">
+        <button type="button" class="nav-e3-item active" data-tab="sublime" aria-label="Sublime">
+          <span class="nav-e3-icon">
+            <img src="../assets/Sublime.svg" alt="" width="24" height="24" class="nav-e3-icon-img" />
+          </span>
+          <span class="nav-e3-label">Sublime</span>
+        </button>
+
+        <button type="button" class="nav-e3-item" data-tab="library" aria-label="My Library">
+          <span class="nav-e3-icon">
+            <img src="../assets/library.svg" alt="" width="24" height="24" class="nav-e3-icon-img" />
+          </span>
+          <span class="nav-e3-label">My Library</span>
+        </button>
+      </div>
+
+      <!-- Larger gap then right group: Inbox (icon only, bg #EFEFEF), Profile+Menu wrapper -->
+      <div class="nav-e3-right">
+        <button type="button" class="nav-e3-item nav-e3-item--icon-only" data-tab="inbox" aria-label="Inbox">
+          <span class="nav-e3-icon">
+            <img src="../assets/inbox.svg" alt="" width="26" height="23" class="nav-e3-icon-img nav-e3-icon-inbox" />
+          </span>
+        </button>
+
+        <button type="button" class="nav-e3-profile-wrap" data-tab="profile" aria-label="Profile">
+          <img src="../assets/me.svg" alt="" width="40" height="40" class="nav-e3-avatar" />
+          <img src="../assets/MENU.svg" alt="" width="23" height="23" class="nav-e3-menu-icon" />
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Plus CTA: fixed bottom-right. Click toggles actions menu; icon rotates to X. (Unchanged from xx2.) -->
+  <div class="nav-add-e2-wrap">
+    <div class="nav-add-e2-menu" id="add-menu" aria-hidden="true">
+      <!-- Section 1 (furthest from +): Import only. Submenu is sibling so it can bottom-align with section. -->
+      <div class="nav-add-e2-menu-section nav-add-e2-menu-section--import" id="import-section">
+        <div class="nav-add-e2-action-row nav-add-e2-action-row--has-submenu" id="import-row">
+          <button type="button" class="nav-add-e2-action" data-action="import" aria-haspopup="true" aria-expanded="false">
+            <img src="../assets/import.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Import</span>
+            <img src="../assets/chevron.svg" alt="" width="20" height="20" class="nav-add-e2-chevron" aria-hidden="true" />
+          </button>
+          <div class="nav-add-e2-submenu-bridge" aria-hidden="true"></div>
+        </div>
+        <ul class="nav-add-e2-submenu" id="import-submenu" aria-label="Import from">
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="kindle"><img src="../assets/kindle.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Kindle</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="readwise"><img src="../assets/readwise.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Readwise</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="x-bookmarks"><img src="../assets/x.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">X Bookmarks</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="instagram"><img src="../assets/instagram.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Instagram</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="podcast-magic"><img src="../assets/podcast-magic.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Podcast Magic</span></button></li>
+        </ul>
+      </div>
+      <!-- Section 2: Collection, Canvas -->
+      <div class="nav-add-e2-menu-section">
+        <div class="nav-add-e2-menu-section__items">
+          <button type="button" class="nav-add-e2-action" data-action="collection">
+            <img src="../assets/collection.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Collection</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="canvas">
+            <img src="../assets/CANVAS.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Canvas</span>
+          </button>
+        </div>
+      </div>
+      <!-- Section 3 (closest to +): Link, Note, Upload -->
+      <div class="nav-add-e2-menu-section">
+        <div class="nav-add-e2-menu-section__items">
+          <button type="button" class="nav-add-e2-action" data-action="link">
+            <img src="../assets/links.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Link</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="write">
+            <img src="../assets/write.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Note</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="upload">
+            <img src="../assets/upload.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Upload</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="nav-add-e2" id="add-btn" aria-label="Add" aria-expanded="false" aria-controls="add-menu">
+      <span class="nav-add-e2-icon-wrap">
+        <img src="../assets/ADD.svg" alt="" width="54" height="54" class="nav-add-e2-icon" />
+      </span>
+    </button>
+  </div>
+
+  <script src="xx3.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #404040;
+  background: #fff;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Nav bar: fixed floating bottom-left. Container radius 15px, inner spacing 5px to edges (Figma) */
+.nav-bar {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background: #ebebeb;
+  border-radius: 15px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+/* Figma: 5px from pill to nav border (container padding). Gap between items. */
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Nav item: Figma pill radius 10px, internal padding 8px 14px. Rams: min 44px touch (10px vert). */
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 260ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-item .nav-item-label {
+  display: none;
+}
+
+.nav-item.active .nav-item-label {
+  display: inline;
+}
+
+.nav-item:hover:not(.nav-item-more) {
+  background: rgba(0, 0, 0, 0.06);
+  transform: scale(1.02);
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Active tab: white pill, black text/icon. Smooth in/out. */
+.nav-item.active {
+  background: #ffffff;
+  color: #404040;
+}
+
+.nav-item.active:hover {
+  background: #f5f5f5;
+}
+
+/* Icons: smooth transition when switching tabs */
+.nav-icon-img {
+  display: block;
+  flex-shrink: 0;
+  transition: filter 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Inactive icons: light gray #A7A9AB (from Figma library/inbox SVGs) */
+.nav-item .nav-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Active: dark icon #404040 (BLACK TISA) */
+.nav-item.active .nav-icon-img {
+  filter: brightness(0) invert(0.25); /* ~#404040 */
+}
+
+.nav-icon-inbox {
+  width: 26px;
+  height: 23px;
+}
+
+.nav-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-item.active .nav-item-icon {
+  color: #404040;
+}
+
+.nav-item-label {
+  white-space: nowrap;
+}
+
+/* More: profile image from asset */
+.nav-item-more {
+  padding: 4px;
+  cursor: default;
+  pointer-events: none;
+  margin-left: 2px;
+}
+
+/* More: profile image, corner radius 9px (Figma) */
+.nav-item-avatar-img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Add button: fixed floating bottom-right (Figma spacing). Circle is one size, plus icon smaller inside. */
+.nav-add {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #e5e5e5;
+  cursor: default;
+  z-index: 10;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-add-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}

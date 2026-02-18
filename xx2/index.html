@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nav — xx2 (Figma 1813-3704)</title>
+  <link rel="preload" href="../assets/click.mp3" as="audio" />
+  <link rel="stylesheet" href="xx2.css" />
+</head>
+<body>
+  <main class="content"></main>
+
+  <!-- Nav: fixed bottom-left, fixed width. Same positioning as first exploration. -->
+  <nav class="nav-bar-e2" aria-label="Navigation">
+    <div class="nav-e2-inner">
+      <!-- Left group: Sublime, Library (icon + label each) -->
+      <div class="nav-e2-left">
+        <button type="button" class="nav-e2-item" data-tab="sublime" aria-label="Sublime">
+          <span class="nav-e2-icon">
+            <img src="../assets/Sublime.svg" alt="" width="24" height="24" class="nav-e2-icon-img" />
+          </span>
+          <span class="nav-e2-label">Sublime</span>
+        </button>
+
+        <button type="button" class="nav-e2-item active" data-tab="library" aria-label="My Library">
+          <span class="nav-e2-icon">
+            <img src="../assets/library.svg" alt="" width="24" height="24" class="nav-e2-icon-img" />
+          </span>
+          <span class="nav-e2-label">My Library</span>
+        </button>
+      </div>
+
+      <!-- Larger gap then right group: Inbox (icon only), Profile -->
+      <div class="nav-e2-right">
+        <button type="button" class="nav-e2-item nav-e2-item--icon-only" data-tab="inbox" aria-label="Inbox">
+          <span class="nav-e2-icon">
+            <img src="../assets/inbox.svg" alt="" width="26" height="23" class="nav-e2-icon-img nav-e2-icon-inbox" />
+          </span>
+        </button>
+
+        <div class="nav-e2-item nav-e2-more" aria-hidden="true">
+          <img src="../assets/me.svg" alt="More" width="36" height="36" class="nav-e2-avatar" />
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Plus CTA: fixed bottom-right. Click toggles actions menu; icon rotates to X. -->
+  <div class="nav-add-e2-wrap">
+    <div class="nav-add-e2-menu" id="add-menu" aria-hidden="true">
+      <!-- Section 1 (furthest from +): Import only. Submenu is sibling so it can bottom-align with section. -->
+      <div class="nav-add-e2-menu-section nav-add-e2-menu-section--import" id="import-section">
+        <div class="nav-add-e2-action-row nav-add-e2-action-row--has-submenu" id="import-row">
+          <button type="button" class="nav-add-e2-action" data-action="import" aria-haspopup="true" aria-expanded="false">
+            <img src="../assets/import.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Import</span>
+            <img src="../assets/chevron.svg" alt="" width="20" height="20" class="nav-add-e2-chevron" aria-hidden="true" />
+          </button>
+          <div class="nav-add-e2-submenu-bridge" aria-hidden="true"></div>
+        </div>
+        <ul class="nav-add-e2-submenu" id="import-submenu" aria-label="Import from">
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="kindle"><img src="../assets/kindle.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Kindle</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="readwise"><img src="../assets/readwise.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Readwise</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="x-bookmarks"><img src="../assets/x.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">X Bookmarks</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="instagram"><img src="../assets/instagram.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Instagram</span></button></li>
+          <li><button type="button" class="nav-add-e2-submenu-item" data-import="podcast-magic"><img src="../assets/podcast-magic.svg" alt="" width="20" height="20" class="nav-add-e2-submenu-item-icon" /><span class="nav-add-e2-submenu-item-label">Podcast Magic</span></button></li>
+        </ul>
+      </div>
+      <!-- Section 2: Collection, Canvas -->
+      <div class="nav-add-e2-menu-section">
+        <div class="nav-add-e2-menu-section__items">
+          <button type="button" class="nav-add-e2-action" data-action="collection">
+            <img src="../assets/collection.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Collection</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="canvas">
+            <img src="../assets/canvas.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Canvas</span>
+          </button>
+        </div>
+      </div>
+      <!-- Section 3 (closest to +): Link, Note, Upload -->
+      <div class="nav-add-e2-menu-section">
+        <div class="nav-add-e2-menu-section__items">
+          <button type="button" class="nav-add-e2-action" data-action="link">
+            <img src="../assets/links.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Link</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="write">
+            <img src="../assets/write.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Note</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="upload">
+            <img src="../assets/upload.svg" alt="" width="24" height="24" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Upload</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="nav-add-e2" id="add-btn" aria-label="Add" aria-expanded="false" aria-controls="add-menu">
+      <span class="nav-add-e2-icon-wrap">
+        <img src="../assets/ADD.svg" alt="" width="54" height="54" class="nav-add-e2-icon" />
+      </span>
+    </button>
+  </div>
+
+  <script src="xx2.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nav prototype — xx1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="content"></main>
+
+  <!-- Nav bar: fixed floating on the left -->
+  <nav class="nav-bar">
+    <div class="nav-items">
+      <button type="button" class="nav-item active" data-tab="sublime" aria-label="Sublime">
+        <span class="nav-item-icon" aria-hidden="true">
+          <img src="../assets/Sublime.svg" alt="" width="24" height="24" class="nav-icon-img" />
+        </span>
+        <span class="nav-item-label">Sublime</span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="myLibrary" aria-label="My Library">
+        <span class="nav-item-icon" aria-hidden="true">
+          <img src="../assets/library.svg" alt="" width="24" height="24" class="nav-icon-img" />
+        </span>
+        <span class="nav-item-label">My Library</span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="inbox" aria-label="Inbox">
+        <span class="nav-item-icon" aria-hidden="true">
+          <img src="../assets/inbox.svg" alt="" width="26" height="23" class="nav-icon-img nav-icon-inbox" />
+        </span>
+        <span class="nav-item-label">Inbox</span>
+      </button>
+
+      <div class="nav-item nav-item-more" aria-hidden="true">
+        <img src="../assets/me.svg" alt="More" width="36" height="36" class="nav-item-avatar-img" />
+      </div>
+    </div>
+  </nav>
+
+  <!-- Add button: fixed floating on the right (Rams: focusable for keyboard) -->
+  <button type="button" class="nav-add" aria-label="Add">
+    <img src="../assets/ADD.svg" alt="" width="54" height="54" class="nav-add-icon" />
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>

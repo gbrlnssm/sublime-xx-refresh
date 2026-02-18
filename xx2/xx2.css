@@ -1,0 +1,449 @@
+/* xx2 — Figma 1813-3704. Nav fixed bottom-left (fixed width), Plus CTA bottom-right. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #404040;
+  background: #fff;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Nav bar: fixed bottom-left. Radius 25px. 10px padding = 10px separation to inner elements. */
+.nav-bar-e2 {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  width: fit-content;
+  padding: 10px;
+  background: #ebebeb;
+  border-radius: 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+
+.nav-e2-inner {
+  display: flex;
+  align-items: center;
+}
+
+/* Left group: Sublime, Library. Tight gap between them. */
+.nav-e2-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Right group: Inbox, Profile. Spacing from left group to match Figma. */
+.nav-e2-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 48px;
+}
+
+/* Item: vertical stack (icon on top, label below) for Sublime/Library. */
+.nav-e2-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e2-item:hover:not(.nav-e2-more):not(.nav-e2-item--icon-only) {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-e2-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Inactive (Sublime/Library): no background, grey text + icon to show inactive. */
+.nav-e2-left .nav-e2-item:not(.active) {
+  background: transparent;
+  color: #A7A9AB;
+}
+
+/* Active (Sublime/Library): white pill, 15px radius, subtle shadow, black icon + text */
+.nav-e2-left .nav-e2-item.active {
+  background: #ffffff;
+  color: #404040;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.nav-e2-left .nav-e2-item.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e2-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-e2-icon-img {
+  display: block;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Inactive icon: light grey */
+.nav-e2-item .nav-e2-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Active icon (Sublime/Library): black */
+.nav-e2-left .nav-e2-item.active .nav-e2-icon-img {
+  filter: brightness(0) invert(0.25);
+}
+
+.nav-e2-label {
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+/* Inbox: icon only, always white background + padding + shadow. Radius 15px to match active. */
+.nav-e2-item--icon-only {
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.nav-e2-item--icon-only.active .nav-e2-icon-img {
+  filter: brightness(0) invert(0.25);
+}
+
+.nav-e2-item--icon-only:hover {
+  background: #f8f8f8;
+}
+
+.nav-e2-item--icon-only:not(.active) .nav-e2-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.nav-e2-icon-inbox {
+  width: 26px;
+  height: 23px;
+}
+
+/* Profile: no label, no active state */
+.nav-e2-more {
+  padding: 4px;
+  cursor: default;
+  pointer-events: none;
+}
+
+.nav-e2-avatar {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Plus CTA: fixed bottom-right. Visible only when Library is active. */
+.nav-add-e2-wrap {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.nav-add-e2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #e5e5e5;
+  cursor: default;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: background-color 380ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 320ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 320ms;
+}
+
+.nav-add-e2.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 380ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Hover state: match main nav items */
+.nav-add-e2.is-visible:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 360ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-wrap.is-expanded .nav-add-e2-icon-wrap {
+  transform: rotate(45deg);
+}
+
+.nav-add-e2-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Actions menu: above the plus button. Three separate blocks with visible gaps (RIGHT ref). */
+.nav-add-e2-menu {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 192px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity 300ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 300ms,
+    transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.nav-add-e2-wrap.is-expanded .nav-add-e2-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1),
+    transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Each section is its own rounded block; gap between sections = visible white space */
+.nav-add-e2-menu-section {
+  background: #ebebeb;
+  border-radius: 20px;
+  padding: 7.5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Section 3: positioning context for submenu so submenu can bottom-align with this block */
+.nav-add-e2-menu-section--import {
+  position: relative;
+}
+
+/* Items within a section: no gap between rows */
+.nav-add-e2-menu-section__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.nav-add-e2-action {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 7.5px;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-action:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-action:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.nav-add-e2-action-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(45%) sepia(0%) saturate(500%) hue-rotate(180deg);
+}
+
+.nav-add-e2-action-label {
+  flex: 1;
+}
+
+.nav-add-e2-chevron {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-left: 2px;
+  filter: brightness(0) saturate(100%) invert(55%) sepia(0%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Row that contains Import + submenu (section 3 has no __items wrapper) */
+.nav-add-e2-action-row {
+  position: relative;
+}
+
+.nav-add-e2-action-row .nav-add-e2-action {
+  width: 100%;
+}
+
+/* Invisible bridge so hover from Import to submenu doesn't leave "row" */
+.nav-add-e2-submenu-bridge {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 14px;
+  height: 100%;
+  pointer-events: auto;
+}
+
+/* Import submenu: positioned from Import section so it's bottom-aligned with the whole Import block. */
+.nav-add-e2-submenu {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: auto;
+  margin: 0 4px 0 0;
+  padding: 7.5px;
+  background: #ebebeb;
+  border-radius: 15px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  min-width: 168px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(6px);
+  transition: opacity 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 220ms,
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.nav-add-e2-menu-section--import.is-submenu-open .nav-add-e2-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Open upward when submenu would go off top of viewport */
+.nav-add-e2-submenu.nav-add-e2-submenu--open-up {
+  top: auto;
+  bottom: 0;
+  margin: 0 4px 4px 0;
+  transform: translateX(6px) translateY(4px);
+}
+
+.nav-add-e2-menu-section--import.is-submenu-open .nav-add-e2-submenu.nav-add-e2-submenu--open-up {
+  transform: translateX(0) translateY(0);
+}
+
+.nav-add-e2-submenu li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-add-e2-submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 7.5px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-submenu-item-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(55%) sepia(0%) saturate(500%) hue-rotate(180deg);
+}
+
+.nav-add-e2-submenu-item-label {
+  flex: 1;
+}
+
+.nav-add-e2-submenu-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-submenu-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
