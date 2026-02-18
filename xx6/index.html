@@ -82,6 +82,14 @@
           </button>
         </div>
 
+        <!-- Recents — horizontal carousel of cards (no hover/CTA). Wrapper breaks out to full width so carousel can be viewport-centered. -->
+        <div class="library-recents-section">
+          <h2 class="library-section-title">Recents</h2>
+          <div class="library-recents-carousel-wrap">
+            <div class="library-recents-carousel" id="library-recents-carousel" role="list" aria-label="Recent cards"></div>
+          </div>
+        </div>
+
         <!-- Media types (above Pinned Collections) — pills: no icons, 10px left padding -->
         <div class="library-section">
           <h2 class="library-section-title">Media types</h2>
@@ -101,10 +109,10 @@
           </div>
         </div>
 
-        <!-- Pinned Collections — no background; row: icon (0 gap) label, number, (0 gap) chevron 35×35; left padding 5, right 0 -->
+        <!-- Pinned Collections — title outside container like Recents / Media types -->
         <div class="library-section library-section--pinned">
+          <h2 class="library-section-title">Pinned collections</h2>
           <div class="library-pinned-card">
-            <h2 class="library-pinned-card__title">Pinned collections</h2>
             <ul class="library-pinned-list" aria-label="Pinned items">
               <li><a href="#" class="library-pinned-item"><img src="../assets/collection.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Child wisdom</span><span class="library-pinned-count" aria-hidden="true">3</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
               <li><a href="#" class="library-pinned-item"><img src="../assets/collection.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Artifacts</span><span class="library-pinned-count" aria-hidden="true">12</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>

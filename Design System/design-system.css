@@ -1,0 +1,304 @@
+/* Doc-only layout for Design System. Does not override XX9 component appearance. */
+
+.ds-doc {
+  padding: 24px 32px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* In-page nav */
+.ds-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 12px 0 16px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.ds-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ds-nav-list a {
+  color: #404040;
+  text-decoration: none;
+}
+
+.ds-nav-list a:hover {
+  text-decoration: underline;
+}
+
+.ds-page-title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  color: #404040;
+}
+
+.ds-page-subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #737373;
+  margin: 0 0 24px;
+}
+
+/* Section */
+.ds-section {
+  margin-bottom: 48px;
+}
+
+.ds-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #404040;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.ds-section-subtitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #737373;
+  margin: 24px 0 12px;
+}
+
+/* Foundations: swatches */
+.ds-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.ds-swatch {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ds-swatch__color {
+  height: 64px;
+  width: 100%;
+}
+
+.ds-swatch__label {
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #404040;
+  background: #F8F8F8;
+}
+
+.ds-swatch__value {
+  padding: 4px 10px 10px;
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  color: #737373;
+  word-break: break-all;
+}
+
+/* Typography samples */
+.ds-type-row {
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.ds-type-row:last-child {
+  border-bottom: none;
+}
+
+.ds-type-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #737373;
+  margin-bottom: 4px;
+}
+
+.ds-type-value {
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  color: #908F8E;
+  margin-top: 4px;
+}
+
+/* Shadows */
+.ds-shadow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.ds-shadow-item {
+  border-radius: 15px;
+  height: 80px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.ds-shadow-value {
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  color: #737373;
+  word-break: break-all;
+}
+
+/* Radius */
+.ds-radius-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.ds-radius-item {
+  text-align: center;
+}
+
+.ds-radius-box {
+  width: 80px;
+  height: 80px;
+  background: #ebebeb;
+  margin-bottom: 8px;
+}
+
+.ds-radius-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: #404040;
+}
+
+/* Spacing */
+.ds-spacing-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 32px;
+}
+
+.ds-spacing-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ds-spacing-visual {
+  background: #E5E5E5;
+  min-width: 20px;
+}
+
+.ds-spacing-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #404040;
+}
+
+/* Component block: when components are inside doc, make fixed elements static so they display inline */
+.ds-component {
+  margin-bottom: 40px;
+  padding: 24px;
+  background: #FAFAFA;
+  border-radius: 15px;
+  border: 1px solid #F0F0F0;
+}
+
+.ds-component-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #737373;
+  margin: 0 0 12px;
+}
+
+.ds-component-demo {
+  display: inline-block;
+}
+
+/* Override fixed positioning so nav/add menu display inline in doc */
+.ds-doc .nav-bar-e3,
+.ds-doc .nav-add-e2-wrap {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+}
+
+.ds-doc .nav-add-e2-menu {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+}
+
+/* Show add menu expanded in one demo */
+.ds-doc .nav-add-e2-wrap.is-expanded .nav-add-e2-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.ds-doc .nav-add-e2.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.ds-doc .sublime-view,
+.ds-doc .library-view,
+.ds-doc .collection-view {
+  display: flex;
+  position: relative;
+  height: auto;
+  min-height: 0;
+}
+
+.ds-doc .sublime-content,
+.ds-doc .library-view-inner,
+.ds-doc .collection-content {
+  position: relative;
+  padding: 24px;
+}
+
+.ds-doc .sublime-feed,
+.ds-doc .collection-feed {
+  max-width: 100%;
+}
+
+.ds-doc .library-hero-carousel-wrap {
+  margin-left: 0;
+  width: 100%;
+}
+
+.ds-doc .library-view {
+  padding: 24px;
+}
+
+.ds-doc .collection-feed-wrap {
+  padding: 0;
+}
+
+.ds-doc .sublime-card__play-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ds-usage {
+  font-size: 13px;
+  color: #908F8E;
+  margin-top: 8px;
+}

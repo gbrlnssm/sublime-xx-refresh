@@ -35,7 +35,7 @@ body {
   padding: 10px;
   background: #ebebeb;
   border-radius: 25px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
   z-index: 10;
 }
 
@@ -264,7 +264,7 @@ body {
   border-radius: 50%;
   background: #e5e5e5;
   cursor: default;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -826,6 +826,291 @@ body {
   margin-bottom: 0;
 }
 
+/* Activity context element: appears below cards in following feed */
+.sublime-activity-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px */
+  background: #F5F5F5;
+  border-radius: 9999px;
+  margin-top: 5px; /* 5px separation from card */
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-self: flex-start; /* Don't stretch to fill parent width */
+  flex-shrink: 0;
+}
+
+/* Multi-line pills get 15px border radius */
+.sublime-activity-context--with-note {
+  border-radius: 15px;
+}
+
+.sublime-activity-context__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+/* Bundled avatars in summary (multiple users, no notes) */
+.sublime-activity-context .sublime-activity-context__avatars-bundle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 5px; /* 5px separation between avatars and text */
+}
+
+.sublime-activity-context__text {
+  min-width: 0;
+  flex: 0 1 auto; /* Don't grow, allow shrink, auto basis - prevents full width */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  white-space: normal; /* Allow normal text wrapping and preserve spaces */
+}
+
+.sublime-activity-context__user-name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  white-space: nowrap;
+}
+
+.sublime-activity-context__user-name:hover {
+  text-decoration: underline;
+}
+
+
+.sublime-activity-context__action {
+  font-weight: 400;
+  color: #737373;
+  white-space: pre; /* Preserve spaces in action text */
+}
+
+.sublime-activity-context__and-more {
+  font-weight: 400;
+  color: #737373;
+  white-space: pre; /* Preserve spaces */
+}
+
+/* Bundled avatars inside text (for "John and [avatars] X more") */
+.sublime-activity-context__text .sublime-activity-context__avatars-bundle {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin-left: 0;
+  margin-right: 5px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.sublime-activity-context__collection-name {
+  font-weight: 600;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.sublime-activity-context__collection-name:hover {
+  text-decoration: underline;
+}
+
+/* Staff picks activity wrapper */
+.sublime-staff-picks-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px; /* 5px separation from card */
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start; /* Don't stretch to fill parent width */
+  flex-shrink: 0;
+}
+
+/* Activity context with note - stacked layout */
+.sublime-activity-context--with-note {
+  align-items: flex-start;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px - ensures text doesn't bleed */
+  width: fit-content; /* Hug content */
+  max-width: 100%; /* Don't exceed parent - this should constrain the container */
+  align-content: flex-start;
+  align-self: flex-start; /* Ensure it doesn't stretch */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  overflow: hidden; /* Prevent any content from bleeding out */
+  /* Ensure content respects padding */
+  min-width: 0;
+  /* Ensure container respects max-width constraint and content doesn't overflow padding */
+  /* The key is that max-width: 100% should limit the container, and content inside should respect that */
+}
+
+.sublime-activity-context--with-note .sublime-activity-context__avatar {
+  width: 24px;
+  height: 24px;
+  margin-top: 0;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.sublime-activity-context__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px; /* Reduced from 2px to 1px - half the spacing */
+  min-width: 0;
+  flex: 1 1 auto; /* Allow grow/shrink to fill available space */
+  align-items: flex-start;
+  width: auto; /* Let content determine width, constrained by max-width */
+  max-width: 100%; /* Constrain to available space in flex container */
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent content from bleeding */
+  /* Force content to respect container's padding by ensuring it doesn't exceed available space */
+  /* Container has padding: 12px left + 10px right = 22px, avatar: 24px, gap: 8px = 54px total */
+  /* Content wrapper should fill remaining space and note should wrap within that */
+}
+
+.sublime-activity-context__content .sublime-activity-context__user-name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px; /* Match avatar height (24px) for perfect vertical alignment with avatar */
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  white-space: nowrap;
+  margin-bottom: 0;
+  height: 24px; /* Explicitly set height to match avatar */
+  display: flex;
+  align-items: center;
+}
+
+.sublime-activity-context__content .sublime-activity-context__user-name:hover {
+  text-decoration: underline;
+}
+
+.sublime-activity-context__note {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%; /* Fill available width in content container */
+  max-width: 100%; /* Respect container boundaries - don't bleed out */
+  align-self: flex-start;
+  white-space: normal;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Ensure text respects container padding */
+  padding: 0;
+  margin: 0;
+  /* Force text to wrap and respect boundaries - ensure it doesn't exceed parent width */
+  /* The content wrapper has width: 0 and flex: 1, so it fills available space */
+  /* This note should wrap to fit within that space, respecting the container's 10px right padding */
+  flex-shrink: 1; /* Allow note to shrink below its content size */
+}
+
+/* Bundled avatars container - used in summary and "X more" buttons */
+.sublime-activity-context__avatars-bundle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 5px; /* 5px separation between avatars and text */
+}
+
+.sublime-activity-context__avatar-bundled {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #F5F5F5; /* Border to separate overlapping avatars */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Stack avatars horizontally with overlap - leftmost behind, rightmost on top */
+.sublime-activity-context__avatar-bundled:not(:first-child) {
+  margin-left: -8px; /* Overlap by 8px */
+}
+
+/* Progressive z-index so rightmost avatars appear on top */
+.sublime-activity-context__avatar-bundled:nth-child(1) { z-index: 0; }
+.sublime-activity-context__avatar-bundled:nth-child(2) { z-index: 1; }
+.sublime-activity-context__avatar-bundled:nth-child(3) { z-index: 2; }
+.sublime-activity-context__avatar-bundled:nth-child(4) { z-index: 3; }
+
+/* "X more" button - matches activity context styling */
+.sublime-activity-context--more-btn {
+  cursor: pointer;
+  transition: background-color 0.2s ease, text-decoration 0.2s ease;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px */
+  background: #F5F5F5;
+  border-radius: 9999px;
+  width: fit-content;
+  max-width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373; /* Same grayish-black as user names */
+  display: flex;
+  align-items: center;
+  gap: 0; /* Gap handled by margin-right on avatars bundle */
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+.sublime-activity-context__more-text {
+  white-space: nowrap;
+}
+
+.sublime-activity-context--more-btn:hover {
+  background: #EBEBEB;
+  text-decoration: underline;
+}
+
+/* "and X more" count link - same color as user names */
+.sublime-activity-context__more-count {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373; /* Same grayish-black as user names */
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.sublime-activity-context__more-count:hover {
+  text-decoration: underline;
+}
+
 /* Prevent any inner margin from extending the shell height (would add to visible gap). */
 .sublime-feed__col .sublime-card-shell .sublime-feed__card,
 .sublime-feed__col .sublime-card-shell .sublime-feed__card * {
@@ -845,6 +1130,8 @@ body {
   position: relative;
   width: 100%;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sublime-card-shell .sublime-feed__card {
@@ -1532,7 +1819,7 @@ body {
   gap: 0;
   padding: 5px 10px 10px 5px;
   min-width: 0;
-  background: #EFEFEF;
+  background: #fff;
   border: none;
   border-radius: 15px;
   color: #404040;
@@ -1543,20 +1830,21 @@ body {
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
   transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .library-filter-btn.active {
-  background: #EFEFEF;
+  background: #fff;
 }
 
 /* Hover: same visual as add menu Note item – distinct rounded lighter grey background */
 .library-filter-btn:hover {
-  background: #E5E5E5 !important;
+  background: #f5f5f5 !important;
 }
 
 .library-filter-btn.active:hover {
-  background: #E5E5E5 !important;
+  background: #f5f5f5 !important;
 }
 
 .library-filter-btn:focus-visible {
@@ -1583,6 +1871,174 @@ body {
   color: #404040;
 }
 
+/* Recents carousel: below filters, above Media types. No hover/CTA on cards. */
+.library-recents-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5px;
+}
+
+.library-recents-section .library-section-title {
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Break out to full viewport width so the 600px carousel can be centered on the page. */
+.library-recents-carousel-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+}
+
+.library-recents-carousel {
+  width: 600px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #EFEFEF;
+  border-radius: 15px;
+  max-height: 200px;
+  padding: 20px 20px 20px 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+/* Card wrappers: 10px gap between cards (carousel gap), no margin on cards */
+.library-recents-carousel .library-recents-card-wrap {
+  flex-shrink: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  max-height: 160px;
+  display: flex;
+  margin: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-feed__card {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  border: none;
+}
+
+/* Image cards: no gray background — image only, hugged by wrapper’s 15px radius */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--image {
+  background: transparent;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--image .sublime-card__img-wrap {
+  height: 100%;
+  min-height: 0;
+  background: transparent;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--image .sublime-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* File cards: no gray background — preview only, hugged by radius */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--file {
+  background: transparent;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--file .sublime-card__img-wrap {
+  height: 100%;
+  min-height: 0;
+  background: transparent;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--file .sublime-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Video cards: no gray background — video only, hugged by radius */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--video {
+  background: transparent;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--video .sublime-card__video-wrap {
+  height: 100%;
+  min-height: 0;
+  background: #000;
+}
+
+/* Override base min-height: 180px so video fits wrapper and is not cut */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--video .sublime-card__video {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Text/highlight in carousel: mini view; single shape from wrapper (no inner radius) */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--text,
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  min-width: 140px;
+  max-width: 220px;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--text .sublime-card__body-wrap,
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight .sublime-card__body-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--text .sublime-card__body,
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight .sublime-card__body {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight .sublime-card__source {
+  flex-shrink: 0;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 14px;
+  color: #737373;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.library-recents-carousel .sublime-card__fade,
+.library-recents-carousel .sublime-card__expand-hit,
+.library-recents-carousel .sublime-card__expand-wrap {
+  display: none !important;
+}
+
+/* In carousel, show only preview for image/file/video cards (no caption/meta) so size stays consistent */
+.library-recents-carousel .sublime-card--image .sublime-card__caption-wrap,
+.library-recents-carousel .sublime-card--file .sublime-card__caption-wrap,
+.library-recents-carousel .sublime-card--video .sublime-card__caption-wrap {
+  display: none;
+}
+
 /* Section titles */
 .library-section {
   display: flex;
@@ -1590,9 +2046,13 @@ body {
   gap: 12px;
 }
 
-.library-section:has(.library-pinned-list),
-.library-section:has(.library-media-grid) {
+.library-section:has(.library-pinned-list) {
   gap: 0;
+}
+
+/* Match Recents title→content spacing (2.5px) */
+.library-section:has(.library-media-grid) {
+  gap: 2.5px;
 }
 
 .library-section-title {
@@ -1606,29 +2066,23 @@ body {
   box-sizing: border-box;
 }
 
-/* Section 3 — Pinned collections: no background; 0 gap folder–text and number–chevron; left 5px, right 0; chevron 35×35 */
-.library-section--pinned {
-  gap: 0;
+/* Section 3 — Pinned collections: title outside container; same title→content gap as Recents (2.5px) */
+.library-section.library-section--pinned {
+  gap: 2.5px;
 }
 
 .library-pinned-card {
-  background: none;
-  box-shadow: none;
-  padding: 0;
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-left: -10px;
+  margin-right: -10px;
+  width: calc(100% + 20px);
   display: flex;
   flex-direction: column;
   gap: 0;
-}
-
-.library-pinned-card__title {
-  margin: 0;
-  padding: 7.5px 10px 6px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: -0.02em;
-  color: #A7A9AB;
-  box-sizing: border-box;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
 }
 
 .library-pinned-list {
@@ -1729,7 +2183,7 @@ body {
 .library-media-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 10px;
   max-width: 550px;
 }
 
@@ -1740,8 +2194,8 @@ body {
   gap: 0;
   height: 35px;
   padding: 0 10px 0 10px;
-  background: transparent;
-  border: 1.5px solid #E5E5E5;
+  background: #fff;
+  border: none;
   border-radius: 999px;
   color: #909090;
   cursor: pointer;
@@ -1751,12 +2205,13 @@ body {
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
-  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1), border-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
   box-sizing: border-box;
 }
 
 .library-media-btn:hover {
-  background: #E5E5E5;
+  background: #f5f5f5;
 }
 
 .library-media-btn:focus-visible {

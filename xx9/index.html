@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nav — xx9</title>
+  <link rel="preload" href="../assets/click.mp3" as="audio" />
+  <link rel="stylesheet" href="xx9.css" />
+</head>
+<body>
+  <main class="content">
+    <!-- Sublime view (visible when Sublime tab active) — top nav bar full width -->
+    <section class="sublime-view" id="sublime-view" aria-label="Sublime">
+      <header class="sublime-top-bar">
+        <div class="sublime-top-bar-inner">
+          <div class="sublime-categories" role="group" aria-label="Sublime views">
+            <button type="button" class="sublime-category-btn active" data-sublime="staff-picks" aria-pressed="true">
+              <img src="../assets/staff-picks-inactive.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--inactive" aria-hidden="true" />
+              <img src="../assets/staff-picks.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--active" aria-hidden="true" />
+              <span class="sublime-category-label">Staff picks</span>
+            </button>
+            <button type="button" class="sublime-category-btn" data-sublime="following" aria-pressed="false">
+              <img src="../assets/following.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--inactive" aria-hidden="true" />
+              <img src="../assets/following-active.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--active" aria-hidden="true" />
+              <span class="sublime-category-label">Following</span>
+            </button>
+          </div>
+          <div class="sublime-search-wrap" id="sublime-search-wrap">
+            <img src="../assets/search.svg" alt="" width="35" height="35" class="sublime-search-icon" aria-hidden="true" />
+            <input type="search" class="sublime-search" id="sublime-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+            <button type="button" class="sublime-search-clear" id="sublime-search-clear" aria-label="Clear search" aria-hidden="true" tabindex="-1">
+              <img src="../assets/close.svg" alt="" width="35" height="35" class="sublime-search-clear-icon" />
+            </button>
+          </div>
+          <div class="sublime-actions" role="group" aria-label="Sublime actions">
+            <button type="button" class="sublime-action-btn" aria-label="Shuffle">
+              <img src="../assets/shuffle.svg" alt="" width="35" height="35" class="sublime-action-icon" aria-hidden="true" />
+            </button>
+            <button type="button" class="sublime-action-btn" aria-label="Filters">
+              <img src="../assets/filters.svg" alt="" width="35" height="35" class="sublime-action-icon" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </header>
+      <div class="sublime-content" aria-label="Sublime content">
+        <div class="sublime-feed" role="feed" aria-label="Sublime feed">
+          <div class="sublime-feed__col" id="sublime-feed-col-1" aria-label="Column 1"></div>
+          <div class="sublime-feed__col" id="sublime-feed-col-2" aria-label="Column 2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Library default view (visible when library tab active) -->
+    <section class="library-view" id="library-view" aria-label="My Library">
+      <header class="library-top-bar" id="library-top-bar">
+        <div class="library-top-bar-inner">
+          <button type="button" class="library-more-btn" id="library-more-btn" aria-label="More">
+            <span class="collection-icon-wrap"><img src="../assets/MORE-MENU.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span>
+          </button>
+        </div>
+      </header>
+      <div class="library-view-inner">
+        <!-- Search -->
+        <div class="library-search-wrap" id="library-search-wrap">
+          <img src="../assets/search.svg" alt="" width="35" height="35" class="library-search-icon" aria-hidden="true" />
+          <input type="search" class="library-search" id="library-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+          <button type="button" class="library-search-clear" id="library-search-clear" aria-label="Clear search" aria-hidden="true" tabindex="-1">
+            <img src="../assets/close.svg" alt="" width="35" height="35" class="library-search-clear-icon" />
+          </button>
+        </div>
+
+        <!-- Hero carousel — full-bleed, auto-scroll; only element that breaks out of container width. Below search, above filters. -->
+        <div class="library-hero-carousel-wrap" aria-label="Recent saves">
+          <div class="library-hero-carousel" id="library-hero-carousel" role="list"></div>
+        </div>
+
+        <!-- Main modules: All cards, Collections, Canvases, Favorites — same as xx7 -->
+        <div class="library-filters" role="group" aria-label="Library views">
+          <button type="button" class="library-filter-btn" data-filter="all-cards">
+            <img src="../assets/all-cards-hires.png" alt="" width="85" height="82" class="library-filter-icon" />
+            <span class="library-filter-label">All cards</span>
+          </button>
+          <button type="button" class="library-filter-btn" data-filter="collections">
+            <img src="../assets/collections-hires.png" alt="" width="85" height="82" class="library-filter-icon" />
+            <span class="library-filter-label">Collections</span>
+          </button>
+          <button type="button" class="library-filter-btn" data-filter="canvases">
+            <img src="../assets/canvases-hires.png" alt="" width="85" height="82" class="library-filter-icon" />
+            <span class="library-filter-label">Canvases</span>
+          </button>
+          <button type="button" class="library-filter-btn" data-filter="favorites">
+            <img src="../assets/favorites-hires.png" alt="" width="85" height="82" class="library-filter-icon" />
+            <span class="library-filter-label">Favorites</span>
+          </button>
+        </div>
+
+        <!-- Collapsible sections: Media types, Pinned collections, Imports (10px gap when collapsed) -->
+        <div class="library-sections">
+        <!-- Media types (above Pinned Collections) — pills: no icons, 10px left padding -->
+        <div class="library-section" data-section="media-types" id="library-section-media-types">
+          <button type="button" class="library-section-header-btn" aria-expanded="true" aria-controls="library-section-media-types-body" id="library-section-media-types-toggle">
+            <img src="../assets/MEDIA_TYPES.svg" alt="" width="35" height="35" class="library-section-header__icon" aria-hidden="true" />
+            <h2 class="library-section-title">Media types</h2>
+            <img src="../assets/chevron.svg" alt="" width="20" height="20" class="library-section-header__chevron" aria-hidden="true" />
+          </button>
+          <div class="library-section-body" id="library-section-media-types-body" role="region" aria-labelledby="library-section-media-types-toggle">
+          <div class="library-media-grid" role="group" aria-label="Filter by media type">
+            <button type="button" class="library-media-btn" data-media="articles"><img src="../assets/articles.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Articles</span></button>
+            <button type="button" class="library-media-btn" data-media="audio"><img src="../assets/audio.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Audio</span></button>
+            <button type="button" class="library-media-btn" data-media="books"><img src="../assets/books.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Books</span></button>
+            <button type="button" class="library-media-btn" data-media="files"><img src="../assets/files.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Files</span></button>
+            <button type="button" class="library-media-btn" data-media="highlights"><img src="../assets/highlights.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Highlights</span></button>
+            <button type="button" class="library-media-btn" data-media="images"><img src="../assets/images.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Images</span></button>
+            <button type="button" class="library-media-btn" data-media="links"><img src="../assets/links.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Links</span></button>
+            <button type="button" class="library-media-btn" data-media="text"><img src="../assets/text.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Text</span></button>
+            <button type="button" class="library-media-btn" data-media="tweets"><img src="../assets/tweets.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Tweets</span></button>
+            <button type="button" class="library-media-btn" data-media="videos"><img src="../assets/videos.svg" alt="" class="library-media-icon" aria-hidden="true" /><span class="library-media-label">Videos</span></button>
+          </div>
+          </div>
+        </div>
+
+        <!-- Pinned Collections — title outside container like Recents / Media types -->
+        <div class="library-section library-section--pinned" data-section="pinned" id="library-section-pinned">
+          <button type="button" class="library-section-header-btn" aria-expanded="true" aria-controls="library-section-pinned-body" id="library-section-pinned-toggle">
+            <img src="../assets/PINNED.svg" alt="" width="35" height="35" class="library-section-header__icon" aria-hidden="true" />
+            <h2 class="library-section-title">Pinned collections</h2>
+            <img src="../assets/chevron.svg" alt="" width="20" height="20" class="library-section-header__chevron" aria-hidden="true" />
+          </button>
+          <div class="library-section-body" id="library-section-pinned-body" role="region" aria-labelledby="library-section-pinned-toggle">
+          <div class="library-pinned-card">
+            <ul class="library-pinned-list" aria-label="Pinned items">
+              <li><a href="#" class="library-pinned-item" data-icon="PUBLIC"><img src="../assets/PUBLIC.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Child wisdom</span><span class="library-pinned-count" aria-hidden="true">3</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-icon="PUBLIC"><img src="../assets/PUBLIC.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Artifacts</span><span class="library-pinned-count" aria-hidden="true">12</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-icon="PRIVATE"><img src="../assets/PRIVATE.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Where is my 🧀🧀🧀??</span><span class="library-pinned-count" aria-hidden="true">7</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-icon="PRIVATE"><img src="../assets/PRIVATE.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Nice words sent my way</span><span class="library-pinned-count" aria-hidden="true">1</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-icon="PUBLIC-COLLAB"><img src="../assets/PUBLIC-COLLAB.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Anti-Networking Event</span><span class="library-pinned-count" aria-hidden="true">5</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-icon="PRIVATE-COLLAB"><img src="../assets/PRIVATE-COLLAB.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Reading list</span><span class="library-pinned-count" aria-hidden="true">18</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-icon="COMMUNAL"><img src="../assets/COMMUNAL.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Ideas</span><span class="library-pinned-count" aria-hidden="true">22</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            </ul>
+          </div>
+          </div>
+        </div>
+
+        <!-- Imports — same list layout as Pinned collections (reuse .library-pinned-card, .library-pinned-item, .library-pinned-count, .library-pinned-chevron) -->
+        <div class="library-section library-section--imports" data-section="imports" id="library-section-imports">
+          <button type="button" class="library-section-header-btn" aria-expanded="true" aria-controls="library-section-imports-body" id="library-section-imports-toggle">
+            <img src="../assets/import.svg" alt="" width="35" height="35" class="library-section-header__icon library-section-header__icon--imports" aria-hidden="true" />
+            <h2 class="library-section-title">Imports</h2>
+            <img src="../assets/chevron.svg" alt="" width="20" height="20" class="library-section-header__chevron" aria-hidden="true" />
+          </button>
+          <div class="library-section-body" id="library-section-imports-body" role="region" aria-labelledby="library-section-imports-toggle">
+          <div class="library-pinned-card">
+            <ul class="library-pinned-list" aria-label="Import sources">
+              <li><a href="#" class="library-pinned-item" data-import="kindle"><img src="../assets/kindle.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Kindle</span><span class="library-pinned-count" aria-hidden="true">1.2k</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-import="readwise"><img src="../assets/readwise.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Readwise</span><span class="library-pinned-count" aria-hidden="true">847</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-import="x-bookmarks"><img src="../assets/x.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">X bookmarks</span><span class="library-pinned-count" aria-hidden="true">312</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-import="instagram"><img src="../assets/instagram.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Instagram Bookmarks</span><span class="library-pinned-count" aria-hidden="true">2.1k</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+              <li><a href="#" class="library-pinned-item" data-import="podcast-magic"><img src="../assets/podcast-magic.svg" alt="" width="35" height="35" class="library-pinned-item__icon" aria-hidden="true" /><span class="library-pinned-label">Podcast Magic</span><span class="library-pinned-count" aria-hidden="true">156</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" aria-hidden="true" /></a></li>
+            </ul>
+          </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inbox placeholder (visible when Inbox tab active) -->
+    <section class="inbox-view" id="inbox-view" aria-label="Inbox" aria-hidden="true">
+      <div class="placeholder-view-inner"></div>
+    </section>
+
+    <!-- Profile placeholder (visible when Profile tab active) -->
+    <section class="profile-view" id="profile-view" aria-label="Profile" aria-hidden="true">
+      <div class="placeholder-view-inner"></div>
+    </section>
+
+    <!-- All cards (visible when user clicks All cards from My Library) -->
+    <section class="all-cards-view" id="all-cards-view" aria-label="All cards" aria-hidden="true">
+      <header class="collection-top-bar" id="all-cards-top-bar">
+        <div class="collection-top-bar-inner all-cards-top-bar-inner">
+          <div class="collection-top-bar-left">
+            <button type="button" class="collection-back-btn" id="all-cards-back-btn" aria-label="Back to My Library">
+              <span class="collection-icon-wrap"><img src="../assets/BACK.svg" alt="" width="35" height="35" class="collection-back-icon" aria-hidden="true" /></span>
+            </button>
+            <span class="collection-title-mini" id="all-cards-title-mini" aria-hidden="true">All cards</span>
+          </div>
+          <div class="all-cards-search-wrap" id="all-cards-search-wrap">
+            <img src="../assets/search.svg" alt="" width="35" height="35" class="all-cards-search-icon" aria-hidden="true" />
+            <input type="search" class="all-cards-search-input" id="all-cards-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+            <button type="button" class="all-cards-search-clear" id="all-cards-search-clear" aria-label="Close search">
+              <img src="../assets/close.svg" alt="" width="35" height="35" class="all-cards-search-clear-icon" />
+            </button>
+          </div>
+          <div class="collection-actions all-cards-actions" role="group" aria-label="All cards actions">
+            <div class="collection-actions-group collection-actions-group--four">
+              <button type="button" class="collection-action-btn" aria-label="More"><span class="collection-icon-wrap"><img src="../assets/MORE-MENU.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn" aria-label="Shuffle"><span class="collection-icon-wrap"><img src="../assets/shuffle.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn" aria-label="Filters"><span class="collection-icon-wrap"><img src="../assets/filters.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn collection-action-btn--circle" id="all-cards-search-trigger-btn" aria-label="Search"><span class="collection-icon-wrap"><img src="../assets/search.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="collection-content" id="all-cards-content">
+        <div class="collection-feed-wrap">
+          <header class="collection-header collection-header--title-only" id="all-cards-header">
+            <h1 class="collection-header__title" id="all-cards-header-title">All cards</h1>
+          </header>
+          <div class="collection-feed" role="feed" aria-label="All cards feed">
+            <div class="collection-feed__col" id="all-cards-feed-col-1" aria-label="Column 1"></div>
+            <div class="collection-feed__col" id="all-cards-feed-col-2" aria-label="Column 2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collections directory (visible when My Library > Collections is clicked) — header mirrors All cards: back, mini title on scroll, Shuffle/Filters (no bg), Search (circle), no More -->
+    <section class="collections-directory-view" id="collections-directory-view" aria-label="Collections" aria-hidden="true">
+      <header class="collection-top-bar" id="collections-directory-top-bar">
+        <div class="collection-top-bar-inner all-cards-top-bar-inner">
+          <div class="collection-top-bar-left">
+            <button type="button" class="collection-back-btn" id="collections-directory-back-btn" aria-label="Back to My Library">
+              <span class="collection-icon-wrap"><img src="../assets/BACK.svg" alt="" width="35" height="35" class="collection-back-icon" aria-hidden="true" /></span>
+            </button>
+            <span class="collection-title-mini" id="collections-directory-title-mini" aria-hidden="true">Collections</span>
+          </div>
+          <div class="all-cards-search-wrap" id="collections-directory-search-wrap">
+            <img src="../assets/search.svg" alt="" width="35" height="35" class="all-cards-search-icon" aria-hidden="true" />
+            <input type="search" class="all-cards-search-input" id="collections-directory-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+            <button type="button" class="all-cards-search-clear" id="collections-directory-search-clear" aria-label="Close search">
+              <img src="../assets/close.svg" alt="" width="35" height="35" class="all-cards-search-clear-icon" />
+            </button>
+          </div>
+          <div class="collection-actions all-cards-actions collections-directory-actions" role="group" aria-label="Collections actions">
+            <div class="collection-actions-group collection-actions-group--three">
+              <button type="button" class="collection-action-btn" aria-label="Shuffle"><span class="collection-icon-wrap"><img src="../assets/shuffle.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn" aria-label="Filters"><span class="collection-icon-wrap"><img src="../assets/filters.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn collection-action-btn--circle" id="collections-directory-search-trigger-btn" aria-label="Search"><span class="collection-icon-wrap"><img src="../assets/search.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="collection-content" id="collections-directory-content">
+        <div class="collection-feed-wrap">
+          <header class="collection-header collection-header--title-only" id="collections-directory-header">
+            <h1 class="collection-header__title">Collections</h1>
+          </header>
+          <div class="collections-directory-list-wrap">
+            <ul class="collections-directory-list" id="collections-directory-list" role="list" aria-label="Collections"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collection landing (visible when a pinned collection is opened) -->
+    <section class="collection-view" id="collection-view" aria-label="Collection" aria-hidden="true">
+      <header class="collection-top-bar" id="collection-top-bar">
+        <div class="collection-top-bar-inner collection-search-top-bar-inner">
+          <div class="collection-top-bar-left">
+            <button type="button" class="collection-back-btn" id="collection-back-btn" aria-label="Back to My Library">
+              <span class="collection-icon-wrap"><img src="../assets/BACK.svg" alt="" width="35" height="35" class="collection-back-icon" aria-hidden="true" /></span>
+            </button>
+            <span class="collection-title-mini" id="collection-title-mini" aria-hidden="true">Dialogo</span>
+          </div>
+          <div class="collection-search-wrap" id="collection-search-wrap">
+            <img src="../assets/search.svg" alt="" width="35" height="35" class="collection-search-icon" aria-hidden="true" />
+            <input type="search" class="collection-search-input" id="collection-search-input" placeholder="Search or ask anything" aria-label="Search or ask anything" autocomplete="off" />
+            <button type="button" class="collection-search-clear" id="collection-search-clear" aria-label="Close search">
+              <img src="../assets/close.svg" alt="" width="35" height="35" class="collection-search-clear-icon" />
+            </button>
+          </div>
+          <div class="collection-actions" role="group" aria-label="Collection actions">
+            <div class="collection-actions-group collection-actions-group--four">
+              <button type="button" class="collection-action-btn" aria-label="More"><span class="collection-icon-wrap"><img src="../assets/MORE-MENU.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn" aria-label="Shuffle"><span class="collection-icon-wrap"><img src="../assets/shuffle.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn" aria-label="Filters"><span class="collection-icon-wrap"><img src="../assets/filters.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+              <button type="button" class="collection-action-btn" id="collection-search-trigger-btn" aria-label="Search"><span class="collection-icon-wrap"><img src="../assets/search.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+            </div>
+            <button type="button" class="collection-action-btn collection-action-btn--circle collection-action-btn--chat" aria-label="Chat"><span class="collection-icon-wrap"><img src="../assets/CHAT.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+            <button type="button" class="collection-action-btn collection-action-btn--circle" aria-label="Share"><span class="collection-icon-wrap"><img src="../assets/SHARE.svg" alt="" width="35" height="35" class="collection-action-icon" aria-hidden="true" /></span></button>
+            <button type="button" class="collection-follow-btn">Follow</button>
+          </div>
+        </div>
+      </header>
+      <div class="collection-content">
+        <div class="collection-feed-wrap">
+          <header class="collection-header" id="collection-header">
+            <div class="collection-header__title-row">
+              <h1 class="collection-header__title" id="collection-header-title">Dialogo</h1>
+              <img id="collection-header-icon" class="collection-header__icon" src="" alt="" width="25" height="25" aria-hidden="true" style="display: none;" />
+            </div>
+            <p class="collection-header__subtitle" id="collection-header-subtitle">A device for connection</p>
+            <p class="collection-header__meta" id="collection-header-meta">by Joel • <span id="collection-header-count">44</span></p>
+          </header>
+          <div class="collection-feed" role="feed" aria-label="Collection feed">
+            <div class="collection-feed__col" id="collection-feed-col-1" aria-label="Column 1"></div>
+            <div class="collection-feed__col" id="collection-feed-col-2" aria-label="Column 2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Nav: fixed bottom-left, fixed width. Base from xx2; styling tweaks per Figma 1827-5001. -->
+  <nav class="nav-bar-e3" aria-label="Navigation">
+    <div class="nav-e3-inner">
+      <!-- Left group: Sublime, Library (icon + label each) -->
+      <div class="nav-e3-left">
+        <button type="button" class="nav-e3-item" data-tab="sublime" aria-label="Sublime">
+          <span class="nav-e3-icon">
+            <img src="../assets/Sublime.svg" alt="" width="24" height="24" class="nav-e3-icon-img" />
+          </span>
+          <span class="nav-e3-label">Sublime</span>
+        </button>
+
+        <button type="button" class="nav-e3-item active" data-tab="library" aria-label="My Library">
+          <span class="nav-e3-icon">
+            <img src="../assets/library.svg" alt="" width="24" height="24" class="nav-e3-icon-img" />
+          </span>
+          <span class="nav-e3-label">My Library</span>
+        </button>
+      </div>
+
+      <!-- Larger gap then right group: Inbox (icon only, bg #EFEFEF), Profile+Menu wrapper -->
+      <div class="nav-e3-right">
+        <button type="button" class="nav-e3-item nav-e3-item--icon-only" data-tab="inbox" aria-label="Inbox (2 items)">
+          <span class="nav-e3-icon">
+            <img src="../assets/inbox.svg" alt="" width="26" height="23" class="nav-e3-icon-img nav-e3-icon-inbox" />
+          </span>
+          <span class="nav-e3-inbox-badge" aria-hidden="true">
+            <svg class="nav-e3-inbox-badge__svg" viewBox="0 0 421 594" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g filter="url(#inbox-badge-filter)">
+                <mask id="inbox-badge-mask" maskUnits="userSpaceOnUse" x="168.451" y="135.101" width="222" height="256" fill="black">
+                  <rect fill="white" x="168.451" y="135.101" width="222" height="256"/>
+                  <path d="M242.022 334.101C230.656 334.101 225.454 327.743 225.454 318.978C225.454 312.331 228.248 307.611 235.183 301.639L274.869 265.614C291.148 250.78 295.579 244.422 295.579 235.368C295.579 225.35 287.873 218.222 276.795 218.222C267.644 218.222 261.383 222.653 256.278 231.9C251.847 238.739 247.705 241.533 240.577 241.533C231.426 241.533 225.936 236.235 225.936 227.566C225.936 224.869 226.321 222.364 227.381 219.86C233.449 203.87 251.944 191.637 277.277 191.637C308.968 191.637 329.774 208.493 329.774 233.056C329.774 250.876 320.719 261.087 298.661 281.026L271.016 306.263V306.937H319.082C328.04 306.937 333.241 312.235 333.241 320.519C333.241 328.61 328.04 334.101 319.082 334.101H242.022Z"/>
+                </mask>
+                <path d="M242.022 334.101C230.656 334.101 225.454 327.743 225.454 318.978C225.454 312.331 228.248 307.611 235.183 301.639L274.869 265.614C291.148 250.78 295.579 244.422 295.579 235.368C295.579 225.35 287.873 218.222 276.795 218.222C267.644 218.222 261.383 222.653 256.278 231.9C251.847 238.739 247.705 241.533 240.577 241.533C231.426 241.533 225.936 236.235 225.936 227.566C225.936 224.869 226.321 222.364 227.381 219.86C233.449 203.87 251.944 191.637 277.277 191.637C308.968 191.637 329.774 208.493 329.774 233.056C329.774 250.876 320.719 261.087 298.661 281.026L271.016 306.263V306.937H319.082C328.04 306.937 333.241 312.235 333.241 320.519C333.241 328.61 328.04 334.101 319.082 334.101H242.022Z" fill="#FF40FF"/>
+                <path fill="white" mask="url(#inbox-badge-mask)" d="M235.183 301.639L271.962 344.35L272.521 343.868L273.067 343.372L235.183 301.639ZM274.869 265.614L312.753 307.347L312.792 307.311L312.832 307.275L274.869 265.614ZM256.278 231.9L303.581 262.547L304.661 260.881L305.621 259.142L256.278 231.9ZM227.381 219.86L279.29 241.821L279.702 240.847L280.077 239.859L227.381 219.86ZM298.661 281.026L260.865 239.213L260.762 239.306L260.66 239.399L298.661 281.026ZM271.016 306.263L233.015 264.636L214.652 281.399V306.263H271.016ZM271.016 306.937H214.652V363.301H271.016V306.937ZM242.022 334.101V277.737C246.716 277.737 258.449 279.232 269.064 289.706C279.654 300.156 281.818 312.336 281.818 318.978H225.454H169.091C169.091 334.385 173.855 354.127 189.888 369.947C205.945 385.79 225.962 390.464 242.022 390.464V334.101ZM225.454 318.978H281.818C281.818 321.325 281.564 324.464 280.657 328.067C279.736 331.725 278.348 335.039 276.734 337.881C273.757 343.126 270.78 345.367 271.962 344.35L235.183 301.639L198.404 258.929C192.651 263.883 184.81 271.47 178.702 282.23C171.889 294.23 169.091 306.813 169.091 318.978H225.454ZM235.183 301.639L273.067 343.372L312.753 307.347L274.869 265.614L236.985 223.881L197.299 259.906L235.183 301.639ZM274.869 265.614L312.832 307.275C321.001 299.831 330.593 290.711 337.789 280.234C347.036 266.771 351.942 251.884 351.942 235.368H295.579H239.215C239.215 232.788 239.565 228.994 240.931 224.709C242.254 220.558 243.965 217.727 244.868 216.413C245.621 215.316 245.755 215.363 244.269 216.914C242.822 218.425 240.542 220.639 236.905 223.953L274.869 265.614ZM295.579 235.368H351.942C351.942 215.172 343.828 195.602 328.42 181.483C313.342 167.667 294.453 161.858 276.795 161.858V218.222V274.586C270.215 274.586 260.717 272.342 252.261 264.593C243.476 256.543 239.215 245.546 239.215 235.368H295.579ZM276.795 218.222V161.858C262.438 161.858 247.265 165.558 233.445 174.904C220.407 183.721 212.199 195.123 206.935 204.659L256.278 231.9L305.621 259.142C305.462 259.43 302.938 263.993 296.594 268.283C289.469 273.101 282.002 274.586 276.795 274.586V218.222ZM256.278 231.9L208.975 201.253C209.029 201.169 209.832 199.923 211.428 198.183C213.111 196.349 215.769 193.863 219.525 191.511C228.033 186.183 236.231 185.169 240.577 185.169V241.533V297.896C252.052 297.896 265.884 295.486 279.353 287.051C291.737 279.296 299.251 269.231 303.581 262.547L256.278 231.9ZM240.577 241.533V185.169C246.742 185.169 258.375 187.108 268.794 197.078C279.512 207.335 282.3 219.732 282.3 227.566H225.936H169.572C169.572 244.068 175.105 263.449 190.856 278.522C206.308 293.309 225.261 297.896 240.577 297.896V241.533ZM225.936 227.566H282.3C282.3 230.57 281.812 235.86 279.29 241.821L227.381 219.86L175.472 197.898C170.831 208.868 169.572 219.167 169.572 227.566H225.936ZM227.381 219.86L280.077 239.859C277.996 245.342 274.76 247.696 273.801 248.263C272.772 248.872 273.621 248 277.277 248V191.637V135.273C235.226 135.273 191.207 156.324 174.685 199.86L227.381 219.86ZM277.277 191.637V248C283.605 248 283.403 249.695 280.334 247.255C278.709 245.963 276.782 243.839 275.33 240.851C273.867 237.84 273.41 235.026 273.41 233.056H329.774H386.137C386.137 203.37 372.923 176.854 350.485 159.015C329.09 142.007 302.639 135.273 277.277 135.273V191.637ZM329.774 233.056H273.41C273.41 232.568 273.497 230.727 274.273 228.273C275.041 225.846 275.982 224.404 276.106 224.223C276.122 224.201 275.906 224.514 275.312 225.211C274.714 225.913 273.827 226.891 272.533 228.215C269.835 230.974 266.179 234.409 260.865 239.213L298.661 281.026L336.457 322.839C346.964 313.341 359.59 301.714 368.872 288.269C380.208 271.851 386.137 253.728 386.137 233.056H329.774ZM298.661 281.026L260.66 239.399L233.015 264.636L271.016 306.263L309.017 347.89L336.662 322.653L298.661 281.026ZM271.016 306.263H214.652V306.937H271.016H327.379V306.263H271.016ZM271.016 306.937V363.301H319.082V306.937V250.573H271.016V306.937ZM319.082 306.937V363.301C312.471 363.301 300.608 361.153 290.171 350.975C279.602 340.67 276.878 328.347 276.878 320.519H333.241H389.605C389.605 304.407 384.28 285.293 368.871 270.268C353.593 255.37 334.651 250.573 319.082 250.573V306.937ZM333.241 320.519H276.878C276.878 312.307 279.766 300.238 289.967 290.19C300.149 280.16 311.923 277.737 319.082 277.737V334.101V390.464C335.199 390.464 354.053 385.296 369.075 370.498C384.116 355.682 389.605 336.822 389.605 320.519H333.241ZM319.082 334.101V277.737H242.022V334.101V390.464H319.082V334.101Z"/>
+              </g>
+              <defs>
+                <filter id="inbox-badge-filter" x="-0.0001" y="-0.0003" width="558.696" height="593.373" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                  <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                  <feOffset dy="33.8182"/>
+                  <feGaussianBlur stdDeviation="84.5455"/>
+                  <feComposite in2="hardAlpha" operator="out"/>
+                  <feColorMatrix type="matrix" values="0 0 0 0 0.585 0 0 0 0 0.612083 0 0 0 0 0.65 0 0 0 0.25 0"/>
+                  <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                  <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+                </filter>
+              </defs>
+            </svg>
+          </span>
+        </button>
+
+        <button type="button" class="nav-e3-profile-wrap" data-tab="profile" aria-label="Profile">
+          <img src="../assets/me.svg" alt="" width="40" height="40" class="nav-e3-avatar" />
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Plus CTA: fixed bottom-right. Click toggles actions menu; icon rotates to X. (Unchanged from xx2.) -->
+  <div class="nav-add-e2-wrap">
+    <div class="nav-add-e2-menu" id="add-menu" aria-hidden="true">
+      <!-- Section 1 (furthest from +): Import only. Submenu is sibling so it can bottom-align with section. -->
+      <div class="nav-add-e2-menu-section nav-add-e2-menu-section--import" id="import-section">
+        <div class="nav-add-e2-action-row nav-add-e2-action-row--has-submenu" id="import-row">
+          <button type="button" class="nav-add-e2-action" data-action="import" aria-haspopup="true" aria-expanded="false">
+            <img src="../assets/import-2.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Import</span>
+            <img src="../assets/chevron.svg" alt="" width="20" height="20" class="nav-add-e2-chevron" aria-hidden="true" />
+          </button>
+          <div class="nav-add-e2-submenu-bridge" aria-hidden="true"></div>
+        </div>
+        <div class="nav-add-e2-submenu" id="import-submenu" aria-label="Import from" role="list">
+          <div class="nav-add-e2-submenu-group" role="listitem">
+            <button type="button" class="nav-add-e2-submenu-item" data-import="csv"><span class="nav-add-e2-submenu-item-label">CSV file</span></button>
+            <button type="button" class="nav-add-e2-submenu-item" data-import="folder-upload"><span class="nav-add-e2-submenu-item-label">Folder</span></button>
+          </div>
+          <div class="nav-add-e2-submenu-group" role="listitem">
+            <button type="button" class="nav-add-e2-submenu-item" data-import="kindle"><span class="nav-add-e2-submenu-item-label">Kindle</span></button>
+            <button type="button" class="nav-add-e2-submenu-item" data-import="readwise"><span class="nav-add-e2-submenu-item-label">Readwise</span></button>
+            <button type="button" class="nav-add-e2-submenu-item" data-import="x-bookmarks"><span class="nav-add-e2-submenu-item-label">X Bookmarks</span></button>
+            <button type="button" class="nav-add-e2-submenu-item" data-import="instagram"><span class="nav-add-e2-submenu-item-label">Instagram Bookmarks</span></button>
+          </div>
+          <div class="nav-add-e2-submenu-group" role="listitem">
+            <button type="button" class="nav-add-e2-submenu-item" data-import="podcast-magic"><span class="nav-add-e2-submenu-item-label">Podcast Magic</span></button>
+          </div>
+        </div>
+      </div>
+      <!-- Section 2: Collection, Canvas (hidden on collection landing page) -->
+      <div class="nav-add-e2-menu-section nav-add-e2-menu-section--collection-canvas">
+        <div class="nav-add-e2-menu-section__items">
+          <button type="button" class="nav-add-e2-action" data-action="collection">
+            <img src="../assets/collection.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Collection</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="canvas">
+            <img src="../assets/CANVAS.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Canvas</span>
+          </button>
+        </div>
+      </div>
+      <!-- Section 3 (closest to +): Link, Note, Upload -->
+      <div class="nav-add-e2-menu-section">
+        <div class="nav-add-e2-menu-section__items">
+          <button type="button" class="nav-add-e2-action" data-action="link">
+            <img src="../assets/links.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Link</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="write">
+            <img src="../assets/write.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Note</span>
+          </button>
+          <button type="button" class="nav-add-e2-action" data-action="upload">
+            <img src="../assets/upload.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" />
+            <span class="nav-add-e2-action-label">Upload</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="nav-add-e2" id="add-btn" aria-label="Add" aria-expanded="false" aria-controls="add-menu">
+      <span class="nav-add-e2-icon-wrap">
+        <img src="../assets/ADD.svg" alt="" width="54" height="54" class="nav-add-e2-icon" />
+      </span>
+    </button>
+  </div>
+
+  <script src="xx9.js"></script>
+</body>
+</html>

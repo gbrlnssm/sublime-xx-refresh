@@ -1,0 +1,3214 @@
+/* xx7 — Parity with xx6. Library Media types: pills without icons, 10px left padding. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #404040;
+  background: #fff;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Nav bar: fixed bottom-left. Radius 25px. 10px padding = 10px separation to inner elements. */
+.nav-bar-e3 {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  width: fit-content;
+  padding: 10px;
+  background: #ebebeb;
+  border-radius: 25px;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+  z-index: 10;
+}
+
+.nav-e3-inner {
+  display: flex;
+  align-items: center;
+}
+
+/* Left group: Sublime, Library. Tight gap between them. */
+.nav-e3-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Right group: Inbox, Profile+Menu. Spacing from left group (reduced by 20px from xx2). */
+.nav-e3-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 28px;
+}
+
+/* Item: vertical stack (icon on top, label below) for Sublime/Library. */
+.nav-e3-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-item:hover:not(.nav-e3-item--icon-only) {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-e3-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Inactive (Sublime/Library): no background, grey text + icon to show inactive. */
+.nav-e3-left .nav-e3-item:not(.active) {
+  background: transparent;
+  color: #A7A9AB;
+}
+
+/* Active (Sublime/Library): white pill, 15px radius, subtle shadow, black icon + text */
+.nav-e3-left .nav-e3-item.active {
+  background: #ffffff;
+  color: #404040;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.nav-e3-left .nav-e3-item.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e3-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-e3-icon-img {
+  display: block;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Inactive icon: light grey */
+.nav-e3-item .nav-e3-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Active icon (Sublime/Library): black */
+.nav-e3-left .nav-e3-item.active .nav-e3-icon-img {
+  filter: brightness(0) invert(0.25);
+}
+
+.nav-e3-label {
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+/* #1 — Inbox: icon only, background #EFEFEF, keep shadow. Badge SVG at top-right. */
+.nav-e3-item--icon-only {
+  position: relative;
+  padding: 8px;
+  background: #EFEFEF;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Badge: at upper-right edge of inbox container, peeking out. Inline SVG = vector = HD at any resolution. */
+.nav-e3-inbox-badge {
+  position: absolute;
+  top: -16px;
+  right: -8px;
+  width: 32px;
+  height: 42px;
+  display: block;
+  pointer-events: none;
+}
+
+.nav-e3-inbox-badge__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-e3-item--icon-only.active {
+  background: #ffffff;
+}
+
+.nav-e3-item--icon-only.active .nav-e3-icon-img {
+  filter: brightness(0) invert(0.25);
+}
+
+.nav-e3-item--icon-only:hover {
+  background: #e8e8e8;
+}
+
+.nav-e3-item--icon-only.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e3-item--icon-only:not(.active) .nav-e3-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.nav-e3-icon-inbox {
+  width: 26px;
+  height: 23px;
+}
+
+/* #2 — Profile + Menu: wrapped together, 5px padding, shadow, background #EFEFEF. Menu icon to the right of profile. */
+.nav-e3-profile-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 5px;
+  background: #EFEFEF;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-profile-wrap:hover {
+  background: #e8e8e8;
+}
+
+.nav-e3-profile-wrap.active {
+  background: #ffffff;
+}
+
+.nav-e3-profile-wrap.active .nav-e3-menu-icon {
+  filter: brightness(0) invert(0.25);
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-profile-wrap.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e3-profile-wrap:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.nav-e3-menu-icon {
+  display: block;
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Plus CTA: fixed bottom-right. Visible only when Library is active. (Unchanged from xx2.) */
+.nav-add-e2-wrap {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.nav-add-e2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #e5e5e5;
+  cursor: default;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: background-color 380ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 320ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 320ms;
+}
+
+.nav-add-e2.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 380ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Hover state: match main nav items */
+.nav-add-e2.is-visible:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 360ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-wrap.is-expanded .nav-add-e2-icon-wrap {
+  transform: rotate(45deg);
+}
+
+.nav-add-e2-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Actions menu: above the plus button. Three separate blocks with visible gaps (RIGHT ref). */
+.nav-add-e2-menu {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 192px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity 300ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 300ms,
+    transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.nav-add-e2-wrap.is-expanded .nav-add-e2-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1),
+    transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Each section is its own rounded block; gap between sections = visible white space */
+.nav-add-e2-menu-section {
+  background: #ebebeb;
+  border-radius: 20px;
+  padding: 7.5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Section 3: positioning context for submenu so submenu can bottom-align with this block */
+.nav-add-e2-menu-section--import {
+  position: relative;
+}
+
+/* On collection landing page: show only Link, Note, Upload (hide Import and Collection/Canvas) */
+.nav-add-e2-wrap.add-menu--on-collection .nav-add-e2-menu-section--import,
+.nav-add-e2-wrap.add-menu--on-collection .nav-add-e2-menu-section--collection-canvas {
+  display: none;
+}
+
+/* Items within a section: no gap between rows */
+.nav-add-e2-menu-section__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.nav-add-e2-action {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 7.5px 7.5px 7.5px 2.5px;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-action:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-action:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.nav-add-e2-action-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(66%); /* #A7A9AB */
+}
+
+.nav-add-e2-action-label {
+  flex: 1;
+}
+
+.nav-add-e2-chevron {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-left: 2px;
+  filter: brightness(0) saturate(100%) invert(55%) sepia(0%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Row that contains Import + submenu (section 3 has no __items wrapper) */
+.nav-add-e2-action-row {
+  position: relative;
+}
+
+.nav-add-e2-action-row .nav-add-e2-action {
+  width: 100%;
+}
+
+/* Invisible bridge so hover from Import to submenu doesn't leave "row" */
+.nav-add-e2-submenu-bridge {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 14px;
+  height: 100%;
+  pointer-events: auto;
+}
+
+/* Import submenu: positioned from Import section; groups separated by gap like main add menu. */
+.nav-add-e2-submenu {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: auto;
+  margin: 0 4px 0 0;
+  padding: 0;
+  background: transparent;
+  width: max-content;
+  min-width: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(6px);
+  transition: opacity 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 220ms,
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.nav-add-e2-submenu-group {
+  background: #ebebeb;
+  border-radius: 20px;
+  padding: 7.5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.nav-add-e2-menu-section--import.is-submenu-open .nav-add-e2-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Open upward when submenu would go off top of viewport */
+.nav-add-e2-submenu.nav-add-e2-submenu--open-up {
+  top: auto;
+  bottom: 0;
+  margin: 0 4px 4px 0;
+  transform: translateX(6px) translateY(4px);
+}
+
+.nav-add-e2-menu-section--import.is-submenu-open .nav-add-e2-submenu.nav-add-e2-submenu--open-up {
+  transform: translateX(0) translateY(0);
+}
+
+.nav-add-e2-submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 10px 7.5px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  white-space: nowrap;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-submenu-item-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(66%); /* #A7A9AB */
+}
+
+.nav-add-e2-submenu-item-label {
+  flex: 1;
+}
+
+.nav-add-e2-submenu-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-submenu-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* --- Sublime view (Figma 1852-65420) — top nav bar full width --- */
+.sublime-view {
+  position: relative;
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0 0 120px;
+}
+
+.sublime-view.sublime-view--visible {
+  display: flex;
+}
+
+.sublime-top-bar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  flex-shrink: 0;
+  padding: 16px 32px;
+  background: transparent;
+}
+
+.sublime-top-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Left: Staff picks (active) + Following (inactive); 10px between pills */
+.sublime-categories {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.sublime-category-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 15px 10px 10px; /* left 10px, right 15px */
+  border: none;
+  border-radius: 9999px;
+  background: #EFEFEF;
+  color: #404040;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sublime-category-btn:hover {
+  background: #e8e8e8;
+}
+
+.sublime-category-btn.active {
+  background: #CBFFA6;
+  color: #38744D;
+}
+
+.sublime-category-btn.active:hover {
+  background: #c4f59a;
+}
+
+.sublime-category-btn:not(.active) {
+  color: #A7A9AB;
+}
+
+.sublime-category-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Category icons: img; color via filter only when wrong (Following active → green, Staff picks inactive → gray) */
+.sublime-category-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+}
+
+/* Following: show gray icon when inactive, green #38744D when active (exact color via asset) */
+.sublime-category-btn[data-sublime="following"] .sublime-category-icon--inactive {
+  display: block;
+}
+.sublime-category-btn[data-sublime="following"] .sublime-category-icon--active {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="following"] .sublime-category-icon--inactive {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="following"] .sublime-category-icon--active {
+  display: block;
+}
+
+/* Staff picks: show gray #A7A9AB when inactive, green #38744D when active (exact colors via assets) */
+.sublime-category-btn[data-sublime="staff-picks"] .sublime-category-icon--inactive {
+  display: block;
+}
+.sublime-category-btn[data-sublime="staff-picks"] .sublime-category-icon--active {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="staff-picks"] .sublime-category-icon--inactive {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="staff-picks"] .sublime-category-icon--active {
+  display: block;
+}
+
+.sublime-category-label {
+  font-size: 16px;
+}
+
+/* Center: full-width search (recycled from My Library); expands when Following is active */
+.sublime-search-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px 10px 5px;
+  background: rgba(229, 229, 229, 0.40);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 56.927px;
+  box-sizing: border-box;
+  transition: background 0.25s ease, flex 0.35s ease;
+}
+
+.sublime-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.sublime-search-clear {
+  flex-shrink: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sublime-search-wrap.has-value .sublime-search-clear {
+  display: flex;
+}
+
+.sublime-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.sublime-search {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.sublime-search::placeholder {
+  color: #A7A9AB;
+}
+
+.sublime-search::-webkit-search-cancel-button,
+.sublime-search::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.sublime-search::-moz-search-cancel-button {
+  display: none;
+}
+
+.sublime-search:focus {
+  outline: none;
+}
+
+.sublime-search-wrap:focus-within {
+  outline: none;
+  background: rgba(229, 229, 229, 0.60);
+}
+
+/* Right: Shuffle + Filters; collapse with transition when Following is active */
+.sublime-actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+  max-width: 96px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+}
+
+.sublime-top-bar-inner.sublime-top-bar-inner--following .sublime-actions {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
+}
+
+.sublime-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sublime-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.sublime-action-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.sublime-action-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.sublime-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow-y: auto;
+  background: #fff;
+  padding: 156px 32px 120px;
+  box-sizing: border-box;
+}
+
+/* Sublime feed: two-column grid, 880px max.
+ * Horizontal: 80px between columns (grid gap).
+ * Vertical: exactly 80px between every pair of cards (margin-bottom on shells; single canonical value).
+ */
+.sublime-feed {
+  --feed-gap: 80px;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  align-content: start;
+  gap: var(--feed-gap);
+}
+
+.sublime-feed__col {
+  min-width: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+  padding-top: 0;
+}
+
+/* Vertical separation: exactly 80px between cards. Margin on shell only; last card has no bottom margin. */
+.sublime-feed__col .sublime-card-shell {
+  flex-shrink: 0;
+  margin: 0 0 var(--feed-gap) 0;
+}
+
+.sublime-feed__col .sublime-card-shell:last-child {
+  margin-bottom: 0;
+}
+
+/* Activity context element: appears below cards in following feed */
+.sublime-activity-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px */
+  background: #F5F5F5;
+  border-radius: 9999px;
+  margin-top: 5px; /* 5px separation from card */
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-self: flex-start; /* Don't stretch to fill parent width */
+  flex-shrink: 0;
+}
+
+/* Multi-line pills get 15px border radius */
+.sublime-activity-context--with-note {
+  border-radius: 15px;
+}
+
+.sublime-activity-context__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+/* Bundled avatars in summary (multiple users, no notes) */
+.sublime-activity-context .sublime-activity-context__avatars-bundle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 5px; /* 5px separation between avatars and text */
+}
+
+.sublime-activity-context__text {
+  min-width: 0;
+  flex: 0 1 auto; /* Don't grow, allow shrink, auto basis - prevents full width */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  white-space: normal; /* Allow normal text wrapping and preserve spaces */
+}
+
+.sublime-activity-context__user-name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  white-space: nowrap;
+}
+
+.sublime-activity-context__user-name:hover {
+  text-decoration: underline;
+}
+
+
+.sublime-activity-context__action {
+  font-weight: 400;
+  color: #737373;
+  white-space: pre; /* Preserve spaces in action text */
+}
+
+.sublime-activity-context__and-more {
+  font-weight: 400;
+  color: #737373;
+  white-space: pre; /* Preserve spaces */
+}
+
+/* Bundled avatars inside text (for "John and [avatars] X more") */
+.sublime-activity-context__text .sublime-activity-context__avatars-bundle {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin-left: 0;
+  margin-right: 5px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.sublime-activity-context__collection-name {
+  font-weight: 600;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.sublime-activity-context__collection-name:hover {
+  text-decoration: underline;
+}
+
+/* Staff picks activity wrapper */
+.sublime-staff-picks-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px; /* 5px separation from card */
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start; /* Don't stretch to fill parent width */
+  flex-shrink: 0;
+}
+
+/* Activity context with note - stacked layout */
+.sublime-activity-context--with-note {
+  align-items: flex-start;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px - ensures text doesn't bleed */
+  width: fit-content; /* Hug content */
+  max-width: 100%; /* Don't exceed parent - this should constrain the container */
+  align-content: flex-start;
+  align-self: flex-start; /* Ensure it doesn't stretch */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  overflow: hidden; /* Prevent any content from bleeding out */
+  /* Ensure content respects padding */
+  min-width: 0;
+  /* Ensure container respects max-width constraint and content doesn't overflow padding */
+  /* The key is that max-width: 100% should limit the container, and content inside should respect that */
+}
+
+.sublime-activity-context--with-note .sublime-activity-context__avatar {
+  width: 24px;
+  height: 24px;
+  margin-top: 0;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.sublime-activity-context__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px; /* Reduced from 2px to 1px - half the spacing */
+  min-width: 0;
+  flex: 1 1 auto; /* Allow grow/shrink to fill available space */
+  align-items: flex-start;
+  width: auto; /* Let content determine width, constrained by max-width */
+  max-width: 100%; /* Constrain to available space in flex container */
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent content from bleeding */
+  /* Force content to respect container's padding by ensuring it doesn't exceed available space */
+  /* Container has padding: 12px left + 10px right = 22px, avatar: 24px, gap: 8px = 54px total */
+  /* Content wrapper should fill remaining space and note should wrap within that */
+}
+
+.sublime-activity-context__content .sublime-activity-context__user-name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px; /* Match avatar height (24px) for perfect vertical alignment with avatar */
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  white-space: nowrap;
+  margin-bottom: 0;
+  height: 24px; /* Explicitly set height to match avatar */
+  display: flex;
+  align-items: center;
+}
+
+.sublime-activity-context__content .sublime-activity-context__user-name:hover {
+  text-decoration: underline;
+}
+
+.sublime-activity-context__note {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%; /* Fill available width in content container */
+  max-width: 100%; /* Respect container boundaries - don't bleed out */
+  align-self: flex-start;
+  white-space: normal;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Ensure text respects container padding */
+  padding: 0;
+  margin: 0;
+  /* Force text to wrap and respect boundaries - ensure it doesn't exceed parent width */
+  /* The content wrapper has width: 0 and flex: 1, so it fills available space */
+  /* This note should wrap to fit within that space, respecting the container's 10px right padding */
+  flex-shrink: 1; /* Allow note to shrink below its content size */
+}
+
+/* Bundled avatars container - used in summary and "X more" buttons */
+.sublime-activity-context__avatars-bundle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 5px; /* 5px separation between avatars and text */
+}
+
+.sublime-activity-context__avatar-bundled {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #F5F5F5; /* Border to separate overlapping avatars */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Stack avatars horizontally with overlap - leftmost behind, rightmost on top */
+.sublime-activity-context__avatar-bundled:not(:first-child) {
+  margin-left: -8px; /* Overlap by 8px */
+}
+
+/* Progressive z-index so rightmost avatars appear on top */
+.sublime-activity-context__avatar-bundled:nth-child(1) { z-index: 0; }
+.sublime-activity-context__avatar-bundled:nth-child(2) { z-index: 1; }
+.sublime-activity-context__avatar-bundled:nth-child(3) { z-index: 2; }
+.sublime-activity-context__avatar-bundled:nth-child(4) { z-index: 3; }
+
+/* "X more" button - matches activity context styling */
+.sublime-activity-context--more-btn {
+  cursor: pointer;
+  transition: background-color 0.2s ease, text-decoration 0.2s ease;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px */
+  background: #F5F5F5;
+  border-radius: 9999px;
+  width: fit-content;
+  max-width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373; /* Same grayish-black as user names */
+  display: flex;
+  align-items: center;
+  gap: 0; /* Gap handled by margin-right on avatars bundle */
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+.sublime-activity-context__more-text {
+  white-space: nowrap;
+}
+
+.sublime-activity-context--more-btn:hover {
+  background: #EBEBEB;
+  text-decoration: underline;
+}
+
+/* "and X more" count link - same color as user names */
+.sublime-activity-context__more-count {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373; /* Same grayish-black as user names */
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.sublime-activity-context__more-count:hover {
+  text-decoration: underline;
+}
+
+/* --- Library card context (All Cards feed only): single unit = one bubble with collection + note --- */
+.library-context {
+  margin-top: 5px;
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.library-context__bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: #F5F5F5;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.32px;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* First line: collection name(s) — bold, same size as text card body */
+.library-context__collection-line {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #908F8E;
+}
+
+.library-context__collection-name {
+  font-weight: 600;
+  color: #908F8E;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.library-context__collection-name:hover {
+  text-decoration: underline;
+}
+
+/* " and " — regular weight, not clickable */
+.library-context__and {
+  font-weight: 400;
+  color: #908F8E;
+}
+
+/* "N other collections" — same bold style as collection name, clickable */
+.library-context__other-count {
+  font-weight: 600;
+  color: #908F8E;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.library-context__other-count:hover {
+  text-decoration: underline;
+}
+
+/* Second line: note — same size as text card body, regular weight, color #908F8E */
+.library-context__note {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #908F8E;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: normal;
+  min-width: 0;
+}
+
+/* Prevent any inner margin from extending the shell height (would add to visible gap). */
+.sublime-feed__col .sublime-card-shell .sublime-feed__card,
+.sublime-feed__col .sublime-card-shell .sublime-feed__card * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.sublime-feed__card {
+  width: 100%;
+  border-radius: 15px;
+  margin: 0;
+  border: 1px solid #F8F8F8; /* subtle outline so white cards (e.g. PDF previews) don’t get lost on white bg */
+}
+
+/* --- Card shell: hover overlay + save/share/more (applies to all card types) --- */
+.sublime-card-shell {
+  position: relative;
+  width: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sublime-card-shell .sublime-feed__card {
+  border-radius: 15px;
+}
+
+/* Overlay: gradient from blurred/tinted at top to clear at bottom so bottom of card stays interactive (play, source links). */
+.sublime-card-shell__overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  background: linear-gradient(to bottom, rgba(229, 229, 229, 0.45) 0%, transparent 75%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+  mask-size: 100% 100%;
+  mask-position: 0 0;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: 0 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.sublime-card-shell__actions {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.sublime-card-shell:hover .sublime-card-shell__overlay,
+.sublime-card-shell:hover .sublime-card-shell__actions {
+  opacity: 1;
+}
+
+.sublime-card-shell:hover .sublime-card-shell__actions {
+  pointer-events: auto;
+}
+
+.sublime-card-shell__actions-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sublime-card-shell__actions-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Share + More: white circle, 35x35, radius 999, icon #A7A9AB; hover = background only (like shuffle/filters), icon stays solid */
+.sublime-card-shell__action--share,
+.sublime-card-shell__action--more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #A7A9AB;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sublime-card-shell__action--share:hover,
+.sublime-card-shell__action--more:hover {
+  background: #f0f0f0;
+}
+
+.sublime-card-shell__action--share:hover img,
+.sublime-card-shell__action--more:hover img {
+  opacity: 1;
+}
+
+.sublime-card-shell__action--share:focus-visible,
+.sublime-card-shell__action--more:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.sublime-card-shell__action--share img,
+.sublime-card-shell__action--more img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  opacity: 1;
+}
+
+/* Save CTA: top right (with share/more on top), 10px from edges; padding 7px 14px, radius 15, text #909090, bg white */
+.sublime-card-shell__action--save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 15px;
+  background: #fff;
+  color: #909090;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sublime-card-shell__action--save:hover {
+  background: #f0f0f0;
+  color: #707070;
+}
+
+.sublime-card-shell__action--save:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* --- Text card (Figma 1855-80669): 10px padding, #E5E5E5, 500-char truncation, fade-out (no expand/collapse) --- */
+.sublime-card--text {
+  padding: 10px;
+  background: #E5E5E5;
+  border-radius: 15px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--text .sublime-card__body-wrap {
+  position: relative;
+}
+
+.sublime-card--text .sublime-card__body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+}
+
+/* Visual fade at end of truncated text (non-interactive) */
+.sublime-card--text .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+/* Clickable area over the fade: click to expand truncated text (body, caption, or title). Hidden when expanded. */
+.sublime-card__expand-hit {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.sublime-card__body-wrap.is-expanded .sublime-card__expand-hit,
+.sublime-card__caption-text-wrap.is-expanded .sublime-card__expand-hit {
+  display: none;
+}
+
+/* Expand/collapse: "less" line when expanded (no "more" label; expand by clicking fade area) */
+.sublime-card__expand-wrap {
+  flex-shrink: 0;
+  padding-top: 6px;
+}
+
+.sublime-card__less-btn {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sublime-card__less-btn:hover {
+  color: #404040;
+}
+
+.sublime-card__less-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* --- Highlight card: text highlight + author • source (10px gap, source #737373, same body truncation) --- */
+.sublime-card--highlight {
+  padding: 10px;
+  background: #E5E5E5;
+  border-radius: 15px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--highlight .sublime-card__body-wrap {
+  position: relative;
+}
+
+.sublime-card--highlight .sublime-card__body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+}
+
+.sublime-card--highlight .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--highlight .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- Image card: image only (fully wrapped) or image + caption/source below (like highlight) --- */
+.sublime-card--image {
+  overflow: hidden;
+  border-radius: 15px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--image .sublime-card__img-wrap {
+  width: 100%;
+  min-height: 180px; /* reserve space before image loads so first card stays at top and gaps don’t shift */
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+}
+
+.sublime-card--image:not(:has(.sublime-card__caption-wrap)) .sublime-card__img-wrap {
+  border-radius: 15px;
+}
+
+.sublime-card--image .sublime-card__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.sublime-card--image .sublime-card__caption-wrap {
+  padding: 10px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--image .sublime-card__caption-text-wrap {
+  position: relative;
+}
+
+.sublime-card--image .sublime-card__caption {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+/* Fade at end of truncated image caption (same as text/highlight cards) */
+.sublime-card--image .sublime-card__caption-text-wrap .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--image .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- File/PDF card: first-page preview + optional title, caption, author, source (same pattern as image card) --- */
+.sublime-card--file {
+  overflow: hidden;
+  border-radius: 15px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--file .sublime-card__img-wrap {
+  width: 100%;
+  min-height: 180px;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+}
+
+.sublime-card--file:not(:has(.sublime-card__caption-wrap)) .sublime-card__img-wrap {
+  border-radius: 15px;
+}
+
+.sublime-card--file .sublime-card__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.sublime-card--file .sublime-card__caption-wrap {
+  padding: 10px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--file .sublime-card__caption-text-wrap {
+  position: relative;
+}
+
+.sublime-card--file .sublime-card__title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--file .sublime-card__caption {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--file .sublime-card__caption-text-wrap .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--file .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- Video card: native MP4 (autoplay loop muted preview) or YouTube embed; play icon bottom-left --- */
+.sublime-card--video {
+  overflow: hidden;
+  border-radius: 15px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--video .sublime-card__video-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 180px;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  background: #000;
+}
+
+.sublime-card--video:not(:has(.sublime-card__caption-wrap)) .sublime-card__video-wrap {
+  border-radius: 15px;
+}
+
+.sublime-card--video .sublime-card__video {
+  width: 100%;
+  height: auto;
+  min-height: 180px;
+  display: block;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.sublime-card--video .sublime-card__play-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  pointer-events: none;
+}
+
+.sublime-card--video .sublime-card__play-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sublime-card--video .sublime-card__caption-wrap {
+  padding: 10px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--video .sublime-card__caption-text-wrap {
+  position: relative;
+}
+
+.sublime-card--video .sublime-card__title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--video .sublime-card__caption {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--video .sublime-card__caption-text-wrap .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--video .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- My Library default view (Figma 1842-12172) --- */
+/* Hidden by default; only visible when My Library tab is active */
+.library-view {
+  display: none;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 80px 32px 120px;
+  position: relative;
+}
+
+.library-view.library-view--visible {
+  display: flex;
+}
+
+/* My Library: floating More menu (•••) in upper right only; no background, not part of centered content */
+.library-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 16px 32px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.library-top-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.library-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.library-more-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.library-more-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-view-inner {
+  max-width: 550px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Section 1 — Search bar (Figma 1842-12172) */
+.library-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px 10px 5px;
+  background: #EFEFEF;
+  border-radius: 99.99px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.library-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.library-search-clear {
+  flex-shrink: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.library-search-wrap.has-value .library-search-clear {
+  display: flex;
+}
+
+.library-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.library-search {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.library-search::placeholder {
+  color: #A7A9AB;
+}
+
+/* Hide browser default search clear (x) so only our right-side close icon shows */
+.library-search::-webkit-search-cancel-button,
+.library-search::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+.library-search::-moz-search-cancel-button {
+  display: none;
+}
+
+.library-search:focus {
+  outline: none;
+}
+
+.library-search-wrap:focus-within {
+  outline: none;
+}
+
+/* Section 2 — Main modules: floating icon + label, no container/shadow; icon enlarged and centered above text */
+.library-filters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.library-filter-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 12px 8px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  border-radius: 15px;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.library-filter-btn.active {
+  background: transparent;
+}
+
+.library-filter-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.library-filter-btn:hover .library-filter-icon {
+  opacity: 0.9;
+}
+
+.library-filter-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-filter-icon {
+  flex-shrink: 0;
+  display: block;
+  height: 97.7px; /* 81.42 × 1.2 */
+  width: auto;
+  min-width: 0;
+  object-fit: contain;
+}
+
+.library-filter-label {
+  min-width: 0;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #404040;
+  text-align: center;
+}
+
+/* Recents carousel: below filters, above Media types. No hover/CTA on cards. */
+.library-recents-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.library-recents-section .library-section-header {
+  margin: 0;
+  padding: 10px 0 4px 10px;
+  box-sizing: border-box;
+}
+
+/* Carousel matches width of rest of page (library-view-inner max-width). */
+.library-recents-carousel-wrap {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.library-recents-carousel {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  background: #EFEFEF;
+  border-radius: 15px;
+  max-height: 200px;
+  padding: 20px 20px 20px 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+/* Card wrappers: 10px gap between cards (carousel gap), no margin on cards */
+.library-recents-carousel .library-recents-card-wrap {
+  flex-shrink: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  max-height: 160px;
+  display: flex;
+  margin: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-feed__card {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  border: none;
+}
+
+/* Image cards: no gray background — image only, hugged by wrapper’s 15px radius */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--image {
+  background: transparent;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--image .sublime-card__img-wrap {
+  height: 100%;
+  min-height: 0;
+  background: transparent;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--image .sublime-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* File cards: no gray background — preview only, hugged by radius */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--file {
+  background: transparent;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--file .sublime-card__img-wrap {
+  height: 100%;
+  min-height: 0;
+  background: transparent;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--file .sublime-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Video cards: no gray background — video only, hugged by radius */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--video {
+  background: transparent;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--video .sublime-card__video-wrap {
+  height: 100%;
+  min-height: 0;
+  background: #000;
+}
+
+/* Override base min-height: 180px so video fits wrapper and is not cut */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--video .sublime-card__video {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Text/highlight in carousel: mini view; single shape from wrapper (no inner radius) */
+.library-recents-carousel .library-recents-card-wrap .sublime-card--text,
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  min-width: 140px;
+  max-width: 220px;
+  border-radius: 0;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--text .sublime-card__body-wrap,
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight .sublime-card__body-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--text .sublime-card__body,
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight .sublime-card__body {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+
+.library-recents-carousel .library-recents-card-wrap .sublime-card--highlight .sublime-card__source {
+  flex-shrink: 0;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 14px;
+  color: #737373;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.library-recents-carousel .sublime-card__fade,
+.library-recents-carousel .sublime-card__expand-hit,
+.library-recents-carousel .sublime-card__expand-wrap {
+  display: none !important;
+}
+
+/* In carousel, show only preview for image/file/video cards (no caption/meta) so size stays consistent */
+.library-recents-carousel .sublime-card--image .sublime-card__caption-wrap,
+.library-recents-carousel .sublime-card--file .sublime-card__caption-wrap,
+.library-recents-carousel .sublime-card--video .sublime-card__caption-wrap {
+  display: none;
+}
+
+/* Section titles */
+.library-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.library-section:has(.library-pinned-list) {
+  gap: 0;
+}
+
+/* Tighter title→content spacing for Media types */
+.library-section:has(.library-media-grid) {
+  gap: 0;
+}
+
+/* Section header: icon + title (Recents, Media types, Pinned collections); left 10px, top 10px, bottom 4px for tighter spacing to content */
+.library-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 10px 0 4px 10px;
+  box-sizing: border-box;
+}
+
+.library-section-header__icon {
+  display: block;
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+/* Imports section: icon only uses #B0B2B3 at 50%; title stays #A7A9AB via .library-section-title */
+.library-section--imports .library-section-header__icon {
+  filter: brightness(0) saturate(100%) invert(69%); /* #B0B2B3 */
+  opacity: 0.5;
+}
+
+.library-section-header .library-section-title {
+  padding: 0;
+}
+
+.library-section-title {
+  margin: 0;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #A7A9AB;
+  box-sizing: border-box;
+}
+
+/* Section 3 — Pinned collections: title outside container; tight title→content gap */
+.library-section.library-section--pinned {
+  gap: 0;
+}
+
+.library-pinned-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+}
+
+.library-pinned-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.library-pinned-card .library-pinned-list {
+  padding: 0;
+}
+
+.library-pinned-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 5px 0 5px 5px;
+  background: transparent;
+  border-radius: 15px;
+  color: #404040;
+  text-decoration: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-sizing: border-box;
+}
+
+.library-pinned-item:hover {
+  background: #e8e8e8;
+}
+
+.library-pinned-item__icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(79%); /* #C8CACA */
+}
+
+/* Label can be direct child or inside label-wrap (locked items) */
+.library-pinned-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.library-pinned-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.library-pinned-label-wrap .library-pinned-label {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.library-pinned-lock {
+  flex-shrink: 0;
+  margin-left: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(79%); /* #C8CACA */
+}
+
+/* Number to the left of chevron; 0 gap between number and chevron */
+.library-pinned-count {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #A7A9AB;
+}
+
+.library-pinned-chevron {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  opacity: 0.5;
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Section 4 — Media types */
+.library-media-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 550px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.library-media-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  padding: 0 10px 0 0;
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  color: #909090;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-sizing: border-box;
+}
+
+.library-media-btn:hover {
+  background: #f5f5f5;
+}
+
+.library-media-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-media-icon {
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  display: block;
+  opacity: 0.5;
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.library-media-label {
+  flex: 1;
+  min-width: 0;
+  color: #909090;
+}
+
+/* --- Placeholder views (Inbox, Profile) --- */
+.inbox-view,
+.profile-view {
+  display: none;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 80px 32px 120px;
+  background: #fff;
+}
+
+.inbox-view.inbox-view--visible,
+.profile-view.profile-view--visible {
+  display: flex;
+}
+
+.placeholder-view-inner {
+  flex: 1;
+  min-height: 0;
+}
+
+/* --- All cards page (reuses collection layout: title only, no Follow/Share/Chat) --- */
+.all-cards-view {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  overflow: hidden;
+}
+
+.all-cards-view.all-cards-view--visible {
+  display: flex;
+}
+
+/* --- Collections directory (My Library > Collections) --- */
+.collections-directory-view {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  overflow: hidden;
+}
+
+.collections-directory-view.collections-directory-view--visible {
+  display: flex;
+}
+
+/* Collections directory: only Shuffle, Filters (no bg), Search (circle); no More. Reuse All cards action styles. */
+.collections-directory-actions .collection-actions-group--three {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.collections-directory-actions .collection-actions-group--three .collection-action-btn:not(.collection-action-btn--circle) {
+  background: transparent;
+}
+
+.collections-directory-actions .collection-actions-group--three .collection-action-btn:not(.collection-action-btn--circle):hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.collections-directory-actions .collection-action-btn--circle {
+  background: #EFEFEF;
+  margin-left: 10px;
+}
+
+.collections-directory-actions .collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.collections-directory-list-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+  box-sizing: border-box;
+}
+
+.collections-directory-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.collections-directory-item {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 10px 14px 10px 10px;
+  height: 170px;
+  min-height: 170px;
+  box-sizing: border-box;
+  background: #EFEFEF;
+  border-radius: 15px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.collections-directory-item:hover {
+  background: #e8e8e8;
+}
+
+.collections-directory-item__left {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+  align-items: center;
+  align-content: start;
+}
+
+.collections-directory-item__icon-wrap {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collections-directory-item__icon {
+  width: 35px;
+  height: 35px;
+  display: block;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(56%) sepia(0%) saturate(0%); /* #908F8E */
+}
+
+.collections-directory-item__title {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+  overflow: hidden;
+  color: #908F8E;
+  font-feature-settings: 'ss12' on;
+  text-overflow: ellipsis;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 28px;
+  letter-spacing: -0.56px;
+  white-space: nowrap;
+}
+
+.collections-directory-item__owner {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin: 0;
+  overflow: hidden;
+  color: #908F8E;
+  font-feature-settings: 'ss12' on;
+  text-overflow: ellipsis;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.collections-directory-item__right {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-height: 0;
+}
+
+.collections-directory-minis {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  max-height: 118px;
+}
+
+.collections-directory-mini {
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.collections-directory-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collections-directory-mini--text {
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  color: #737373;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-align: left;
+}
+
+.collections-directory-item__count-row {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  padding: 0;
+}
+
+.collections-directory-item__count {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #A7A9AB;
+  min-width: 1.5em;
+  text-align: right;
+}
+
+.collections-directory-item__chevron {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  opacity: 0.5;
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg); /* #A7A9AB at 50% via opacity */
+}
+
+.collections-directory-mini-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* All cards top bar: expandable search (slides left, 10px from back button) */
+/* Buttery easing for search expand/collapse */
+.all-cards-top-bar-inner .all-cards-search-wrap {
+  flex: 0 0 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px;
+  background: rgba(229, 229, 229, 0.40);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 56.927px;
+  box-sizing: border-box;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+  visibility: hidden;
+}
+
+.all-cards-top-bar-inner.all-cards-search-expanded .all-cards-search-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  opacity: 1;
+  margin-left: 10px;
+  visibility: visible;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.all-cards-top-bar-inner .all-cards-actions {
+  overflow: hidden;
+  max-width: 200px;
+  opacity: 1;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
+}
+
+.all-cards-top-bar-inner.all-cards-search-expanded .all-cards-actions {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+}
+
+/* All Cards: only the Search icon has circle background (like Share on collection page); More, Shuffle, Filters have no background */
+.all-cards-actions .collection-actions-group--four .collection-action-btn:not(.collection-action-btn--circle) {
+  background: transparent;
+}
+
+.all-cards-actions .collection-actions-group--four .collection-action-btn:not(.collection-action-btn--circle):hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.all-cards-actions .collection-action-btn--circle {
+  background: #EFEFEF;
+}
+
+.all-cards-actions .collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.all-cards-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.all-cards-search-clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.all-cards-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.all-cards-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.all-cards-search-input::placeholder {
+  color: #A7A9AB;
+}
+
+.all-cards-search-input::-webkit-search-cancel-button,
+.all-cards-search-input::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.all-cards-search-input::-moz-search-cancel-button {
+  display: none;
+}
+
+.all-cards-search-input:focus {
+  outline: none;
+}
+
+.all-cards-search-wrap:focus-within {
+  outline: none;
+  background: rgba(229, 229, 229, 0.60);
+}
+
+/* --- Collection landing page: same expandable search (slide left from back, 10px gap; X and Escape collapse) --- */
+.collection-view .collection-search-wrap {
+  flex: 0 0 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px;
+  background: rgba(229, 229, 229, 0.40);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 56.927px;
+  box-sizing: border-box;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+  visibility: hidden;
+}
+
+.collection-view .collection-search-top-bar-inner.collection-search-expanded .collection-search-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  opacity: 1;
+  margin-left: 10px;
+  visibility: visible;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.collection-view .collection-search-top-bar-inner .collection-actions {
+  overflow: hidden;
+  max-width: 500px;
+  opacity: 1;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
+}
+
+.collection-view .collection-search-top-bar-inner.collection-search-expanded .collection-actions {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+}
+
+.collection-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.collection-search-clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.collection-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.collection-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.collection-search-input::placeholder {
+  color: #A7A9AB;
+}
+
+.collection-search-input::-webkit-search-cancel-button,
+.collection-search-input::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.collection-search-input::-moz-search-cancel-button {
+  display: none;
+}
+
+.collection-search-input:focus {
+  outline: none;
+}
+
+.collection-search-wrap:focus-within {
+  outline: none;
+  background: rgba(229, 229, 229, 0.60);
+}
+
+/* All cards header: title only (no subtitle or meta) */
+.collection-header--title-only .collection-header__subtitle,
+.collection-header--title-only .collection-header__meta {
+  display: none;
+}
+
+/* --- Collection landing page (xx6) — scroll behind top bar and bottom nav like Sublime --- */
+.collection-view {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  overflow: hidden;
+}
+
+.collection-view.collection-view--visible {
+  display: flex;
+}
+
+.collection-top-bar {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 16px 32px;
+  background: transparent;
+}
+
+.collection-top-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.collection-top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 10px between back button and collapsible collection name */
+  min-width: 0;
+}
+
+.collection-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #EFEFEF;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.collection-back-btn:hover {
+  background: #E5E5E5;
+}
+
+.collection-back-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.collection-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.collection-back-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  max-width: 35px;
+  max-height: 35px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(68%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.collection-title-mini {
+  display: none;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 1.15;
+  letter-spacing: -0.56px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 2px;
+}
+
+.collection-top-bar.collection-top-bar--mini .collection-title-mini {
+  display: block;
+}
+
+.collection-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.collection-actions-group--four {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.collection-actions-group--four .collection-action-btn {
+  background: #fff;
+}
+
+.collection-actions-group--four .collection-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* All Cards page only: search trigger matches back button (same as .collection-back-btn) */
+#all-cards-top-bar .all-cards-actions .collection-action-btn--circle {
+  background: #EFEFEF;
+  margin-left: 10px; /* same separation as .collection-actions gap between group and chat/share on collection landing */
+}
+#all-cards-top-bar .all-cards-actions .collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.collection-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.collection-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.collection-action-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.collection-action-btn--circle {
+  background: #EFEFEF;
+}
+
+.collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.collection-action-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  max-width: 35px;
+  max-height: 35px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(68%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.collection-actions-group--four .collection-action-btn:nth-child(2) .collection-action-icon,
+.collection-actions-group--four .collection-action-btn:nth-child(3) .collection-action-icon {
+  filter: none;
+}
+
+.collection-action-btn--circle .collection-action-icon {
+  filter: none;
+}
+
+.collection-action-btn--chat .collection-icon-wrap {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+}
+
+.collection-action-btn--chat .collection-action-icon {
+  width: 28px;
+  height: 28px;
+  max-width: 28px;
+  max-height: 28px;
+}
+
+.collection-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 15px;
+  background: #EFEFEF;
+  color: #909090;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.collection-follow-btn:hover {
+  background: #E5E5E5;
+}
+
+.collection-follow-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.collection-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  /* 40px below bottom of top nav (nav ~76px) then content starts */
+  padding: 116px 32px 120px;
+  padding-bottom: max(120px, env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.collection-feed-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+  box-sizing: border-box;
+}
+
+.collection-header {
+  margin: 0 0 80px;
+  padding: 0 0 0 10px;
+}
+
+.collection-header__title {
+  margin: 0 0 5px;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 28px;
+  letter-spacing: -0.56px;
+}
+
+.collection-header__subtitle {
+  margin: 0 0 5px;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+}
+
+.collection-header__meta {
+  margin: 0;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+}
+
+/* Same two-column grid and card spacing as Sublime feed */
+.collection-feed {
+  --feed-gap: 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--feed-gap);
+  align-items: start;
+  align-content: start;
+}
+
+.collection-feed__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.collection-feed__col .sublime-card-shell {
+  flex-shrink: 0;
+  margin: 0 0 var(--feed-gap) 0;
+}
+
+.collection-feed__col .sublime-card-shell:last-child {
+  margin-bottom: 0;
+}
+
+.collection-feed__col .sublime-card-shell .sublime-feed__card,
+.collection-feed__col .sublime-card-shell .sublime-feed__card * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}

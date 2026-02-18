@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XX9 Design System</title>
+  <link rel="stylesheet" href="../xx9/xx9.css" />
+  <link rel="stylesheet" href="design-system.css" />
+</head>
+<body>
+  <div class="ds-doc">
+    <h1 class="ds-page-title">XX9 Design System</h1>
+    <p class="ds-page-subtitle">Master component library and design tokens for XX9. All styles from xx9.css.</p>
+
+    <nav class="ds-nav" aria-label="Design system navigation">
+      <ul class="ds-nav-list">
+        <li><a href="#colors">Colors</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#shadows">Shadows</a></li>
+        <li><a href="#radius">Border radius</a></li>
+        <li><a href="#spacing">Spacing</a></li>
+        <li><a href="#components-nav">Navigation</a></li>
+        <li><a href="#components-sublime">Sublime</a></li>
+        <li><a href="#components-library">Library</a></li>
+        <li><a href="#components-collection">Collection</a></li>
+        <li><a href="#components-directory">Collections directory</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========== FOUNDATIONS ========== -->
+    <section class="ds-section" id="colors">
+      <h2 class="ds-section-title">Colors</h2>
+      <div class="ds-swatches">
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #404040;"></div>
+          <div class="ds-swatch__label">Primary text</div>
+          <div class="ds-swatch__value">#404040</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #A7A9AB;"></div>
+          <div class="ds-swatch__label">Muted / inactive</div>
+          <div class="ds-swatch__value">#A7A9AB</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #737373;"></div>
+          <div class="ds-swatch__label">Secondary text</div>
+          <div class="ds-swatch__value">#737373</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #908F8E;"></div>
+          <div class="ds-swatch__label">Tertiary / meta</div>
+          <div class="ds-swatch__value">#908F8E</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #909090;"></div>
+          <div class="ds-swatch__label">Muted button</div>
+          <div class="ds-swatch__value">#909090</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #fff; border: 1px solid #eee;"></div>
+          <div class="ds-swatch__label">White</div>
+          <div class="ds-swatch__value">#fff</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #F8F8F8;"></div>
+          <div class="ds-swatch__label">Card bg</div>
+          <div class="ds-swatch__value">#F8F8F8</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #F5F5F5;"></div>
+          <div class="ds-swatch__label">Light gray</div>
+          <div class="ds-swatch__value">#F5F5F5</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #EFEFEF;"></div>
+          <div class="ds-swatch__label">Input / pill bg</div>
+          <div class="ds-swatch__value">#EFEFEF</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #ebebeb;"></div>
+          <div class="ds-swatch__label">Nav / panel</div>
+          <div class="ds-swatch__value">#ebebeb</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #E5E5E5;"></div>
+          <div class="ds-swatch__label">Medium gray</div>
+          <div class="ds-swatch__value">#E5E5E5</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #e8e8e8;"></div>
+          <div class="ds-swatch__label">Hover bg</div>
+          <div class="ds-swatch__value">#e8e8e8</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #CBFFA6;"></div>
+          <div class="ds-swatch__label">Accent green</div>
+          <div class="ds-swatch__value">#CBFFA6</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #38744D;"></div>
+          <div class="ds-swatch__label">Green text</div>
+          <div class="ds-swatch__value">#38744D</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #c4f59a;"></div>
+          <div class="ds-swatch__label">Green hover</div>
+          <div class="ds-swatch__value">#c4f59a</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #007AFF;"></div>
+          <div class="ds-swatch__label">Caret / link</div>
+          <div class="ds-swatch__value">#007AFF</div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color" style="background: #3D3D3D;"></div>
+          <div class="ds-swatch__label">Card text</div>
+          <div class="ds-swatch__value">#3D3D3D</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="typography">
+      <h2 class="ds-section-title">Typography</h2>
+      <p class="ds-section-subtitle" style="margin-top: 0;">Font stack</p>
+      <p class="ds-usage">-apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif</p>
+      <p class="ds-section-subtitle">Type scale</p>
+      <div class="ds-type-row">
+        <div class="ds-type-label">28px — Collection / page title</div>
+        <div style="font-size: 28px; font-weight: 510; line-height: 28px; letter-spacing: -0.56px; color: #908F8E;">Collection title</div>
+        <div class="ds-type-value">28px / 510 / 28px / -0.56px</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">18px — Body default</div>
+        <div style="font-size: 18px; font-weight: 600; line-height: 24px; letter-spacing: -0.02em; color: #404040;">Body text</div>
+        <div class="ds-type-value">18px / 600 / 24px / -0.02em</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">16px — Card body, search, labels</div>
+        <div style="font-size: 16px; font-weight: 400; line-height: 22px; letter-spacing: -0.32px; color: #3D3D3D;">Card body text</div>
+        <div class="ds-type-value">16px / 400 / 17–22px / -0.32px</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">15px — Buttons, section title, filter label</div>
+        <div style="font-size: 15px; font-weight: 600; line-height: 20px; letter-spacing: -0.02em; color: #404040;">Button label</div>
+        <div class="ds-type-value">15px / 500–600 / 20px / -0.02em</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">14px — Activity, caption, small UI</div>
+        <div style="font-size: 14px; font-weight: 400; line-height: 18px; letter-spacing: -0.2px; color: #737373;">Activity context</div>
+        <div class="ds-type-value">14px / 400–600 / 18–24px / -0.2px</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">13px — Nav label</div>
+        <div style="font-size: 13px; font-weight: 600; line-height: 16px; letter-spacing: 0; color: #404040;">Sublime</div>
+        <div class="ds-type-value">13px / 16px / 0</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">11px — Mini text (e.g. directory)</div>
+        <div style="font-size: 11px; font-weight: 500; line-height: 14px; letter-spacing: -0.02em; color: #737373;">Mini caption</div>
+        <div class="ds-type-value">11px / 500 / 14px / -0.02em</div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="shadows">
+      <h2 class="ds-section-title">Shadows</h2>
+      <div class="ds-shadow-grid">
+        <div>
+          <div class="ds-shadow-item" style="box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);"></div>
+          <div class="ds-shadow-value">0 2px 10px 0 rgba(149, 156, 166, 0.25)</div>
+        </div>
+        <div>
+          <div class="ds-shadow-item" style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);"></div>
+          <div class="ds-shadow-value">0 1px 4px rgba(0, 0, 0, 0.08)</div>
+        </div>
+        <div>
+          <div class="ds-shadow-item" style="box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);"></div>
+          <div class="ds-shadow-value">0 2px 12px rgba(0, 0, 0, 0.1)</div>
+        </div>
+        <div>
+          <div class="ds-shadow-item" style="box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);"></div>
+          <div class="ds-shadow-value">0 2px 12px rgba(0, 0, 0, 0.08)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="radius">
+      <h2 class="ds-section-title">Border radius</h2>
+      <div class="ds-radius-grid">
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 8px;"></div>
+          <div class="ds-radius-value">8px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 10px;"></div>
+          <div class="ds-radius-value">10px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 12px;"></div>
+          <div class="ds-radius-value">12px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 15px;"></div>
+          <div class="ds-radius-value">15px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 18px;"></div>
+          <div class="ds-radius-value">18px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 20px;"></div>
+          <div class="ds-radius-value">20px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 25px;"></div>
+          <div class="ds-radius-value">25px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 50%;"></div>
+          <div class="ds-radius-value">50%</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 999px;"></div>
+          <div class="ds-radius-value">999px</div>
+        </div>
+        <div class="ds-radius-item">
+          <div class="ds-radius-box" style="border-radius: 9999px;"></div>
+          <div class="ds-radius-value">9999px</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="spacing">
+      <h2 class="ds-section-title">Spacing</h2>
+      <div class="ds-spacing-list">
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 2px; height: 24px;"></div>
+          <span class="ds-spacing-value">2px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 4px; height: 24px;"></div>
+          <span class="ds-spacing-value">4px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 5px; height: 24px;"></div>
+          <span class="ds-spacing-value">5px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 6px; height: 24px;"></div>
+          <span class="ds-spacing-value">6px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 8px; height: 24px;"></div>
+          <span class="ds-spacing-value">8px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 10px; height: 24px;"></div>
+          <span class="ds-spacing-value">10px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 12px; height: 24px;"></div>
+          <span class="ds-spacing-value">12px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 16px; height: 24px;"></div>
+          <span class="ds-spacing-value">16px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 28px; height: 24px;"></div>
+          <span class="ds-spacing-value">28px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 32px; height: 24px;"></div>
+          <span class="ds-spacing-value">32px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 40px; height: 24px;"></div>
+          <span class="ds-spacing-value">40px</span>
+        </div>
+        <div class="ds-spacing-item">
+          <div class="ds-spacing-visual" style="width: 90px; height: 24px;"></div>
+          <span class="ds-spacing-value">90px (feed gap)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== COMPONENTS ========== -->
+    <section class="ds-section" id="components-nav">
+      <h2 class="ds-section-title">Navigation</h2>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Bottom nav bar (.nav-bar-e3) — inactive / active</div>
+        <p class="ds-usage">Nav: bottom bar, Sublime / Library (icon + label), Inbox (icon only), Profile.</p>
+        <nav class="nav-bar-e3" aria-label="Navigation">
+          <div class="nav-e3-inner">
+            <div class="nav-e3-left">
+              <button type="button" class="nav-e3-item" data-tab="sublime">
+                <span class="nav-e3-icon"><img src="../assets/Sublime.svg" alt="" width="24" height="24" class="nav-e3-icon-img" /></span>
+                <span class="nav-e3-label">Sublime</span>
+              </button>
+              <button type="button" class="nav-e3-item active" data-tab="library">
+                <span class="nav-e3-icon"><img src="../assets/library.svg" alt="" width="24" height="24" class="nav-e3-icon-img" /></span>
+                <span class="nav-e3-label">My Library</span>
+              </button>
+            </div>
+            <div class="nav-e3-right">
+              <button type="button" class="nav-e3-item nav-e3-item--icon-only" data-tab="inbox">
+                <span class="nav-e3-icon"><img src="../assets/inbox.svg" alt="" width="26" height="23" class="nav-e3-icon-img nav-e3-icon-inbox" /></span>
+              </button>
+              <button type="button" class="nav-e3-profile-wrap" data-tab="profile">
+                <img src="../assets/me.svg" alt="" width="40" height="40" class="nav-e3-avatar" />
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Add FAB + menu (.nav-add-e2-wrap) — expanded</div>
+        <p class="ds-usage">Plus CTA: fixed bottom-right; menu with Import (submenu), Collection, Canvas, Link, Note, Upload.</p>
+        <div class="nav-add-e2-wrap is-expanded" style="position: relative; margin-top: 16px;">
+          <div class="nav-add-e2-menu" aria-hidden="false" style="opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto;">
+            <div class="nav-add-e2-menu-section nav-add-e2-menu-section--import">
+              <div class="nav-add-e2-action-row">
+                <button type="button" class="nav-add-e2-action"><img src="../assets/import-2.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" /><span class="nav-add-e2-action-label">Import</span><img src="../assets/chevron.svg" alt="" width="20" height="20" class="nav-add-e2-chevron" /></button>
+              </div>
+            </div>
+            <div class="nav-add-e2-menu-section nav-add-e2-menu-section--collection-canvas">
+              <div class="nav-add-e2-menu-section__items">
+                <button type="button" class="nav-add-e2-action"><img src="../assets/collection.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" /><span class="nav-add-e2-action-label">Collection</span></button>
+                <button type="button" class="nav-add-e2-action"><img src="../assets/CANVAS.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" /><span class="nav-add-e2-action-label">Canvas</span></button>
+              </div>
+            </div>
+            <div class="nav-add-e2-menu-section">
+              <div class="nav-add-e2-menu-section__items">
+                <button type="button" class="nav-add-e2-action"><img src="../assets/links.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" /><span class="nav-add-e2-action-label">Link</span></button>
+                <button type="button" class="nav-add-e2-action"><img src="../assets/write.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" /><span class="nav-add-e2-action-label">Note</span></button>
+                <button type="button" class="nav-add-e2-action"><img src="../assets/upload.svg" alt="" width="35" height="35" class="nav-add-e2-action-icon" /><span class="nav-add-e2-action-label">Upload</span></button>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="nav-add-e2 is-visible" aria-label="Add">
+            <span class="nav-add-e2-icon-wrap"><img src="../assets/ADD.svg" alt="" width="40" height="40" class="nav-add-e2-icon" /></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="components-sublime">
+      <h2 class="ds-section-title">Sublime</h2>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Category pills (.sublime-category-btn) — Staff picks / Following</div>
+        <p class="ds-usage">Sublime top bar: active (green) and inactive (gray) states.</p>
+        <div class="sublime-categories" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="sublime-category-btn active" data-sublime="staff-picks">
+            <img src="../assets/staff-picks-inactive.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--inactive" />
+            <img src="../assets/staff-picks.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--active" />
+            <span class="sublime-category-label">Staff picks</span>
+          </button>
+          <button type="button" class="sublime-category-btn" data-sublime="following">
+            <img src="../assets/following.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--inactive" />
+            <img src="../assets/following-active.svg" alt="" width="35" height="35" class="sublime-category-icon sublime-category-icon--active" />
+            <span class="sublime-category-label">Following</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Search bar (.sublime-search-wrap)</div>
+        <div class="sublime-search-wrap" style="max-width: 315px;">
+          <img src="../assets/search.svg" alt="" width="35" height="35" class="sublime-search-icon" />
+          <input type="search" class="sublime-search" placeholder="Search or ask anything" readonly />
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Action buttons (.sublime-action-btn) — Shuffle, Filters</div>
+        <div class="sublime-actions" style="max-width: none;">
+          <button type="button" class="sublime-action-btn"><img src="../assets/shuffle.svg" alt="" width="35" height="35" class="sublime-action-icon" /></button>
+          <button type="button" class="sublime-action-btn"><img src="../assets/filters.svg" alt="" width="35" height="35" class="sublime-action-icon" /></button>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Feed cards — text, highlight, image (with shell overlay + actions)</div>
+        <p class="ds-usage">Card shell: overlay + Save, Share, More on hover.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 500px;">
+          <div class="sublime-card-shell">
+            <div class="sublime-card-shell__overlay"></div>
+            <div class="sublime-card-shell__actions">
+              <div class="sublime-card-shell__actions-left"><button type="button" class="sublime-card-shell__action--save">Save</button></div>
+              <div class="sublime-card-shell__actions-right">
+                <button type="button" class="sublime-card-shell__action--share"><img src="../assets/SHARE.svg" alt="" width="35" height="35" /></button>
+                <button type="button" class="sublime-card-shell__action--more"><img src="../assets/MORE-MENU.svg" alt="" width="35" height="35" /></button>
+              </div>
+            </div>
+            <article class="sublime-feed__card sublime-card--text">
+              <div class="sublime-card__body-wrap"><div class="sublime-card__body">This is a text card body. It uses 16px / 400 / 17px and #3D3D3D with fade at end when truncated.</div></div>
+            </article>
+          </div>
+          <div class="sublime-card-shell">
+            <article class="sublime-feed__card sublime-card--highlight">
+              <div class="sublime-card__body-wrap"><div class="sublime-card__body">Highlight card with body text.</div></div>
+              <div class="sublime-card__source">— Source title</div>
+            </article>
+          </div>
+        </div>
+        <div style="max-width: 280px; margin-top: 16px;">
+          <div class="sublime-card-shell">
+            <article class="sublime-feed__card sublime-card--image">
+              <div class="sublime-card__img-wrap"><img src="../feed images/1050.jpg" alt="" class="sublime-card__img" /></div>
+              <div class="sublime-card__caption-wrap"><div class="sublime-card__caption">Image caption</div><div class="sublime-card__source">Source</div></div>
+            </article>
+          </div>
+        </div>
+        <div style="max-width: 280px; margin-top: 16px;">
+          <div class="sublime-card-shell">
+            <article class="sublime-feed__card sublime-card--file">
+              <div class="sublime-card__img-wrap"><img src="../feed images/1050.jpg" alt="" class="sublime-card__img" /></div>
+              <div class="sublime-card__caption-wrap"><div class="sublime-card__title">File title</div><div class="sublime-card__caption">Caption</div><div class="sublime-card__source">Source</div></div>
+            </article>
+          </div>
+        </div>
+        <div style="max-width: 280px; margin-top: 16px;">
+          <div class="sublime-card-shell">
+            <article class="sublime-feed__card sublime-card--video">
+              <div class="sublime-card__video-wrap"><img src="../feed images/1050.jpg" alt="" class="sublime-card__img" style="width:100%;height:100%;object-fit:cover;" /><div class="sublime-card__play-icon"><img src="../assets/PLAY.svg" alt="" width="35" height="35" /></div></div>
+              <div class="sublime-card__caption-wrap"><div class="sublime-card__title">Video title</div><div class="sublime-card__source">Source</div></div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Activity context (.sublime-activity-context)</div>
+        <p class="ds-usage">Below cards: avatar + user names and action; with note variant.</p>
+        <div class="sublime-activity-context" style="margin-top: 0;">
+          <img src="../assets/me.svg" alt="" class="sublime-activity-context__avatar" width="24" height="24" />
+          <span class="sublime-activity-context__text">
+            <span class="sublime-activity-context__user-name">Alice</span><span class="sublime-activity-context__action"> and </span><span class="sublime-activity-context__user-name">Bob</span><span class="sublime-activity-context__action"> saved to </span><span class="sublime-activity-context__collection-name">Collection</span>
+          </span>
+        </div>
+        <div class="sublime-activity-context sublime-activity-context--with-note" style="margin-top: 8px;">
+          <img src="../assets/me.svg" alt="" class="sublime-activity-context__avatar" width="24" height="24" />
+          <div class="sublime-activity-context__content">
+            <span class="sublime-activity-context__user-name">Alice</span>
+            <div class="sublime-activity-context__note">A short note on this save.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Library context bubble (.library-context__bubble) — All Cards</div>
+        <div class="library-context">
+          <div class="library-context__bubble">
+            <div class="library-context__collection-line"><span class="library-context__collection-name">Collection name</span><span class="library-context__and"> and </span><span class="library-context__other-count">2 other collections</span></div>
+            <div class="library-context__note">Note text here.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="components-library">
+      <h2 class="ds-section-title">Library</h2>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Library search (.library-search-wrap)</div>
+        <div class="library-search-wrap" style="max-width: 400px;">
+          <img src="../assets/search.svg" alt="" width="35" height="35" class="library-search-icon" />
+          <input type="search" class="library-search" placeholder="Search or ask anything" readonly />
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Filter buttons (.library-filter-btn) — All cards, Collections, Canvases, Favorites</div>
+        <div class="library-filters" style="max-width: 500px;">
+          <button type="button" class="library-filter-btn" data-filter="all-cards"><img src="../assets/all-cards-hires.png" alt="" width="85" height="82" class="library-filter-icon" /><span class="library-filter-label">All cards</span></button>
+          <button type="button" class="library-filter-btn active" data-filter="collections"><img src="../assets/collections-hires.png" alt="" width="85" height="82" class="library-filter-icon" /><span class="library-filter-label">Collections</span></button>
+          <button type="button" class="library-filter-btn" data-filter="canvases"><img src="../assets/canvases-hires.png" alt="" width="85" height="82" class="library-filter-icon" /><span class="library-filter-label">Canvases</span></button>
+          <button type="button" class="library-filter-btn" data-filter="favorites"><img src="../assets/favorites-hires.png" alt="" width="85" height="82" class="library-filter-icon" /><span class="library-filter-label">Favorites</span></button>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Section header (.library-section-header-btn) — collapsible</div>
+        <button type="button" class="library-section-header-btn" aria-expanded="true">
+          <img src="../assets/MEDIA_TYPES.svg" alt="" width="35" height="35" class="library-section-header__icon" />
+          <h2 class="library-section-title">Media types</h2>
+          <img src="../assets/chevron.svg" alt="" width="20" height="20" class="library-section-header__chevron" />
+        </button>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Media type pills (.library-media-btn)</div>
+        <div class="library-media-grid" style="max-width: 100%;">
+          <button type="button" class="library-media-btn"><img src="../assets/articles.svg" alt="" class="library-media-icon" /><span class="library-media-label">Articles</span></button>
+          <button type="button" class="library-media-btn"><img src="../assets/audio.svg" alt="" class="library-media-icon" /><span class="library-media-label">Audio</span></button>
+          <button type="button" class="library-media-btn"><img src="../assets/books.svg" alt="" class="library-media-icon" /><span class="library-media-label">Books</span></button>
+          <button type="button" class="library-media-btn"><img src="../assets/images.svg" alt="" class="library-media-icon" /><span class="library-media-label">Images</span></button>
+          <button type="button" class="library-media-btn"><img src="../assets/videos.svg" alt="" class="library-media-icon" /><span class="library-media-label">Videos</span></button>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Pinned card + list (.library-pinned-card, .library-pinned-item)</div>
+        <div class="library-pinned-card" style="max-width: 320px;">
+          <ul class="library-pinned-list">
+            <li><a href="#" class="library-pinned-item"><img src="../assets/PUBLIC.svg" alt="" width="35" height="35" class="library-pinned-item__icon" /><span class="library-pinned-label">Child wisdom</span><span class="library-pinned-count">3</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" /></a></li>
+            <li><a href="#" class="library-pinned-item"><img src="../assets/PRIVATE.svg" alt="" width="35" height="35" class="library-pinned-item__icon" /><span class="library-pinned-label">Private collection</span><span class="library-pinned-count">7</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" /></a></li>
+            <li><a href="#" class="library-pinned-item"><span class="library-pinned-label-wrap"><span class="library-pinned-label">Locked</span><img src="../assets/lock.svg" alt="" width="35" height="35" class="library-pinned-lock" /></span><span class="library-pinned-count">1</span><img src="../assets/chevron.svg" alt="" width="35" height="35" class="library-pinned-chevron" /></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section" id="components-collection">
+      <h2 class="ds-section-title">Collection / All cards</h2>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Top bar — back, title, search, actions (.collection-back-btn, .collection-actions, .collection-follow-btn)</div>
+        <div class="collection-top-bar" style="position: relative;">
+          <div class="collection-top-bar-inner">
+            <div class="collection-top-bar-left">
+              <button type="button" class="collection-back-btn"><span class="collection-icon-wrap"><img src="../assets/BACK.svg" alt="" width="35" height="35" class="collection-back-icon" /></span></button>
+              <span class="collection-title-mini">Collection name</span>
+            </div>
+            <div class="collection-actions">
+              <div class="collection-actions-group collection-actions-group--four">
+                <button type="button" class="collection-action-btn"><span class="collection-icon-wrap"><img src="../assets/MORE-MENU.svg" alt="" width="35" height="35" class="collection-action-icon" /></span></button>
+                <button type="button" class="collection-action-btn"><span class="collection-icon-wrap"><img src="../assets/shuffle.svg" alt="" width="35" height="35" class="collection-action-icon" /></span></button>
+                <button type="button" class="collection-action-btn"><span class="collection-icon-wrap"><img src="../assets/filters.svg" alt="" width="35" height="35" class="collection-action-icon" /></span></button>
+                <button type="button" class="collection-action-btn"><span class="collection-icon-wrap"><img src="../assets/search.svg" alt="" width="35" height="35" class="collection-action-icon" /></span></button>
+              </div>
+              <button type="button" class="collection-action-btn collection-action-btn--circle collection-action-btn--chat"><span class="collection-icon-wrap"><img src="../assets/CHAT.svg" alt="" width="28" height="28" class="collection-action-icon" /></span></button>
+              <button type="button" class="collection-action-btn collection-action-btn--circle"><span class="collection-icon-wrap"><img src="../assets/SHARE.svg" alt="" width="35" height="35" class="collection-action-icon" /></span></button>
+              <button type="button" class="collection-follow-btn">Follow</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Collection header (.collection-header)</div>
+        <header class="collection-header">
+          <div class="collection-header__title-row"><h1 class="collection-header__title">Dialogo</h1></div>
+          <p class="collection-header__subtitle">A device for connection</p>
+          <p class="collection-header__meta">by Joel • 44</p>
+        </header>
+      </div>
+    </section>
+
+    <section class="ds-section" id="components-directory">
+      <h2 class="ds-section-title">Collections directory</h2>
+
+      <div class="ds-component">
+        <div class="ds-component-title">Directory list item (.collections-directory-item)</div>
+        <p class="ds-usage">Icon, title, description, owner, mini thumbnails, count, chevron.</p>
+        <ul class="collections-directory-list" style="max-width: 600px;">
+          <li class="collections-directory-item">
+            <div class="collections-directory-item__left">
+              <div class="collections-directory-item__icon-wrap"><img src="../assets/collection.svg" alt="" class="collections-directory-item__icon" width="35" height="35" /></div>
+              <h3 class="collections-directory-item__title">Collection title</h3>
+              <p class="collections-directory-item__description">Short description</p>
+              <p class="collections-directory-item__owner">by Owner</p>
+            </div>
+            <div class="collections-directory-item__right">
+              <div class="collections-directory-minis">
+                <div class="collections-directory-mini collections-directory-mini--text" style="width: 60px; height: 60px;">Text</div>
+                <div class="collections-directory-mini" style="width: 60px; height: 60px;"><img src="../feed images/1050.jpg" alt="" style="width:100%;height:100%;object-fit:cover;" /></div>
+              </div>
+              <div class="collections-directory-item__count-row"><span class="collections-directory-item__count">12</span><img src="../assets/chevron.svg" alt="" class="collections-directory-item__chevron" width="35" height="35" /></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

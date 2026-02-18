@@ -13,6 +13,32 @@
   // --- Staff picks feed only. Following shows empty feed. ---
   var activeSublimeCategory = 'staff-picks';
 
+  // Activity actions for following feed
+  var ACTIVITY_ACTIONS = ['added to', 'created', 'saved to', 'shared to'];
+
+  // User names and avatars for activity feed
+  var ACTIVITY_USERS = [
+    { name: 'Jake', avatar: 'https://i.pravatar.cc/150?img=12' },
+    { name: 'Maarten', avatar: 'https://i.pravatar.cc/150?img=13' },
+    { name: 'Nellie', avatar: 'https://i.pravatar.cc/150?img=47' },
+    { name: 'John', avatar: 'https://i.pravatar.cc/150?img=15' },
+    { name: 'Sarah', avatar: 'https://i.pravatar.cc/150?img=20' },
+    { name: 'Alex', avatar: 'https://i.pravatar.cc/150?img=33' },
+    { name: 'Emma', avatar: 'https://i.pravatar.cc/150?img=45' },
+    { name: 'David', avatar: 'https://i.pravatar.cc/150?img=51' },
+    { name: 'Lisa', avatar: 'https://i.pravatar.cc/150?img=32' },
+    { name: 'Michael', avatar: 'https://i.pravatar.cc/150?img=28' }
+  ];
+
+  // Collection names relevant to different card types - more natural and varied
+  var COLLECTION_NAMES = {
+    highlight: ['Management and high performance', 'Music & Sustainability', 'Design Thinking', 'Leadership Insights', 'Creative Writing', 'Business Strategy', 'Personal Growth', 'fool', 'Product Strategy', 'Innovation'],
+    text: ['Good design', 'Writing Collection', 'Thoughts & Ideas', 'Daily Reflections', 'Creative Notes', 'Philosophy', 'Inspiration', 'Random Thoughts', 'Ideas'],
+    image: ['Visual Inspiration', 'Art & Design', 'Photography', 'Visual Storytelling', 'Creative Direction', 'Design References', 'Mood Board'],
+    file: ['Research Papers', 'Business Documents', 'Design Resources', 'Learning Materials', 'Project Files', 'Resources'],
+    video: ['Video Collection', 'Tutorials', 'Documentaries', 'Creative Videos', 'Learning Series', 'Videos']
+  };
+
   var staffPicksFeedCards = [
     { type: 'highlight', body: 'Students come to my office with problems I can\'t begin to unpack. No, I can\'t tell you why you have dreams about murdering people. No, I can\'t explain why your dad told you it\'s your mom\'s fault you slice your arms up like deli meat. No, I don\'t know why the doctor screwed up your prescription and you are out of your meds or why your sister won\'t drive to Boston to get you more.\n\nWhat they need is years of therapy and mental health care that their insurance will never cover. They need stable housing, better health care, braces, and acne medication.\n\nWhat they have is me.\n\nWhat I have is and.\n\nSo that\'s what I tell them.\n\nYou can feel sad and you can do five math problems.\n\nYou can be nervous and write the last paragraph of your essay.\n\nYou can be anxious and pick up trash in the hallway.\n\nYou can feel mad and eat a piece of fruit.\n\nAnd nothing will really be fixed, but then, it wasn\'t really going to get fixed anyway. But maybe they\'ll be a little bit better at algebra or feel a little bit healthier.\n\nIt\'s not magic advice, but sometimes the nudge is enough to put things in motion again.', author: 'Emily Kingsley', sourceTitle: 'You Are Not Okay and Tomorrow Will Come' },
     { type: 'highlight', body: 'A sailboat always moves forward.\n\nThis remarkable fact is due to its asymmetrical shape: it is pointy at the front and flat in the back. This creates resistance to moving backwards, but a natural ease in moving forward. Even when the water is randomly undulating, "backward" forces are muted, while "forward" forces are allowed, so the boat glides forward. Asymmetries can amplify positive effects while muting negative ones, resulting in a net-positive force even under conditions of random inputs.', author: 'Jason Cohen', sourceTitle: 'A Smart Bear » What makes a strategy great' },
@@ -57,6 +83,72 @@
     /* Video cards: native MP4 (loop preview) or YouTube embed; play icon bottom-left */
     { type: 'video', videoSrc: '../feed videos/sky.mp4' }
   ];
+
+  // Following feed uses same cards as staff picks
+  var followingFeedCards = staffPicksFeedCards.slice();
+
+  // Generate activity data for a card (Following tab)
+  function generateActivityForCard(cardItem, index) {
+    var user = ACTIVITY_USERS[index % ACTIVITY_USERS.length];
+    var action = ACTIVITY_ACTIONS[index % ACTIVITY_ACTIONS.length];
+    var collections = COLLECTION_NAMES[cardItem.type] || COLLECTION_NAMES.text;
+    var collectionName = collections[index % collections.length];
+    
+    return {
+      userName: user.name,
+      avatar: user.avatar,
+      action: action,
+      collectionName: collectionName
+    };
+  }
+
+  // Sample notes for staff picks activity (including long ones for truncation testing)
+  var STAFF_PICKS_NOTES = [
+    'Love this quote',
+    'This resonates deeply',
+    'Saving for later',
+    'Great insight',
+    'Perfect timing',
+    'Olmo and cool Sam shared this song on a car ride somewhere in the East Coast after a waterpolo match and we listened to it on repeat for hours',
+    'Reminds me of something I read last week about how stories shape our understanding of the world around us',
+    'Bookmarking this for my next project presentation',
+    'So true - this really captures what I\'ve been thinking about lately',
+    'Need to revisit this when I have more time to really digest the ideas',
+    'Shared with the team and they all found it incredibly valuable',
+    'This changed my perspective on how we approach design problems',
+    'Worth reading twice to fully understand all the nuances',
+    'Exactly what I needed to hear right now during this challenging time',
+    'Saving this one to reference later when working on similar projects',
+    'The way this connects different ideas is really fascinating and makes me think about my own work differently',
+    'I can\'t stop thinking about this - it\'s been on my mind all day since reading it'
+  ];
+
+  // Generate staff picks activity data (users who added card publicly, with optional notes)
+  function generateStaffPicksActivity(cardItem, index) {
+    var numUsers = Math.floor(Math.random() * 12) + 1; // 1-12 users
+    var hasNotes = Math.random() > 0.4; // 60% chance of having notes
+    var usersWithNotes = hasNotes ? Math.min(Math.floor(Math.random() * 8) + 1, numUsers) : 0; // 1-8 users with notes
+    
+    var activities = [];
+    var shuffledUsers = shuffleArray(ACTIVITY_USERS.slice());
+    var shuffledNotes = shuffleArray(STAFF_PICKS_NOTES.slice());
+    
+    for (var i = 0; i < Math.min(numUsers, shuffledUsers.length); i++) {
+      var user = shuffledUsers[i];
+      var hasNote = hasNotes && i < usersWithNotes;
+      activities.push({
+        userName: user.name,
+        avatar: user.avatar,
+        note: hasNote ? shuffledNotes[i % shuffledNotes.length] : null
+      });
+    }
+    
+    return {
+      activities: activities,
+      totalCount: numUsers,
+      usersWithNotesCount: usersWithNotes
+    };
+  }
 
   var TEXT_TRUNCATE_LENGTH = 500;
   var IMAGE_CAPTION_TRUNCATE_LENGTH = 111;
@@ -476,8 +568,232 @@
     return null;
   }
 
+  /** Builds activity context element (avatar + text) for following feed */
+  function buildActivityContext(activity) {
+    var container = document.createElement('div');
+    container.className = 'sublime-activity-context';
+    
+    var avatar = document.createElement('img');
+    avatar.className = 'sublime-activity-context__avatar';
+    avatar.src = activity.avatar;
+    avatar.alt = activity.userName;
+    avatar.width = 24;
+    avatar.height = 24;
+    avatar.loading = 'lazy';
+    
+    var text = document.createElement('span');
+    text.className = 'sublime-activity-context__text';
+    
+    var userName = document.createElement('span');
+    userName.className = 'sublime-activity-context__user-name';
+    userName.textContent = activity.userName;
+    
+    var actionText = document.createElement('span');
+    actionText.className = 'sublime-activity-context__action';
+    // Ensure proper spacing: space before and after action
+    actionText.textContent = ' ' + activity.action + ' ';
+    
+    var collectionName = document.createElement('span');
+    collectionName.className = 'sublime-activity-context__collection-name';
+    collectionName.textContent = activity.collectionName;
+    
+    text.appendChild(userName);
+    text.appendChild(actionText);
+    text.appendChild(collectionName);
+    
+    container.appendChild(avatar);
+    container.appendChild(text);
+    
+    return container;
+  }
+
+  /** Truncates note text to max 2 lines - CSS handles the actual truncation, this is just for data */
+  function truncateNoteText(text, maxLength) {
+    if (!text) return '';
+    // CSS line-clamp will handle visual truncation, but we can pre-truncate very long text
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength - 3) + '...';
+  }
+
+  /** Builds "X more" button with bundled avatars */
+  function buildMoreButtonWithAvatars(activities, shownCount, remainingCount) {
+    var moreBtn = document.createElement('div');
+    moreBtn.className = 'sublime-activity-context sublime-activity-context--more-btn';
+    
+    // Create bundled avatars container
+    var avatarsContainer = document.createElement('div');
+    avatarsContainer.className = 'sublime-activity-context__avatars-bundle';
+    
+    // Get remaining users (skip the ones already shown)
+    var remainingUsers = activities.slice(shownCount);
+    var avatarsToShow = Math.min(remainingUsers.length, 4); // Max 4 avatars
+    
+    for (var i = 0; i < avatarsToShow; i++) {
+      var avatar = document.createElement('img');
+      avatar.className = 'sublime-activity-context__avatar-bundled';
+      avatar.src = remainingUsers[i].avatar;
+      avatar.alt = remainingUsers[i].userName;
+      avatar.width = 24;
+      avatar.height = 24;
+      avatar.loading = 'lazy';
+      avatarsContainer.appendChild(avatar);
+    }
+    
+    var text = document.createElement('span');
+    text.className = 'sublime-activity-context__more-text';
+    text.textContent = remainingCount + ' more';
+    
+    moreBtn.appendChild(avatarsContainer);
+    moreBtn.appendChild(text);
+    
+    return moreBtn;
+  }
+
+  /** Builds staff picks activity context (users who added card, with optional notes) */
+  function buildStaffPicksActivityContext(activityData) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'sublime-staff-picks-activity';
+    
+    var activities = activityData.activities;
+    var totalCount = activityData.totalCount;
+    var hasMore = activityData.hasMore;
+    
+    // Single user, no notes
+    if (totalCount === 1 && !activities[0].note) {
+      var singleEl = document.createElement('div');
+      singleEl.className = 'sublime-activity-context';
+      
+      var avatar = document.createElement('img');
+      avatar.className = 'sublime-activity-context__avatar';
+      avatar.src = activities[0].avatar;
+      avatar.alt = activities[0].userName;
+      avatar.width = 24;
+      avatar.height = 24;
+      avatar.loading = 'lazy';
+      
+      var userName = document.createElement('span');
+      userName.className = 'sublime-activity-context__user-name';
+      userName.textContent = activities[0].userName;
+      
+      singleEl.appendChild(avatar);
+      singleEl.appendChild(userName);
+      wrapper.appendChild(singleEl);
+    }
+    // Multiple users, no notes - show summary: John's avatar + name, then "and X more" with bundled avatars
+    else if (!activities.some(function(a) { return a.note; })) {
+      var summaryEl = document.createElement('div');
+      summaryEl.className = 'sublime-activity-context';
+      
+      // John's avatar (single, not bundled)
+      var johnAvatar = document.createElement('img');
+      johnAvatar.className = 'sublime-activity-context__avatar';
+      johnAvatar.src = activities[0].avatar;
+      johnAvatar.alt = activities[0].userName;
+      johnAvatar.width = 24;
+      johnAvatar.height = 24;
+      johnAvatar.loading = 'lazy';
+      
+      var text = document.createElement('span');
+      text.className = 'sublime-activity-context__text';
+      
+      // John's name
+      var userName = document.createElement('span');
+      userName.className = 'sublime-activity-context__user-name';
+      userName.textContent = activities[0].userName;
+      
+      // " and "
+      var andMore = document.createElement('span');
+      andMore.className = 'sublime-activity-context__and-more';
+      andMore.textContent = ' and ';
+      
+      // Bundled avatars container for remaining users (excluding John)
+      var avatarsContainer = document.createElement('div');
+      avatarsContainer.className = 'sublime-activity-context__avatars-bundle';
+      
+      // Show up to 4 avatars of remaining users (excluding John)
+      var remainingUsers = activities.slice(1);
+      var avatarsToShow = Math.min(remainingUsers.length, 4);
+      for (var i = 0; i < avatarsToShow; i++) {
+        var avatar = document.createElement('img');
+        avatar.className = 'sublime-activity-context__avatar-bundled';
+        avatar.src = remainingUsers[i].avatar;
+        avatar.alt = remainingUsers[i].userName;
+        avatar.width = 24;
+        avatar.height = 24;
+        avatar.loading = 'lazy';
+        avatarsContainer.appendChild(avatar);
+      }
+      
+      // "X more" text
+      var moreCount = document.createElement('span');
+      moreCount.className = 'sublime-activity-context__more-count';
+      moreCount.textContent = (totalCount - 1) + ' more';
+      
+      text.appendChild(userName);
+      text.appendChild(andMore);
+      text.appendChild(avatarsContainer);
+      text.appendChild(moreCount);
+      
+      summaryEl.appendChild(johnAvatar);
+      summaryEl.appendChild(text);
+      wrapper.appendChild(summaryEl);
+    }
+    // Users with notes - stack them (max 2 shown)
+    else {
+      var notesActivities = activities.filter(function(a) { return a.note; });
+      var usersWithoutNotes = activities.filter(function(a) { return !a.note; });
+      var totalUsersWithNotes = notesActivities.length;
+      
+      // Show max 1 user with notes
+      var maxShown = Math.min(totalUsersWithNotes, 1);
+      for (var i = 0; i < maxShown; i++) {
+        var activity = notesActivities[i];
+        var noteEl = document.createElement('div');
+        noteEl.className = 'sublime-activity-context sublime-activity-context--with-note';
+        
+        var avatar = document.createElement('img');
+        avatar.className = 'sublime-activity-context__avatar';
+        avatar.src = activity.avatar;
+        avatar.alt = activity.userName;
+        avatar.width = 24;
+        avatar.height = 24;
+        avatar.loading = 'lazy';
+        
+        var content = document.createElement('div');
+        content.className = 'sublime-activity-context__content';
+        
+        var userName = document.createElement('div');
+        userName.className = 'sublime-activity-context__user-name';
+        userName.textContent = activity.userName;
+        
+        var note = document.createElement('div');
+        note.className = 'sublime-activity-context__note';
+        note.textContent = activity.note; // CSS line-clamp handles truncation
+        
+        content.appendChild(userName);
+        content.appendChild(note);
+        
+        noteEl.appendChild(avatar);
+        noteEl.appendChild(content);
+        wrapper.appendChild(noteEl);
+      }
+      
+      // Calculate remaining count: users with notes not shown + users without notes
+      var remainingNotes = totalUsersWithNotes - maxShown;
+      var remainingTotal = remainingNotes + usersWithoutNotes.length;
+      
+      // Add "X more" button if there are more users
+      if (remainingTotal > 0) {
+        var moreBtn = buildMoreButtonWithAvatars(activities, maxShown, remainingTotal);
+        wrapper.appendChild(moreBtn);
+      }
+    }
+    
+    return wrapper;
+  }
+
   /** Wraps any feed card in a shell with hover overlay + save/share/more actions. Applies to all card types. */
-  function wrapCardWithShell(cardEl) {
+  function wrapCardWithShell(cardEl, activityContext) {
     var shell = document.createElement('div');
     shell.className = 'sublime-card-shell';
     var overlay = document.createElement('div');
@@ -517,13 +833,19 @@
     saveBtn.type = 'button';
     saveBtn.className = 'sublime-card-shell__action sublime-card-shell__action--save';
     saveBtn.setAttribute('aria-label', 'Save to library');
-    saveBtn.textContent = 'save';
+    saveBtn.textContent = 'Save';
     right.appendChild(saveBtn);
     actions.appendChild(left);
     actions.appendChild(right);
     shell.appendChild(cardEl);
     shell.appendChild(overlay);
     shell.appendChild(actions);
+    
+    // Add activity context if provided (for following feed or staff picks)
+    if (activityContext) {
+      shell.appendChild(activityContext);
+    }
+    
     shareBtn.addEventListener('click', function (e) { e.stopPropagation(); });
     moreBtn.addEventListener('click', function (e) { e.stopPropagation(); });
     saveBtn.addEventListener('click', function (e) { e.stopPropagation(); });
@@ -553,11 +875,21 @@
     if (!col1 || !col2) return;
     col1.textContent = '';
     col2.textContent = '';
-    var cards = activeSublimeCategory === 'staff-picks' ? shuffleArray(staffPicksFeedCards) : [];
+    var cards = activeSublimeCategory === 'staff-picks' ? shuffleArray(staffPicksFeedCards) : (activeSublimeCategory === 'following' ? shuffleArray(followingFeedCards) : []);
+    var isFollowing = activeSublimeCategory === 'following';
+    var isStaffPicks = activeSublimeCategory === 'staff-picks';
     for (var i = 0; i < cards.length; i++) {
       var card = buildCard(cards[i]);
       if (!card) continue;
-      var shell = wrapCardWithShell(card);
+      var activityContext = null;
+      if (isFollowing) {
+        var activity = generateActivityForCard(cards[i], i);
+        activityContext = buildActivityContext(activity);
+      } else if (isStaffPicks) {
+        var staffPicksActivity = generateStaffPicksActivity(cards[i], i);
+        activityContext = buildStaffPicksActivityContext(staffPicksActivity);
+      }
+      var shell = wrapCardWithShell(card, activityContext);
       (i % 2 === 0 ? col1 : col2).appendChild(shell);
     }
     requestAnimationFrame(function () {
@@ -614,6 +946,72 @@
   if (sublimeFeed) sublimeFeed.addEventListener('click', onSublimeFeedClick);
 
   renderSublimeFeed();
+
+  // --- Library Recents carousel: cards true to their content; media sized by aspect ratio, no crop ---
+  var RECENTS_CAROUSEL_MAX_HEIGHT = 160;
+  var recentsCarousel = document.getElementById('library-recents-carousel');
+  if (recentsCarousel) {
+    var RECENTS_COUNT = 10;
+    var carouselWidths = [200, 160, 220, 180, 140, 190, 170, 210, 150, 230];
+    var textCardSizes = [
+      [200, 120], [160, 100], [180, 110], [140, 90], [190, 115],
+      [170, 105], [210, 125], [150, 95], [230, 130], [220, 115]
+    ];
+    var recentsItems = shuffleArray(staffPicksFeedCards).slice(0, RECENTS_COUNT);
+    recentsItems.forEach(function (item, i) {
+      var card = buildCard(item);
+      if (!card) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'library-recents-card-wrap';
+      wrap.setAttribute('role', 'listitem');
+      var isMedia = item.type === 'image' || item.type === 'file' || item.type === 'video';
+      var w = carouselWidths[i % carouselWidths.length];
+      wrap.style.width = w + 'px';
+      if (isMedia) {
+        wrap.style.height = RECENTS_CAROUSEL_MAX_HEIGHT + 'px';
+      } else {
+        var ts = textCardSizes[i % textCardSizes.length];
+        wrap.style.height = Math.min(ts[1], RECENTS_CAROUSEL_MAX_HEIGHT) + 'px';
+      }
+      wrap.appendChild(card);
+      recentsCarousel.appendChild(wrap);
+      if (item.type === 'image' || item.type === 'file') {
+        var img = wrap.querySelector('.sublime-card__img');
+        if (img) {
+          function sizeWrapFromImage() {
+            var nw = img.naturalWidth;
+            var nh = img.naturalHeight;
+            if (!nw || !nh) return;
+            var cardW = parseFloat(wrap.style.width, 10);
+            var cardH = Math.min(cardW * (nh / nw), RECENTS_CAROUSEL_MAX_HEIGHT);
+            wrap.style.height = cardH + 'px';
+          }
+          img.addEventListener('error', function () {
+            wrap.style.display = 'none';
+          });
+          if (img.complete) sizeWrapFromImage();
+          else img.addEventListener('load', sizeWrapFromImage);
+        }
+      } else if (item.type === 'video') {
+        var video = wrap.querySelector('.sublime-card__video');
+        if (video) {
+          function sizeWrapFromVideo() {
+            var vw = video.videoWidth;
+            var vh = video.videoHeight;
+            if (!vw || !vh) return;
+            var cardW = parseFloat(wrap.style.width, 10);
+            var cardH = Math.min(cardW * (vh / vw), RECENTS_CAROUSEL_MAX_HEIGHT);
+            wrap.style.height = cardH + 'px';
+          }
+          if (video.readyState >= 1) sizeWrapFromVideo();
+          else video.addEventListener('loadedmetadata', sizeWrapFromVideo);
+        }
+      }
+    });
+    requestAnimationFrame(function () {
+      recentsCarousel.querySelectorAll('.sublime-card--text, .sublime-card--highlight').forEach(hideExpandIfNotTruncated);
+    });
+  }
 
   // --- Collection landing page ---
   var collectionBackBtn = document.getElementById('collection-back-btn');
@@ -773,8 +1171,8 @@
     navItems.forEach(function (el) {
       el.classList.toggle('active', el.getAttribute('data-tab') === tab);
     });
-    if (addBtn) addBtn.classList.toggle('is-visible', tab === 'library');
-    if (tab !== 'library' && addWrap) addWrap.classList.remove('is-expanded');
+    if (addBtn) addBtn.classList.toggle('is-visible', tab === 'library' || tab === 'sublime');
+    if (tab !== 'library' && tab !== 'sublime' && addWrap) addWrap.classList.remove('is-expanded');
     if (collectionView) {
       collectionView.classList.remove('collection-view--visible');
       collectionView.setAttribute('aria-hidden', 'true');
@@ -807,7 +1205,7 @@
     });
   });
 
-  if (addBtn) addBtn.classList.toggle('is-visible', activeTab === 'library');
+  if (addBtn) addBtn.classList.toggle('is-visible', activeTab === 'library' || activeTab === 'sublime');
   if (libraryView) {
     libraryView.classList.toggle('library-view--visible', activeTab === 'library');
     libraryView.setAttribute('aria-hidden', activeTab !== 'library');
