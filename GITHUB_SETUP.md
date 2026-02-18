@@ -69,6 +69,8 @@ Open any prototype in your browser (double‑click or “Open with”):
 - **xx4:** `xx4/index.html`
 - **xx5:** `xx5/index.html`
 - **xx6:** `xx6/index.html`
+- **xx7–xx9:** `xx7/index.html`, etc.
+- **Landing page:** open the repo root `index.html` (or run a local server and go to `/`).
 
 Or from Terminal:
 
@@ -98,3 +100,18 @@ python3 -m http.server 8000
 | 4. Test locally | Open `xx1/index.html` … `xx6/index.html` or use `python3 -m http.server 8000` |
 
 After this, your work is saved on GitHub and you can keep pushing with `git add`, `git commit`, and `git push`.
+
+---
+
+## 5. Deploy to GitHub Pages
+
+To publish the project (including the landing page) on GitHub Pages:
+
+1. On GitHub, open your repo **Settings** → **Pages** (in the left sidebar).
+2. Under **Build and deployment**:
+   - **Source:** Deploy from a branch
+   - **Branch:** `main` (or `master`) → **/ (root)** → **Save**
+3. After a minute or two, the site will be live at:
+   - **https://YOUR_USERNAME.github.io/NAV-XX1/**
+
+Visitors will see the landing page with links to **xx1** through **xx9** and the **Design System**. Each link goes to that version’s prototype (e.g. `.../NAV-XX1/xx3/`).
