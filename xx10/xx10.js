@@ -911,13 +911,13 @@
     return { collections: collections, note: note };
   }
 
-  /** Wraps any feed card in a shell with hover overlay + save/share/more actions. Applies to all card types. */
+  /** Wraps any feed card in a shell with save/share/more actions 5px above the card. No overlay. Hover on shell (card + actions row) keeps actions visible. */
   function wrapCardWithShell(cardEl, activityContext) {
     var shell = document.createElement('div');
     shell.className = 'sublime-card-shell';
-    var overlay = document.createElement('div');
-    overlay.className = 'sublime-card-shell__overlay';
-    overlay.setAttribute('aria-hidden', 'true');
+    var actionsRow = document.createElement('div');
+    actionsRow.className = 'sublime-card-shell__actions-row';
+    actionsRow.setAttribute('aria-hidden', 'true');
     var actions = document.createElement('div');
     actions.className = 'sublime-card-shell__actions';
     actions.setAttribute('aria-label', 'Card actions');
@@ -930,8 +930,8 @@
     var shareImg = document.createElement('img');
     shareImg.src = '../assets/SHARE.svg';
     shareImg.alt = '';
-    shareImg.width = 35;
-    shareImg.height = 35;
+    shareImg.width = 25;
+    shareImg.height = 25;
     shareBtn.appendChild(shareImg);
     var moreBtn = document.createElement('button');
     moreBtn.type = 'button';
@@ -941,8 +941,8 @@
     var moreImg = document.createElement('img');
     moreImg.src = '../assets/MORE-MENU.svg';
     moreImg.alt = '';
-    moreImg.width = 35;
-    moreImg.height = 35;
+    moreImg.width = 25;
+    moreImg.height = 25;
     moreBtn.appendChild(moreImg);
     left.appendChild(shareBtn);
     left.appendChild(moreBtn);
@@ -952,19 +952,30 @@
     saveBtn.type = 'button';
     saveBtn.className = 'sublime-card-shell__action sublime-card-shell__action--save';
     saveBtn.setAttribute('aria-label', 'Save to library');
-    saveBtn.textContent = 'Save';
+    var saveText = document.createElement('span');
+    saveText.className = 'sublime-card-shell__save-text';
+    saveText.textContent = 'Save';
+    var savePlus = document.createElement('span');
+    savePlus.className = 'sublime-card-shell__save-plus';
+    savePlus.setAttribute('aria-hidden', 'true');
+    var savePlusImg = document.createElement('img');
+    savePlusImg.src = '../assets/ADD.svg';
+    savePlusImg.alt = '';
+    savePlusImg.width = 14;
+    savePlusImg.height = 14;
+    savePlusImg.className = 'sublime-card-shell__save-plus-icon';
+    savePlus.appendChild(savePlusImg);
+    saveBtn.appendChild(saveText);
+    saveBtn.appendChild(savePlus);
     right.appendChild(saveBtn);
     actions.appendChild(left);
     actions.appendChild(right);
+    actionsRow.appendChild(actions);
+    shell.appendChild(actionsRow);
     shell.appendChild(cardEl);
-    shell.appendChild(overlay);
-    shell.appendChild(actions);
-    
-    // Add activity context if provided (for following feed or staff picks)
     if (activityContext) {
       shell.appendChild(activityContext);
     }
-    
     shareBtn.addEventListener('click', function (e) { e.stopPropagation(); });
     moreBtn.addEventListener('click', function (e) { e.stopPropagation(); });
     saveBtn.addEventListener('click', function (e) { e.stopPropagation(); });
