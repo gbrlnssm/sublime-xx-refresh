@@ -2080,13 +2080,15 @@
     });
   }
 
-  // Sublime search focus: expand to full width, collapse categories and actions (same feel as Following)
-  if (sublimeSearchInput && sublimeTopBarInner) {
+  // Sublime search focus: expand to full width, collapse categories and actions, hide feed (search is its own experience)
+  if (sublimeSearchInput && sublimeTopBarInner && sublimeView) {
     sublimeSearchInput.addEventListener('focus', function () {
       sublimeTopBarInner.classList.add('sublime-top-bar-inner--search-focused');
+      sublimeView.classList.add('sublime-view--search-active');
     });
     sublimeSearchInput.addEventListener('blur', function () {
       sublimeTopBarInner.classList.remove('sublime-top-bar-inner--search-focused');
+      sublimeView.classList.remove('sublime-view--search-active');
     });
   }
 

@@ -31,7 +31,7 @@ body {
   left: 32px;
   bottom: 32px;
   bottom: max(32px, env(safe-area-inset-bottom));
-  width: 555px;
+  width: 400px;
   padding: 10px;
   background: #ebebeb;
   border-radius: 25px;
@@ -767,12 +767,16 @@ body {
   transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
 }
 
-/* Search expanded: full width when focused */
+/* Search expanded: full width when focused; hide feed so search is its own experience */
 .sublime-top-bar-inner.sublime-top-bar-inner--search-focused .sublime-search-wrap {
   flex: 1 1 0;
   width: 100%;
   min-width: 0;
   margin-left: 0;
+}
+
+.sublime-view.sublime-view--search-active .sublime-feed {
+  display: none;
 }
 
 .sublime-action-btn {
@@ -1288,7 +1292,7 @@ body {
   margin-left: 5px;
 }
 
-/* Share + More: square 30×30 pill with contrast shadow; 2.5px padding so 25px icon fits */
+/* Share + More: 30×30 pill, no shadow, bg #F8F8F8, icons #C6C6C6 */
 .sublime-card-shell__action--share,
 .sublime-card-shell__action--more {
   display: flex;
@@ -1301,16 +1305,15 @@ body {
   align-items: center;
   border: none;
   border-radius: 999px;
-  background: #FFF;
-  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+  background: #F8F8F8;
   cursor: pointer;
-  transition: box-shadow 0.2s ease;
+  transition: background-color 0.2s ease;
   box-sizing: border-box;
 }
 
 .sublime-card-shell__action--share:hover,
 .sublime-card-shell__action--more:hover {
-  box-shadow: 0 2px 12px 0 rgba(149, 156, 166, 0.35);
+  background: #eeeeee;
 }
 
 .sublime-card-shell__action--share:focus-visible,
@@ -1325,24 +1328,26 @@ body {
   width: 25px;
   height: 25px;
   object-fit: contain;
-  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(58%); /* #959595 */
 }
 
-/* Save CTA: white container with contrast shadow; height 30px; space-between for Save text and + */
+/* Save CTA: no shadow, bg #F8F8F8, text #959595, icons #C6C6C6; padding left 10 right 5 */
 .sublime-card-shell__action--save {
   display: flex;
   height: 30px;
   min-height: 30px;
-  padding: 2.5px 10px;
+  padding-left: 10px;
+  padding-right: 5px;
+  padding-top: 2.5px;
+  padding-bottom: 2.5px;
   justify-content: space-between;
   align-items: center;
   flex: 1 0 0;
   min-width: 0;
   border: none;
   border-radius: 999px;
-  background: #FFFFFF;
-  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
-  color: rgba(144, 143, 142, 0.7);
+  background: #F8F8F8;
+  color: #959595;
   font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
   font-style: normal;
@@ -1351,16 +1356,15 @@ body {
   letter-spacing: -0.3px;
   font-feature-settings: "ss12" 1;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .sublime-card-shell__action--save:hover {
-  box-shadow: 0 2px 12px 0 rgba(149, 156, 166, 0.35);
-  color: #707070;
+  background: #eeeeee;
+  color: #7a7978;
 }
-
 
 .sublime-card-shell__action--save:focus-visible {
   outline: 2px solid #404040;
@@ -1387,15 +1391,15 @@ body {
   width: 25px;
   height: 25px;
   object-fit: contain;
-  /* ADD.svg uses #908F8E at 0.7 — no filter so Save text matches via color: rgba(144,143,142,0.7) */
+  filter: brightness(0) saturate(100%) invert(58%); /* #959595 */
 }
 
-/* --- Text card (Figma 1855-80669): 10px padding, #F8F8F8, 12px/13px, #3D3D3D, fade-out (no expand/collapse) --- */
+/* --- Text card: 10px padding, #F8F8F8, SF Pro 18/22, #404040, fade-out (no expand/collapse) --- */
 .sublime-card--text {
   padding: 10px;
   background: #F8F8F8;
   border-radius: 15px;
-  color: #3D3D3D;
+  color: #404040;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -1406,15 +1410,15 @@ body {
 }
 
 .sublime-card--text .sublime-card__body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
+  color: #404040;
+  font-feature-settings: "ss12" on;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
   font-style: normal;
-  line-height: 17px;
-  letter-spacing: -0.32px;
-  font-feature-settings: "ss12" 1;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.36px;
   white-space: pre-line;
-  color: #3D3D3D;
 }
 
 /* Visual fade at end of truncated text (non-interactive) */
@@ -1480,12 +1484,12 @@ body {
   outline-offset: 2px;
 }
 
-/* --- Highlight card: text highlight + author • source (10px gap, 12px/13px, #3D3D3D, same body truncation) --- */
+/* --- Highlight card: text highlight + author • source (10px gap; body same as text card: SF Pro 18/22, #404040) --- */
 .sublime-card--highlight {
   padding: 10px;
   background: #F8F8F8;
   border-radius: 15px;
-  color: #3D3D3D;
+  color: #404040;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1496,15 +1500,15 @@ body {
 }
 
 .sublime-card--highlight .sublime-card__body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
+  color: #404040;
+  font-feature-settings: "ss12" on;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
   font-style: normal;
-  line-height: 17px;
-  letter-spacing: -0.32px;
-  font-feature-settings: "ss12" 1;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.36px;
   white-space: pre-line;
-  color: #3D3D3D;
 }
 
 .sublime-card--highlight .sublime-card__fade {
