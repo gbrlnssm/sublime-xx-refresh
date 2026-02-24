@@ -31,7 +31,7 @@ body {
   left: 32px;
   bottom: 32px;
   bottom: max(32px, env(safe-area-inset-bottom));
-  width: fit-content;
+  width: 555px;
   padding: 10px;
   background: #ebebeb;
   border-radius: 25px;
@@ -51,12 +51,12 @@ body {
   gap: 6px;
 }
 
-/* Right group: Inbox, Profile+Menu. Spacing from left group (reduced by 20px from xx2). */
+/* Right group: Inbox, Profile+Menu. Pushed to the right edge of the nav bar. */
 .nav-e3-right {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-left: 28px;
+  margin-left: auto;
 }
 
 /* Item: vertical stack (icon on top, label below) for Sublime/Library. */
@@ -2133,6 +2133,34 @@ body {
   box-sizing: border-box;
 }
 
+/* Pinned collections & Imports: no icon, title 15/15, color #C7C5C4 */
+.library-section--pinned .library-section-header-btn .library-section-header__icon,
+.library-section--imports .library-section-header-btn .library-section-header__icon {
+  display: none;
+}
+.library-section--pinned .library-section-title,
+.library-section--imports .library-section-title {
+  font-size: 15px;
+  line-height: 15px;
+  color: #C7C5C4;
+}
+
+/* Media types: same title style, no icon */
+.library-section:has(.library-media-grid) .library-section-header-btn .library-section-header__icon {
+  display: none;
+}
+.library-section:has(.library-media-grid) .library-section-title {
+  font-size: 15px;
+  line-height: 15px;
+  color: #C7C5C4;
+}
+
+/* Imports list: item icons 25x25 (pinned collections keep 35x35) */
+.library-section--imports .library-pinned-item__icon {
+  width: 25px;
+  height: 25px;
+}
+
 /* Chevron: right of title, 5px separation; visible only on hover. Expanded: point down; collapsed: point right. */
 .library-section-header__chevron {
   flex-shrink: 0;
@@ -2187,7 +2215,7 @@ body {
 }
 
 .library-pinned-card {
-  background: #fff;
+  background: #F8F8F8;
   border-radius: 15px;
   padding: 10px;
   box-sizing: border-box;
@@ -2197,7 +2225,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
-  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
 }
 
 .library-pinned-list {
@@ -2220,12 +2247,12 @@ body {
   padding: 5px 0 5px 5px;
   background: transparent;
   border-radius: 15px;
-  color: #404040;
+  color: #959595;
   text-decoration: none;
   font: inherit;
   font-size: 15px;
-  font-weight: 600;
-  line-height: 20px;
+  font-weight: 500;
+  line-height: 15px;
   letter-spacing: -0.02em;
   transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
   box-sizing: border-box;
@@ -2240,7 +2267,7 @@ body {
   width: 35px;
   height: 35px;
   display: block;
-  filter: brightness(0) saturate(100%) invert(79%); /* #C8CACA */
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
 }
 
 /* Label can be direct child or inside label-wrap (locked items) */
@@ -2251,6 +2278,10 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 15px;
+  color: #959595;
 }
 
 .library-pinned-label-wrap {
@@ -2272,7 +2303,7 @@ body {
   width: 35px;
   height: 35px;
   display: block;
-  filter: brightness(0) saturate(100%) invert(79%); /* #C8CACA */
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
 }
 
 /* Number to the left of chevron; 0 gap between number and chevron */
@@ -2280,18 +2311,17 @@ body {
   flex-shrink: 0;
   font-size: 15px;
   font-weight: 600;
-  line-height: 20px;
+  line-height: 15px;
   letter-spacing: -0.02em;
-  color: #A7A9AB;
+  color: #C6C6C6;
 }
 
 .library-pinned-chevron {
   flex-shrink: 0;
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   display: block;
-  opacity: 0.5;
-  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
 }
 
 /* Section 4 — Media types */
@@ -2309,26 +2339,25 @@ body {
   flex-direction: row;
   align-items: center;
   gap: 0;
-  height: 35px;
-  padding: 0 10px 0 0;
-  background: #fff;
+  height: auto;
+  padding: 5px 10px 5px 3px;
+  background: #F8F8F8;
   border: none;
   border-radius: 999px;
-  color: #909090;
+  color: #908F8E;
   cursor: pointer;
   font: inherit;
   font-size: 15px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 15px;
   letter-spacing: -0.02em;
   text-align: left;
-  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
   transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
   box-sizing: border-box;
 }
 
 .library-media-btn:hover {
-  background: #f5f5f5;
+  background: #eeeeee;
 }
 
 .library-media-btn:focus-visible {
@@ -2337,18 +2366,19 @@ body {
 }
 
 .library-media-icon {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   flex-shrink: 0;
   display: block;
-  opacity: 0.5;
-  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
 }
 
 .library-media-label {
   flex: 1;
   min-width: 0;
-  color: #909090;
+  font-size: 15px;
+  line-height: 15px;
+  color: #908F8E;
 }
 
 /* --- Placeholder views (Inbox, Profile) --- */
