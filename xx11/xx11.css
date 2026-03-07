@@ -4004,6 +4004,12 @@ body.add-note-open .nav-add-e2-wrap {
   color: #00AAFF;
 }
 
+/* New Collection / New Canvas: name field typed text is semi-bold (placeholder unchanged) */
+.add-collection-view #add-collection-name,
+.add-canvas-view #add-canvas-name {
+  font-weight: 600;
+}
+
 .add-link-collections-wrap {
   margin-bottom: 10px;
   flex: 1;
