@@ -1651,6 +1651,107 @@
     });
   });
 
+  // --- Pinned collections: drag-and-drop reorder + more menu (Unpin) ---
+  var libraryPinnedList = document.getElementById('library-pinned-list');
+  if (libraryPinnedList) {
+    var pinnedRows = libraryPinnedList.querySelectorAll('.library-pinned-row');
+    pinnedRows.forEach(function (row) {
+      row.setAttribute('draggable', 'true');
+    });
+
+    libraryPinnedList.addEventListener('dragstart', function (e) {
+      var row = e.target.closest('.library-pinned-row');
+      if (!row || !e.target.closest('.library-pinned-drag')) {
+        e.preventDefault();
+        return;
+      }
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', row.getAttribute('data-pinned-index') || Array.prototype.indexOf.call(libraryPinnedList.children, row));
+      row.classList.add('library-pinned-row--dragging');
+    });
+
+    libraryPinnedList.addEventListener('dragend', function (e) {
+      var row = e.target.closest('.library-pinned-row');
+      if (row) row.classList.remove('library-pinned-row--dragging');
+      clearDropIndicator();
+    });
+
+    function clearDropIndicator() {
+      libraryPinnedList.querySelectorAll('.library-pinned-row--drop-before, .library-pinned-row--drop-after').forEach(function (el) {
+        el.classList.remove('library-pinned-row--drop-before', 'library-pinned-row--drop-after');
+      });
+    }
+
+    libraryPinnedList.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      var dragging = libraryPinnedList.querySelector('.library-pinned-row--dragging');
+      if (!dragging) return;
+      var row = e.target.closest('.library-pinned-row');
+      clearDropIndicator();
+      if (!row || row === dragging) return;
+      var rect = row.getBoundingClientRect();
+      var after = rect.top + rect.height / 2 < e.clientY;
+      row.classList.add(after ? 'library-pinned-row--drop-after' : 'library-pinned-row--drop-before');
+    });
+
+    libraryPinnedList.addEventListener('dragleave', function (e) {
+      if (!libraryPinnedList.contains(e.relatedTarget)) clearDropIndicator();
+    });
+
+    libraryPinnedList.addEventListener('drop', function (e) {
+      e.preventDefault();
+      clearDropIndicator();
+      var dragging = libraryPinnedList.querySelector('.library-pinned-row--dragging');
+      if (!dragging) return;
+      var row = e.target.closest('.library-pinned-row');
+      if (!row || row === dragging) return;
+      var after = row.getBoundingClientRect().top + row.getBoundingClientRect().height / 2 < e.clientY;
+      var all = Array.prototype.slice.call(libraryPinnedList.querySelectorAll('.library-pinned-row'));
+      var from = all.indexOf(dragging);
+      var to = all.indexOf(row) + (after ? 1 : 0);
+      if (from === to || from === to - 1) return;
+      if (from < to) to--;
+      libraryPinnedList.insertBefore(dragging, libraryPinnedList.children[to] || null);
+    });
+
+    // More menu: Unpin
+    libraryPinnedList.querySelectorAll('.library-pinned-more').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var row = btn.closest('.library-pinned-row');
+        if (!row) return;
+        var menu = document.getElementById('library-pinned-more-menu');
+        if (menu) {
+          menu.remove();
+        }
+        var rect = btn.getBoundingClientRect();
+        menu = document.createElement('div');
+        menu.id = 'library-pinned-more-menu';
+        menu.className = 'library-pinned-more-menu';
+        menu.innerHTML = '<button type="button" class="library-pinned-more-menu__item" data-action="unpin">Unpin collection</button>';
+        document.body.appendChild(menu);
+        menu.style.left = rect.right - 120 + 'px';
+        menu.style.top = rect.bottom + 4 + 'px';
+        menu.addEventListener('click', function (ev) { ev.stopPropagation(); });
+
+        function closeMenu() {
+          if (menu && menu.parentNode) menu.parentNode.removeChild(menu);
+          document.removeEventListener('click', closeMenu);
+        }
+
+        menu.querySelector('[data-action="unpin"]').addEventListener('click', function () {
+          row.remove();
+          closeMenu();
+        });
+        setTimeout(function () {
+          document.addEventListener('click', closeMenu);
+        }, 0);
+      });
+    });
+  }
+
   if (collectionBackBtn) {
     collectionBackBtn.addEventListener('click', closeCollection);
   }

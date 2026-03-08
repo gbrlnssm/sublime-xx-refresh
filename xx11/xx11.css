@@ -2238,6 +2238,20 @@ body {
 /* Section 3 — Pinned collections: title outside container; tight title→content gap */
 .library-section.library-section--pinned {
   gap: 0;
+  overflow: visible;
+}
+
+.library-section--pinned .library-section-body {
+  overflow: visible;
+}
+
+/* Collapsed state must hide content (override overflow for pinned) */
+.library-section--pinned.library-section--collapsed .library-section-body {
+  overflow: hidden;
+}
+
+.library-section--pinned .library-pinned-card {
+  overflow: visible;
 }
 
 .library-pinned-card {
@@ -2264,6 +2278,157 @@ body {
 
 .library-pinned-card .library-pinned-list {
   padding: 0;
+}
+
+/* Pinned section only: row extends into left/right zones so hover persists when grabbing or opening more */
+.library-section--pinned .library-pinned-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-left: -44px;
+  margin-right: -32px;
+  padding-left: 44px;
+  padding-right: 32px;
+  box-sizing: content-box;
+}
+
+.library-section--pinned .library-pinned-row .library-pinned-item {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Left zone: drag handle (in-flow so row hover includes it) */
+.library-section--pinned .library-pinned-drag {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  margin-left: -44px;
+  margin-right: 0;
+}
+
+.library-section--pinned .library-pinned-row:hover .library-pinned-drag {
+  opacity: 1;
+}
+
+.library-section--pinned .library-pinned-drag:active {
+  cursor: grabbing;
+}
+
+.library-section--pinned .library-pinned-drag__icon {
+  width: 30px;
+  height: 30px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 - match other icons */
+}
+
+/* Right zone: more menu — compact so it doesn’t overlap the container */
+.library-section--pinned .library-pinned-more {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  margin-left: 0;
+  margin-right: -32px;
+  border-radius: 6px;
+}
+
+.library-section--pinned .library-pinned-row:hover .library-pinned-more {
+  opacity: 1;
+}
+
+.library-section--pinned .library-pinned-more:hover {
+  background: #e8e8e8;
+}
+
+.library-section--pinned .library-pinned-more img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+/* Dragging: elevated ghost so the grabbed row is visible above others */
+.library-section--pinned .library-pinned-row--dragging {
+  z-index: 10;
+  opacity: 1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: #fff;
+  transform: scale(1.02);
+}
+
+/* Drop indicator line (where item will be inserted) — aligned with card content */
+.library-section--pinned .library-pinned-row--drop-before::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: #4080ff;
+  border-radius: 1px;
+  z-index: 5;
+  pointer-events: none;
+  margin: 0 32px 0 44px;
+}
+
+.library-section--pinned .library-pinned-row--drop-after::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #4080ff;
+  border-radius: 1px;
+  z-index: 5;
+  pointer-events: none;
+  margin: 0 32px 0 44px;
+}
+
+.library-pinned-more-menu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 6px 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e8e8e8;
+}
+
+.library-pinned-more-menu__item {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  font: inherit;
+  font-size: 15px;
+  color: #404040;
+  cursor: pointer;
+}
+
+.library-pinned-more-menu__item:hover {
+  background: #f0f0f0;
 }
 
 .library-pinned-item {
