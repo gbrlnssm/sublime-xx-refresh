@@ -16,6 +16,11 @@
   var addCollectionView = document.getElementById('add-collection-view');
   var addCanvasView = document.getElementById('add-canvas-view');
   var addNoteView = document.getElementById('add-note-view');
+  var saveFromCardOverlay = document.getElementById('save-from-card-overlay');
+  var saveFromCardModal = document.getElementById('save-from-card-modal');
+  var saveFromCardForm = document.getElementById('save-from-card-form');
+
+  var pendingSaveCard = null; /* { saveBtn, saveText, savePlusImg, shell } when modal is open */
 
   var viewBeforeAddLink = null;
   var viewBeforeAddUpload = null;
@@ -1021,12 +1026,57 @@
     saveBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       if (saveBtn.classList.contains('is-saved')) return;
-      saveBtn.classList.add('is-saved');
-      saveBtn.setAttribute('aria-label', 'Saved to library');
-      saveText.textContent = 'Saved';
-      savePlusImg.src = '../assets/check.svg';
+      openSaveFromCardModal(saveBtn, saveText, savePlusImg);
     });
     return shell;
+  }
+
+  function openSaveFromCardModal(saveBtnEl, saveTextEl, savePlusImgEl) {
+    if (!saveFromCardOverlay || !saveFromCardModal) return;
+    var shell = saveBtnEl.closest('.sublime-card-shell');
+    if (shell) shell.classList.add('sublime-card-shell--save-open');
+    pendingSaveCard = { saveBtn: saveBtnEl, saveText: saveTextEl, savePlusImg: savePlusImgEl, shell: shell };
+    saveFromCardOverlay.classList.add('is-visible');
+    saveFromCardOverlay.setAttribute('aria-hidden', 'false');
+    function positionModal() {
+      var saveRect = saveBtnEl.getBoundingClientRect();
+      var shellRect = shell ? shell.getBoundingClientRect() : saveRect;
+      var modalW = saveFromCardModal.offsetWidth || 364;
+      var modalH = saveFromCardModal.offsetHeight || 320;
+      var gap = 8;
+      var padding = 12;
+      /* Below the Save CTA, right-aligned with the card */
+      var top = saveRect.bottom + gap;
+      var left = shellRect.right - modalW;
+      if (left < padding) left = padding;
+      if (left + modalW > window.innerWidth - padding) left = window.innerWidth - modalW - padding;
+      if (top + modalH > window.innerHeight - padding) top = window.innerHeight - modalH - padding;
+      if (top < padding) top = padding;
+      saveFromCardModal.style.top = top + 'px';
+      saveFromCardModal.style.left = left + 'px';
+    }
+    positionModal();
+    requestAnimationFrame(positionModal);
+  }
+
+  function closeSaveFromCardModal() {
+    if (!saveFromCardOverlay) return;
+    if (pendingSaveCard && pendingSaveCard.shell) pendingSaveCard.shell.classList.remove('sublime-card-shell--save-open');
+    saveFromCardOverlay.classList.remove('is-visible');
+    saveFromCardOverlay.setAttribute('aria-hidden', 'true');
+    pendingSaveCard = null;
+  }
+
+  function applySavedStateToCard() {
+    if (!pendingSaveCard) return;
+    var saveBtn = pendingSaveCard.saveBtn;
+    var saveText = pendingSaveCard.saveText;
+    var savePlusImg = pendingSaveCard.savePlusImg;
+    saveBtn.classList.add('is-saved');
+    saveBtn.setAttribute('aria-label', 'Saved to library');
+    saveText.textContent = 'Saved';
+    savePlusImg.src = '../assets/check.svg';
+    pendingSaveCard = null;
   }
 
   /** Fisher–Yates shuffle. Returns a new shuffled array; does not mutate the original. */
@@ -2448,6 +2498,123 @@
       addLinkAddCollectionRowBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         addLinkAddCollectionRow();
+      });
+    }
+  }
+
+  if (saveFromCardOverlay) {
+    var saveFromCardNoteInput = document.getElementById('save-from-card-note');
+    var saveFromCardNoteWrap = document.getElementById('save-from-card-note-wrap');
+    var saveFromCardPrivateToggle = document.getElementById('save-from-card-private-toggle');
+    var saveFromCardFavoriteToggle = document.getElementById('save-from-card-favorite-toggle');
+    var saveFromCardCollectionsEmpty = document.getElementById('save-from-card-collections-empty');
+    var saveFromCardCollectionsList = document.getElementById('save-from-card-collections-list');
+    var saveFromCardCollectionsListWrap = document.getElementById('save-from-card-collections-list-wrap');
+    var saveFromCardAddCollectionBtn = document.getElementById('save-from-card-add-collection-btn');
+    var saveFromCardAddCollectionRowBtn = document.getElementById('save-from-card-add-collection-row');
+    var SAVE_FROM_CARD_COLLECTION_NAMES = ['Child wisdom', 'Artifacts', 'Reading list', 'Ideas', 'My Canon', 'Design inspiration', 'Where is my 🧀🧀🧀??', 'Nice words sent my way', 'Anti-Networking Event'];
+    var saveFromCardCollectionNameIndex = 0;
+
+    saveFromCardOverlay.addEventListener('click', function (e) {
+      if (e.target === saveFromCardOverlay) closeSaveFromCardModal();
+    });
+    if (saveFromCardForm) {
+      saveFromCardForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        applySavedStateToCard();
+        closeSaveFromCardModal();
+      });
+    }
+    if (saveFromCardNoteInput && saveFromCardNoteWrap) {
+      function syncSaveFromCardNotePlaceholder() {
+        saveFromCardNoteWrap.classList.toggle('add-link-field-wrap--has-value', (saveFromCardNoteInput.value || '').trim().length > 0);
+      }
+      saveFromCardNoteInput.addEventListener('input', syncSaveFromCardNotePlaceholder);
+      saveFromCardNoteInput.addEventListener('focus', syncSaveFromCardNotePlaceholder);
+      saveFromCardNoteInput.addEventListener('blur', syncSaveFromCardNotePlaceholder);
+    }
+    if (saveFromCardPrivateToggle) {
+      saveFromCardPrivateToggle.addEventListener('click', function () {
+        var on = this.getAttribute('aria-checked') === 'true';
+        this.setAttribute('aria-checked', !on);
+      });
+    }
+    if (saveFromCardFavoriteToggle) {
+      saveFromCardFavoriteToggle.addEventListener('click', function () {
+        var on = this.getAttribute('aria-checked') === 'true';
+        this.setAttribute('aria-checked', !on);
+      });
+    }
+    document.querySelectorAll('#save-from-card-collections-wrap .add-link-toggle-row').forEach(function (row) {
+      var toggle = row.querySelector('.add-link-toggle');
+      if (!toggle) return;
+      row.addEventListener('click', function (e) {
+        if (e.target === toggle || toggle.contains(e.target)) return;
+        e.preventDefault();
+        var on = toggle.getAttribute('aria-checked') === 'true';
+        toggle.setAttribute('aria-checked', !on);
+      });
+    });
+    function updateSaveFromCardCollectionsVisibility() {
+      var hasItems = saveFromCardCollectionsList && saveFromCardCollectionsList.children.length > 0;
+      if (saveFromCardCollectionsEmpty) {
+        saveFromCardCollectionsEmpty.style.display = hasItems ? 'none' : '';
+        saveFromCardCollectionsEmpty.setAttribute('aria-hidden', hasItems);
+      }
+      if (saveFromCardCollectionsListWrap) {
+        saveFromCardCollectionsListWrap.classList.toggle('add-link-collections-list-wrap--visible', hasItems);
+        saveFromCardCollectionsListWrap.setAttribute('aria-hidden', !hasItems);
+      }
+    }
+    function saveFromCardAddCollectionRow() {
+      if (!saveFromCardCollectionsList) return;
+      var name = SAVE_FROM_CARD_COLLECTION_NAMES[saveFromCardCollectionNameIndex % SAVE_FROM_CARD_COLLECTION_NAMES.length];
+      saveFromCardCollectionNameIndex += 1;
+      var row = document.createElement('div');
+      row.className = 'add-link-collection-item';
+      row.setAttribute('role', 'listitem');
+      var icon = document.createElement('img');
+      icon.src = '../assets/999.svg';
+      icon.alt = '';
+      icon.width = 25;
+      icon.height = 25;
+      icon.className = 'add-link-collections-icon';
+      icon.setAttribute('aria-hidden', 'true');
+      var nameEl = document.createElement('span');
+      nameEl.className = 'add-link-collection-item-name';
+      nameEl.textContent = name;
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'add-link-collection-item-remove';
+      removeBtn.setAttribute('aria-label', 'Remove ' + name);
+      removeBtn.innerHTML = '<img src="../assets/close.svg" alt="" width="25" height="25" />';
+      removeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        row.remove();
+        updateSaveFromCardCollectionsVisibility();
+      });
+      row.appendChild(icon);
+      row.appendChild(nameEl);
+      row.appendChild(removeBtn);
+      saveFromCardCollectionsList.insertBefore(row, saveFromCardCollectionsList.firstChild);
+      updateSaveFromCardCollectionsVisibility();
+    }
+    if (saveFromCardCollectionsEmpty) {
+      saveFromCardCollectionsEmpty.addEventListener('click', function (e) {
+        if (e.target === saveFromCardAddCollectionBtn || (saveFromCardAddCollectionBtn && saveFromCardAddCollectionBtn.contains(e.target))) return;
+        saveFromCardAddCollectionRow();
+      });
+    }
+    if (saveFromCardAddCollectionBtn) {
+      saveFromCardAddCollectionBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        saveFromCardAddCollectionRow();
+      });
+    }
+    if (saveFromCardAddCollectionRowBtn) {
+      saveFromCardAddCollectionRowBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        saveFromCardAddCollectionRow();
       });
     }
   }

@@ -1274,7 +1274,8 @@ body {
   transition: opacity 0.2s ease;
 }
 
-.sublime-card-shell:hover .sublime-card-shell__actions {
+.sublime-card-shell:hover .sublime-card-shell__actions,
+.sublime-card-shell.sublime-card-shell--save-open .sublime-card-shell__actions {
   opacity: 1;
   pointer-events: auto;
 }
@@ -3916,6 +3917,38 @@ body.add-note-open .nav-add-e2-wrap {
   flex-direction: column;
   overflow: hidden;
 }
+
+/* Save from card: overlay + modal on top of feed, smart position, subtle shadow */
+.save-from-card-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.save-from-card-overlay.is-visible {
+  display: flex;
+  pointer-events: auto;
+}
+
+.save-from-card-modal {
+  position: fixed;
+  width: 364.24px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 80px);
+  background: #F9F9F9;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
 
 .add-link-form {
   display: flex;

@@ -355,6 +355,57 @@
       </div>
     </section>
 
+    <!-- Save from card: modal over feed (add-link experience without link field), smart position, subtle shadow -->
+    <div class="save-from-card-overlay" id="save-from-card-overlay" aria-hidden="true">
+      <div class="save-from-card-modal add-link-modal" id="save-from-card-modal">
+        <form class="add-link-form" id="save-from-card-form" novalidate>
+          <div class="add-link-field-wrap" id="save-from-card-note-wrap">
+            <span class="add-link-field-placeholder add-link-field-placeholder--textarea" id="save-from-card-note-placeholder" aria-hidden="true">Note (optional)</span>
+            <textarea class="add-link-textarea add-link-note" id="save-from-card-note" placeholder=" " rows="4" aria-label="Note (optional)"></textarea>
+          </div>
+          <div class="add-link-collections-wrap" id="save-from-card-collections-wrap">
+            <div class="add-link-collections-empty" id="save-from-card-collections-empty">
+              <img src="../assets/999.svg" alt="" width="25" height="25" class="add-link-collections-icon" aria-hidden="true" />
+              <span class="add-link-collections-label">Collections</span>
+              <button type="button" class="add-link-add-collection-btn" id="save-from-card-add-collection-btn" aria-label="Add collection">
+                <img src="../assets/ADD.svg" alt="" width="19" height="19" class="add-link-plus-icon" aria-hidden="true" />
+              </button>
+            </div>
+            <div class="add-link-collections-list-wrap" id="save-from-card-collections-list-wrap" aria-hidden="true">
+              <div class="add-link-collections-list" id="save-from-card-collections-list"></div>
+              <button type="button" class="add-link-add-collection-row add-link-add-collection-row--bottom" id="save-from-card-add-collection-row" aria-label="Add collection">
+                <span class="add-link-add-collection-row__plus-btn">
+                  <img src="../assets/ADD.svg" alt="" width="19" height="19" class="add-link-plus-icon" aria-hidden="true" />
+                </span>
+                <span class="add-link-add-collection-copy">Add collection</span>
+              </button>
+            </div>
+          </div>
+          <div class="add-link-toggles">
+            <div class="add-link-toggle-row">
+              <img src="../assets/private-lock.svg" alt="" width="25" height="25" class="add-link-actions-icon" aria-hidden="true" />
+              <span class="add-link-actions-copy">Private</span>
+              <button type="button" class="add-link-toggle" id="save-from-card-private-toggle" role="switch" aria-checked="false" aria-label="Private">
+                <span class="add-link-toggle-track"></span>
+                <span class="add-link-toggle-thumb"></span>
+              </button>
+            </div>
+            <div class="add-link-toggle-row">
+              <img src="../assets/favorite.svg" alt="" width="25" height="25" class="add-link-actions-icon" aria-hidden="true" />
+              <span class="add-link-actions-copy">Favorite</span>
+              <button type="button" class="add-link-toggle" id="save-from-card-favorite-toggle" role="switch" aria-checked="false" aria-label="Favorite">
+                <span class="add-link-toggle-track"></span>
+                <span class="add-link-toggle-thumb"></span>
+              </button>
+            </div>
+          </div>
+          <div class="add-link-cta-wrap">
+            <button type="submit" class="add-link-save-cta">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Add Upload (dedicated page when + > Upload) -->
     <section class="add-upload-view" id="add-upload-view" aria-label="Add upload" aria-hidden="true">
       <button type="button" class="add-link-close" id="add-upload-close" aria-label="Close">
