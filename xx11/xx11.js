@@ -922,7 +922,7 @@
     return { collections: collections, note: note };
   }
 
-  /** Wraps any feed card in a shell with save/share/more actions 5px above the card. No overlay. Hover on shell (card + actions row) keeps actions visible. */
+  /** Wraps any feed card in a shell with actions row above the card (More, Share, Insights, Go to, Save). Hover on shell keeps actions visible. */
   function wrapCardWithShell(cardEl, activityContext) {
     var shell = document.createElement('div');
     shell.className = 'sublime-card-shell';
@@ -934,16 +934,7 @@
     actions.setAttribute('aria-label', 'Card actions');
     var left = document.createElement('div');
     left.className = 'sublime-card-shell__actions-left';
-    var shareBtn = document.createElement('button');
-    shareBtn.type = 'button';
-    shareBtn.className = 'sublime-card-shell__action sublime-card-shell__action--share';
-    shareBtn.setAttribute('aria-label', 'Share');
-    var shareImg = document.createElement('img');
-    shareImg.src = '../assets/SHARE.svg';
-    shareImg.alt = '';
-    shareImg.width = 25;
-    shareImg.height = 25;
-    shareBtn.appendChild(shareImg);
+    /* 1. More menu */
     var moreBtn = document.createElement('button');
     moreBtn.type = 'button';
     moreBtn.className = 'sublime-card-shell__action sublime-card-shell__action--more';
@@ -955,8 +946,44 @@
     moreImg.width = 25;
     moreImg.height = 25;
     moreBtn.appendChild(moreImg);
-    left.appendChild(shareBtn);
+    /* 2. Share */
+    var shareBtn = document.createElement('button');
+    shareBtn.type = 'button';
+    shareBtn.className = 'sublime-card-shell__action sublime-card-shell__action--share';
+    shareBtn.setAttribute('aria-label', 'Share');
+    var shareImg = document.createElement('img');
+    shareImg.src = '../assets/SHARE.svg';
+    shareImg.alt = '';
+    shareImg.width = 25;
+    shareImg.height = 25;
+    shareBtn.appendChild(shareImg);
+    /* 3. Insights */
+    var insightsBtn = document.createElement('button');
+    insightsBtn.type = 'button';
+    insightsBtn.className = 'sublime-card-shell__action sublime-card-shell__action--insights';
+    insightsBtn.setAttribute('aria-label', 'Insights');
+    var insightsImg = document.createElement('img');
+    insightsImg.src = '../assets/insights.svg';
+    insightsImg.alt = '';
+    insightsImg.width = 25;
+    insightsImg.height = 25;
+    insightsBtn.appendChild(insightsImg);
+    /* 4. Go to */
+    var goToBtn = document.createElement('button');
+    goToBtn.type = 'button';
+    goToBtn.className = 'sublime-card-shell__action sublime-card-shell__action--go-to';
+    goToBtn.setAttribute('aria-label', 'Go to');
+    var goToImg = document.createElement('img');
+    goToImg.src = '../assets/go-to.svg';
+    goToImg.alt = '';
+    goToImg.width = 25;
+    goToImg.height = 25;
+    goToBtn.appendChild(goToImg);
     left.appendChild(moreBtn);
+    left.appendChild(shareBtn);
+    left.appendChild(insightsBtn);
+    left.appendChild(goToBtn);
+    /* 5. Save (right side) */
     var right = document.createElement('div');
     right.className = 'sublime-card-shell__actions-right';
     var saveBtn = document.createElement('button');
@@ -972,8 +999,8 @@
     var savePlusImg = document.createElement('img');
     savePlusImg.src = '../assets/ADD.svg';
     savePlusImg.alt = '';
-    savePlusImg.width = 14;
-    savePlusImg.height = 14;
+    savePlusImg.width = 21.43;
+    savePlusImg.height = 21.43;
     savePlusImg.className = 'sublime-card-shell__save-plus-icon';
     savePlus.appendChild(savePlusImg);
     saveBtn.appendChild(saveText);
@@ -987,9 +1014,18 @@
     if (activityContext) {
       shell.appendChild(activityContext);
     }
-    shareBtn.addEventListener('click', function (e) { e.stopPropagation(); });
     moreBtn.addEventListener('click', function (e) { e.stopPropagation(); });
-    saveBtn.addEventListener('click', function (e) { e.stopPropagation(); });
+    shareBtn.addEventListener('click', function (e) { e.stopPropagation(); });
+    insightsBtn.addEventListener('click', function (e) { e.stopPropagation(); });
+    goToBtn.addEventListener('click', function (e) { e.stopPropagation(); });
+    saveBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (saveBtn.classList.contains('is-saved')) return;
+      saveBtn.classList.add('is-saved');
+      saveBtn.setAttribute('aria-label', 'Saved to library');
+      saveText.textContent = 'Saved';
+      savePlusImg.src = '../assets/check.svg';
+    });
     return shell;
   }
 

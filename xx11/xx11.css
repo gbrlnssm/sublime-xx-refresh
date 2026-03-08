@@ -1255,6 +1255,7 @@ body {
 /* Reserved row above card: fixed height so layout doesn’t shift; actions visible on shell hover. */
 .sublime-card-shell__actions-row {
   flex-shrink: 0;
+  height: 30px;
   min-height: 30px;
   display: flex;
   align-items: center;
@@ -1293,66 +1294,81 @@ body {
   margin-left: 5px;
 }
 
-/* Share + More: 30×30 pill, no shadow, bg #F8F8F8, icons #C6C6C6 */
+/* More, Share, Insights, Go to: 30×30 pill, bg #F5F5F5, icons #C6C6C6 */
+.sublime-card-shell__action--more,
 .sublime-card-shell__action--share,
-.sublime-card-shell__action--more {
+.sublime-card-shell__action--insights,
+.sublime-card-shell__action--go-to {
   display: flex;
   width: 30px;
   height: 30px;
   min-width: 30px;
   min-height: 30px;
-  padding: 2.5px;
+  padding: 0;
   justify-content: center;
   align-items: center;
   border: none;
   border-radius: 999px;
-  background: #F8F8F8;
+  background: #F5F5F5;
   cursor: pointer;
   transition: background-color 0.2s ease;
   box-sizing: border-box;
 }
 
+.sublime-card-shell__action--more:hover,
 .sublime-card-shell__action--share:hover,
-.sublime-card-shell__action--more:hover {
+.sublime-card-shell__action--insights:hover,
+.sublime-card-shell__action--go-to:hover {
   background: #eeeeee;
 }
 
+.sublime-card-shell__action--more:focus-visible,
 .sublime-card-shell__action--share:focus-visible,
-.sublime-card-shell__action--more:focus-visible {
+.sublime-card-shell__action--insights:focus-visible,
+.sublime-card-shell__action--go-to:focus-visible {
   outline: 2px solid #404040;
   outline-offset: 2px;
 }
 
-.sublime-card-shell__action--share img,
-.sublime-card-shell__action--more img {
+.sublime-card-shell__action--more img,
+.sublime-card-shell__action--share img {
   display: block;
   width: 25px;
   height: 25px;
   object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(58%); /* #959595 */
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
 }
 
-/* Save CTA: no shadow, bg #F8F8F8, text #959595, icons #C6C6C6; padding left 10 right 5 */
+.sublime-card-shell__action--insights img,
+.sublime-card-shell__action--go-to img {
+  display: block;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: none; /* SVGs already use #C6C6C6 */
+}
+
+/* Save CTA: height 30px, bg #F5F5F5, text #7B7B7B, + icon 21.43×21.43 #C6C6C6 */
 .sublime-card-shell__action--save {
   display: flex;
   height: 30px;
   min-height: 30px;
   padding-left: 10px;
   padding-right: 5px;
-  padding-top: 2.5px;
-  padding-bottom: 2.5px;
+  padding-top: 0;
+  padding-bottom: 0;
   justify-content: space-between;
   align-items: center;
   flex: 1 0 0;
   min-width: 0;
   border: none;
   border-radius: 999px;
-  background: #F8F8F8;
-  color: #959595;
+  background: #F5F5F5;
+  color: #7B7B7B;
   font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
   font-style: normal;
-  font-weight: 510;
+  font-weight: 400;
   line-height: 24px;
   letter-spacing: -0.3px;
   font-feature-settings: "ss12" 1;
@@ -1364,7 +1380,7 @@ body {
 
 .sublime-card-shell__action--save:hover {
   background: #eeeeee;
-  color: #7a7978;
+  color: #7B7B7B;
 }
 
 .sublime-card-shell__action--save:focus-visible {
@@ -1382,17 +1398,21 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 25px;
-  height: 25px;
+  width: 21.43px;
+  height: 21.43px;
   border-radius: 999px;
 }
 
 .sublime-card-shell__save-plus-icon {
   display: block;
-  width: 25px;
-  height: 25px;
+  width: 21.43px;
+  height: 21.43px;
   object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(58%); /* #959595 */
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+.sublime-card-shell__action--save.is-saved .sublime-card-shell__save-plus-icon {
+  filter: none; /* check.svg already uses #C6C6C6 */
 }
 
 /* --- Text card: 10px padding, #F8F8F8, SF Pro 18/22, #404040, fade-out (no expand/collapse) --- */
