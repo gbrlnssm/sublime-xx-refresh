@@ -1,0 +1,4610 @@
+/* xx12 — From xx11. Floating butterfly: unpredictable trajectory; hover to pause, click → Inspire me. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #404040;
+  background: #fff;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Floating butterfly layer: full viewport, below nav; pointer-events only on the butterfly */
+.butterfly-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.butterfly-link {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 120ms ease-out;
+}
+
+.butterfly-link:hover {
+  transform: scale(1.05);
+}
+
+.butterfly-img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  user-select: none;
+}
+
+.butterfly-label {
+  margin-top: -10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background-color: #F5F5F5;
+  color: #9A9A9A;
+  font-size: 10px;
+  line-height: 10px;
+  font-weight: inherit;
+}
+
+/* Nav bar: fixed bottom-left, translucent like search bar. Radius 25px. 10px padding. */
+.nav-bar-e3 {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  width: 400px;
+  padding: 10px;
+  background: rgba(229, 229, 229, 0.60);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 25px;
+  z-index: 10;
+}
+
+.nav-e3-inner {
+  display: flex;
+  align-items: center;
+}
+
+/* Left group: Sublime, Library. Tight gap between them. */
+.nav-e3-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Right group: Inbox, Profile+Menu. Pushed to the right edge of the nav bar. */
+.nav-e3-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* Item: vertical stack (icon on top, label below) for Sublime/Library. */
+.nav-e3-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-item:hover:not(.nav-e3-item--icon-only) {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-e3-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Inactive (Sublime/Library): no background, grey text + icon to show inactive. */
+.nav-e3-left .nav-e3-item:not(.active) {
+  background: transparent;
+  color: #A7A9AB;
+}
+
+/* Active (Sublime/Library): white pill, 15px radius, subtle shadow, black icon + text */
+.nav-e3-left .nav-e3-item.active {
+  background: #ffffff;
+  color: #404040;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.nav-e3-left .nav-e3-item.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e3-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-e3-icon-img {
+  display: block;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Inactive icon: light grey */
+.nav-e3-item .nav-e3-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Active icon (Sublime/Library): black */
+.nav-e3-left .nav-e3-item.active .nav-e3-icon-img {
+  filter: brightness(0) invert(0.25);
+}
+
+.nav-e3-label {
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+/* #1 — Inbox: icon only, background #EFEFEF, keep shadow. Badge SVG at top-right. */
+.nav-e3-item--icon-only {
+  position: relative;
+  padding: 8px;
+  background: #EFEFEF;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Badge: at upper-right edge of inbox container, peeking out. Inline SVG = vector = HD at any resolution. */
+.nav-e3-inbox-badge {
+  position: absolute;
+  top: -16px;
+  right: -8px;
+  width: 32px;
+  height: 42px;
+  display: block;
+  pointer-events: none;
+}
+
+.nav-e3-inbox-badge__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-e3-item--icon-only.active {
+  background: #ffffff;
+}
+
+.nav-e3-item--icon-only.active .nav-e3-icon-img {
+  filter: brightness(0) invert(0.25);
+}
+
+.nav-e3-item--icon-only:hover {
+  background: #e8e8e8;
+}
+
+.nav-e3-item--icon-only.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e3-item--icon-only:not(.active) .nav-e3-icon-img {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.nav-e3-icon-inbox {
+  width: 26px;
+  height: 23px;
+}
+
+/* #2 — Profile + Menu: wrapped together, 5px padding, shadow, background #EFEFEF. Menu icon to the right of profile. */
+.nav-e3-profile-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 5px;
+  background: #EFEFEF;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-profile-wrap:hover {
+  background: #e8e8e8;
+}
+
+.nav-e3-profile-wrap.active {
+  background: #ffffff;
+}
+
+.nav-e3-profile-wrap.active .nav-e3-menu-icon {
+  filter: brightness(0) invert(0.25);
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-profile-wrap.active:hover {
+  background: #f5f5f5;
+}
+
+.nav-e3-profile-wrap:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.nav-e3-menu-icon {
+  display: block;
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-e3-avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Plus CTA: fixed bottom-right. Visible only when Library is active. (Unchanged from xx2.) */
+.nav-add-e2-wrap {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.nav-add-e2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #e5e5e5;
+  cursor: default;
+  box-shadow: 0 2px 10px 0 rgba(149, 156, 166, 0.25);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: background-color 380ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 320ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 320ms;
+}
+
+.nav-add-e2.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 380ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Hover state: match main nav items */
+.nav-add-e2.is-visible:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 360ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-wrap.is-expanded .nav-add-e2-icon-wrap {
+  transform: rotate(45deg);
+}
+
+.nav-add-e2-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Actions menu: above the plus button. Three separate blocks with visible gaps (RIGHT ref). */
+.nav-add-e2-menu {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 192px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity 300ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 300ms,
+    transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.nav-add-e2-wrap.is-expanded .nav-add-e2-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1),
+    transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Each section is its own rounded block; gap between sections = visible white space */
+.nav-add-e2-menu-section {
+  background: #ebebeb;
+  border-radius: 20px;
+  padding: 7.5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Section 3: positioning context for submenu so submenu can bottom-align with this block */
+.nav-add-e2-menu-section--import {
+  position: relative;
+}
+
+/* On collection landing page: show only Link, Note, Upload (hide Import and Collection/Canvas) */
+.nav-add-e2-wrap.add-menu--on-collection .nav-add-e2-menu-section--import,
+.nav-add-e2-wrap.add-menu--on-collection .nav-add-e2-menu-section--collection-canvas {
+  display: none;
+}
+
+/* Items within a section: no gap between rows */
+.nav-add-e2-menu-section__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.nav-add-e2-action {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 7.5px 7.5px 7.5px 2.5px;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-action:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-action:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.nav-add-e2-action-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(66%); /* #A7A9AB */
+}
+
+.nav-add-e2-action-label {
+  flex: 1;
+}
+
+.nav-add-e2-chevron {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-left: 2px;
+  filter: brightness(0) saturate(100%) invert(55%) sepia(0%) saturate(500%) hue-rotate(180deg);
+}
+
+/* Row that contains Import + submenu (section 3 has no __items wrapper) */
+.nav-add-e2-action-row {
+  position: relative;
+}
+
+.nav-add-e2-action-row .nav-add-e2-action {
+  width: 100%;
+}
+
+/* Invisible bridge so hover from Import to submenu doesn't leave "row" */
+.nav-add-e2-submenu-bridge {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 14px;
+  height: 100%;
+  pointer-events: auto;
+}
+
+/* Import submenu: positioned from Import section; groups separated by gap like main add menu. */
+.nav-add-e2-submenu {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: auto;
+  margin: 0 4px 0 0;
+  padding: 0;
+  background: transparent;
+  width: max-content;
+  min-width: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(6px);
+  transition: opacity 220ms cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 220ms,
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.nav-add-e2-submenu-group {
+  background: #ebebeb;
+  border-radius: 20px;
+  padding: 7.5px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.nav-add-e2-menu-section--import.is-submenu-open .nav-add-e2-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Open upward when submenu would go off top of viewport */
+.nav-add-e2-submenu.nav-add-e2-submenu--open-up {
+  top: auto;
+  bottom: 0;
+  margin: 0 4px 4px 0;
+  transform: translateX(6px) translateY(4px);
+}
+
+.nav-add-e2-menu-section--import.is-submenu-open .nav-add-e2-submenu.nav-add-e2-submenu--open-up {
+  transform: translateX(0) translateY(0);
+}
+
+.nav-add-e2-submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 10px 7.5px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  white-space: nowrap;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.nav-add-e2-submenu-item-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(66%); /* #A7A9AB */
+}
+
+.nav-add-e2-submenu-item-label {
+  flex: 1;
+}
+
+.nav-add-e2-submenu-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.nav-add-e2-submenu-item:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* --- Sublime view (Figma 1852-65420) — top nav bar full width --- */
+.sublime-view {
+  position: relative;
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0 0 120px;
+}
+
+.sublime-view.sublime-view--visible {
+  display: flex;
+}
+
+.sublime-top-bar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  flex-shrink: 0;
+  padding: 16px 32px;
+  background: transparent;
+}
+
+.sublime-top-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Left: Staff picks (active) + Following (inactive); 10px between pills */
+.sublime-categories {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.sublime-category-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 15px 10px 10px; /* left 10px, right 15px */
+  border: none;
+  border-radius: 9999px;
+  background: #EFEFEF;
+  color: #404040;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sublime-category-btn:hover {
+  background: #e8e8e8;
+}
+
+.sublime-category-btn.active {
+  background: #CBFFA6;
+  color: #38744D;
+}
+
+.sublime-category-btn.active:hover {
+  background: #c4f59a;
+}
+
+.sublime-category-btn:not(.active) {
+  color: #A7A9AB;
+}
+
+.sublime-category-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* Category icons: img; color via filter only when wrong (Following active → green, Staff picks inactive → gray) */
+.sublime-category-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+}
+
+/* Following: show gray icon when inactive, green #38744D when active (exact color via asset) */
+.sublime-category-btn[data-sublime="following"] .sublime-category-icon--inactive {
+  display: block;
+}
+.sublime-category-btn[data-sublime="following"] .sublime-category-icon--active {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="following"] .sublime-category-icon--inactive {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="following"] .sublime-category-icon--active {
+  display: block;
+}
+
+/* Staff picks: show gray #A7A9AB when inactive, green #38744D when active (exact colors via assets) */
+.sublime-category-btn[data-sublime="staff-picks"] .sublime-category-icon--inactive {
+  display: block;
+}
+.sublime-category-btn[data-sublime="staff-picks"] .sublime-category-icon--active {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="staff-picks"] .sublime-category-icon--inactive {
+  display: none;
+}
+.sublime-category-btn.active[data-sublime="staff-picks"] .sublime-category-icon--active {
+  display: block;
+}
+
+.sublime-category-label {
+  font-size: 16px;
+}
+
+/* Right-aligned search: 315px width, to the left of shuffle/filters; expands full width on focus */
+.sublime-search-wrap {
+  flex: 0 0 315px;
+  width: 315px;
+  min-width: 0;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px 10px 5px;
+  background: rgba(229, 229, 229, 0.40);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 56.927px;
+  box-sizing: border-box;
+  transition: background 0.25s ease, flex 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sublime-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.sublime-search-clear {
+  flex-shrink: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sublime-search-wrap.has-value .sublime-search-clear {
+  display: flex;
+}
+
+.sublime-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.sublime-search {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.sublime-search::placeholder {
+  color: #A7A9AB;
+}
+
+.sublime-search::-webkit-search-cancel-button,
+.sublime-search::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.sublime-search::-moz-search-cancel-button {
+  display: none;
+}
+
+.sublime-search:focus {
+  outline: none;
+}
+
+.sublime-search-wrap:focus-within {
+  outline: none;
+  background: rgba(229, 229, 229, 0.60);
+}
+
+/* Right: Shuffle + Filters; collapse with transition when Following or search-focused */
+.sublime-actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+  max-width: 96px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+}
+
+.sublime-top-bar-inner.sublime-top-bar-inner--following .sublime-actions,
+.sublime-top-bar-inner.sublime-top-bar-inner--search-focused .sublime-actions {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
+}
+
+/* Categories: collapse when search is focused (same animation as actions) */
+.sublime-categories {
+  max-width: 600px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+}
+
+.sublime-top-bar-inner.sublime-top-bar-inner--search-focused .sublime-categories {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.35s;
+}
+
+/* Search expanded: full width when focused; hide feed so search is its own experience */
+.sublime-top-bar-inner.sublime-top-bar-inner--search-focused .sublime-search-wrap {
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
+  margin-left: 0;
+}
+
+.sublime-view.sublime-view--search-active .sublime-feed {
+  display: none;
+}
+
+.sublime-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sublime-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.sublime-action-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.sublime-action-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.sublime-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow-y: auto;
+  background: #fff;
+  padding: 156px 32px 120px;
+  box-sizing: border-box;
+}
+
+/* Sublime feed: two-column grid, 880px max.
+ * Horizontal: 90px between columns (grid gap).
+ * Vertical: exactly 90px between every pair of cards (margin-bottom on shells; single canonical value).
+ */
+.sublime-feed {
+  --feed-gap: 90px;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  align-content: start;
+  gap: var(--feed-gap);
+}
+
+.sublime-feed__col {
+  min-width: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+  padding-top: 0;
+}
+
+/* Vertical separation: exactly 90px between cards. Margin on shell only; last card has no bottom margin. */
+.sublime-feed__col .sublime-card-shell {
+  flex-shrink: 0;
+  margin: 0 0 var(--feed-gap) 0;
+}
+
+.sublime-feed__col .sublime-card-shell:last-child {
+  margin-bottom: 0;
+}
+
+/* Activity context element: appears below cards in following feed */
+.sublime-activity-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px */
+  background: #F5F5F5;
+  border-radius: 9999px;
+  margin-top: 5px; /* 5px separation from card */
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-self: flex-start; /* Don't stretch to fill parent width */
+  flex-shrink: 0;
+}
+
+/* Multi-line pills get 15px border radius */
+.sublime-activity-context--with-note {
+  border-radius: 15px;
+}
+
+.sublime-activity-context__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+/* Bundled avatars in summary (multiple users, no notes) */
+.sublime-activity-context .sublime-activity-context__avatars-bundle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 5px; /* 5px separation between avatars and text */
+}
+
+.sublime-activity-context__text {
+  min-width: 0;
+  flex: 0 1 auto; /* Don't grow, allow shrink, auto basis - prevents full width */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  white-space: normal; /* Allow normal text wrapping and preserve spaces */
+}
+
+.sublime-activity-context__user-name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  white-space: nowrap;
+}
+
+.sublime-activity-context__user-name:hover {
+  text-decoration: underline;
+}
+
+
+.sublime-activity-context__action {
+  font-weight: 400;
+  color: #737373;
+  white-space: pre; /* Preserve spaces in action text */
+}
+
+.sublime-activity-context__and-more {
+  font-weight: 400;
+  color: #737373;
+  white-space: pre; /* Preserve spaces */
+}
+
+/* Bundled avatars inside text (for "John and [avatars] X more") */
+.sublime-activity-context__text .sublime-activity-context__avatars-bundle {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin-left: 0;
+  margin-right: 5px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.sublime-activity-context__collection-name {
+  font-weight: 600;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.sublime-activity-context__collection-name:hover {
+  text-decoration: underline;
+}
+
+/* Staff picks activity wrapper: 5px from card; children must not add margin so total gap stays 5px */
+.sublime-staff-picks-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px; /* 5px separation from card */
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start; /* Don't stretch to fill parent width */
+  flex-shrink: 0;
+}
+
+.sublime-staff-picks-activity .sublime-activity-context {
+  margin-top: 0; /* avoid double gap: wrapper already has 5px; .sublime-activity-context has margin-top: 5px elsewhere */
+}
+
+/* Activity context with note - stacked layout */
+.sublime-activity-context--with-note {
+  align-items: flex-start;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px - ensures text doesn't bleed */
+  width: fit-content; /* Hug content */
+  max-width: 100%; /* Don't exceed parent - this should constrain the container */
+  align-content: flex-start;
+  align-self: flex-start; /* Ensure it doesn't stretch */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  overflow: hidden; /* Prevent any content from bleeding out */
+  /* Ensure content respects padding */
+  min-width: 0;
+  /* Ensure container respects max-width constraint and content doesn't overflow padding */
+  /* The key is that max-width: 100% should limit the container, and content inside should respect that */
+}
+
+.sublime-activity-context--with-note .sublime-activity-context__avatar {
+  width: 24px;
+  height: 24px;
+  margin-top: 0;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.sublime-activity-context__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px; /* Reduced from 2px to 1px - half the spacing */
+  min-width: 0;
+  flex: 1 1 auto; /* Allow grow/shrink to fill available space */
+  align-items: flex-start;
+  width: auto; /* Let content determine width, constrained by max-width */
+  max-width: 100%; /* Constrain to available space in flex container */
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent content from bleeding */
+  /* Force content to respect container's padding by ensuring it doesn't exceed available space */
+  /* Container has padding: 12px left + 10px right = 22px, avatar: 24px, gap: 8px = 54px total */
+  /* Content wrapper should fill remaining space and note should wrap within that */
+}
+
+.sublime-activity-context__content .sublime-activity-context__user-name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px; /* Match avatar height (24px) for perfect vertical alignment with avatar */
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  white-space: nowrap;
+  margin-bottom: 0;
+  height: 24px; /* Explicitly set height to match avatar */
+  display: flex;
+  align-items: center;
+}
+
+.sublime-activity-context__content .sublime-activity-context__user-name:hover {
+  text-decoration: underline;
+}
+
+.sublime-activity-context__note {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%; /* Fill available width in content container */
+  max-width: 100%; /* Respect container boundaries - don't bleed out */
+  align-self: flex-start;
+  white-space: normal;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Ensure text respects container padding */
+  padding: 0;
+  margin: 0;
+  /* Force text to wrap and respect boundaries - ensure it doesn't exceed parent width */
+  /* The content wrapper has width: 0 and flex: 1, so it fills available space */
+  /* This note should wrap to fit within that space, respecting the container's 10px right padding */
+  flex-shrink: 1; /* Allow note to shrink below its content size */
+}
+
+/* Bundled avatars container - used in summary and "X more" buttons */
+.sublime-activity-context__avatars-bundle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 5px; /* 5px separation between avatars and text */
+}
+
+.sublime-activity-context__avatar-bundled {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #F5F5F5; /* Border to separate overlapping avatars */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Stack avatars horizontally with overlap - leftmost behind, rightmost on top */
+.sublime-activity-context__avatar-bundled:not(:first-child) {
+  margin-left: -8px; /* Overlap by 8px */
+}
+
+/* Progressive z-index so rightmost avatars appear on top */
+.sublime-activity-context__avatar-bundled:nth-child(1) { z-index: 0; }
+.sublime-activity-context__avatar-bundled:nth-child(2) { z-index: 1; }
+.sublime-activity-context__avatar-bundled:nth-child(3) { z-index: 2; }
+.sublime-activity-context__avatar-bundled:nth-child(4) { z-index: 3; }
+
+/* "X more" button - matches activity context styling */
+.sublime-activity-context--more-btn {
+  cursor: pointer;
+  transition: background-color 0.2s ease, text-decoration 0.2s ease;
+  padding: 8px 10px 8px 12px; /* Right padding: 10px */
+  background: #F5F5F5;
+  border-radius: 9999px;
+  width: fit-content;
+  max-width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373; /* Same grayish-black as user names */
+  display: flex;
+  align-items: center;
+  gap: 0; /* Gap handled by margin-right on avatars bundle */
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+.sublime-activity-context__more-text {
+  white-space: nowrap;
+}
+
+.sublime-activity-context--more-btn:hover {
+  background: #EBEBEB;
+  text-decoration: underline;
+}
+
+/* "and X more" count link - same color as user names */
+.sublime-activity-context__more-count {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #737373; /* Same grayish-black as user names */
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.sublime-activity-context__more-count:hover {
+  text-decoration: underline;
+}
+
+/* --- Library card context (All Cards feed only): single unit = one bubble with collection + note --- */
+.library-context {
+  margin-top: 5px;
+  width: fit-content;
+  max-width: 100%;
+  align-self: flex-start;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.library-context__bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: #F5F5F5;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.32px;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* First line: collection name(s) — bold, same size as text card body */
+.library-context__collection-line {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #908F8E;
+}
+
+.library-context__collection-name {
+  font-weight: 600;
+  color: #908F8E;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.library-context__collection-name:hover {
+  text-decoration: underline;
+}
+
+/* " and " — regular weight, not clickable */
+.library-context__and {
+  font-weight: 400;
+  color: #908F8E;
+}
+
+/* "N other collections" — same bold style as collection name, clickable */
+.library-context__other-count {
+  font-weight: 600;
+  color: #908F8E;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.library-context__other-count:hover {
+  text-decoration: underline;
+}
+
+/* Second line: note — same size as text card body, regular weight, color #908F8E */
+.library-context__note {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #908F8E;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: normal;
+  min-width: 0;
+}
+
+/* Prevent any inner margin from extending the shell height (would add to visible gap). */
+.sublime-feed__col .sublime-card-shell .sublime-feed__card,
+.sublime-feed__col .sublime-card-shell .sublime-feed__card * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.sublime-feed__card {
+  width: 100%;
+  border-radius: 15px;
+  margin: 0;
+  border: 1px solid #F8F8F8; /* subtle outline so white cards (e.g. PDF previews) don’t get lost on white bg */
+}
+
+/* --- Card shell: actions row 8px above card (no overlay). Hover on shell = hover on card or actions row. --- */
+.sublime-card-shell {
+  position: relative;
+  width: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sublime-card-shell .sublime-feed__card {
+  border-radius: 15px;
+}
+
+/* Reserved row above card: fixed height so layout doesn’t shift; actions visible on shell hover. */
+.sublime-card-shell__actions-row {
+  flex-shrink: 0;
+  height: 30px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.sublime-card-shell__actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.sublime-card-shell:hover .sublime-card-shell__actions,
+.sublime-card-shell.sublime-card-shell--save-open .sublime-card-shell__actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sublime-card-shell__actions-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.sublime-card-shell__actions-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  margin-left: 5px;
+}
+
+/* More, Share, Insights, Go to: 30×30 pill, bg #F5F5F5, icons #C6C6C6 */
+.sublime-card-shell__action--more,
+.sublime-card-shell__action--share,
+.sublime-card-shell__action--insights,
+.sublime-card-shell__action--go-to {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 999px;
+  background: #F5F5F5;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.sublime-card-shell__action--more:hover,
+.sublime-card-shell__action--share:hover,
+.sublime-card-shell__action--insights:hover,
+.sublime-card-shell__action--go-to:hover {
+  background: #eeeeee;
+}
+
+.sublime-card-shell__action--more:focus-visible,
+.sublime-card-shell__action--share:focus-visible,
+.sublime-card-shell__action--insights:focus-visible,
+.sublime-card-shell__action--go-to:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.sublime-card-shell__action--more img,
+.sublime-card-shell__action--share img {
+  display: block;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+.sublime-card-shell__action--insights img,
+.sublime-card-shell__action--go-to img {
+  display: block;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: none; /* SVGs already use #C6C6C6 */
+}
+
+/* Save CTA: height 30px, bg #F5F5F5, text #7B7B7B, + icon 21.43×21.43 #C6C6C6 */
+.sublime-card-shell__action--save {
+  display: flex;
+  height: 30px;
+  min-height: 30px;
+  padding-left: 10px;
+  padding-right: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 0 0;
+  min-width: 0;
+  border: none;
+  border-radius: 999px;
+  background: #F5F5F5;
+  color: #7B7B7B;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+  font-feature-settings: "ss12" 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.sublime-card-shell__action--save:hover {
+  background: #eeeeee;
+  color: #7B7B7B;
+}
+
+.sublime-card-shell__action--save:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.sublime-card-shell__save-text {
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.sublime-card-shell__save-plus {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 21.43px;
+  height: 21.43px;
+  border-radius: 999px;
+}
+
+.sublime-card-shell__save-plus-icon {
+  display: block;
+  width: 21.43px;
+  height: 21.43px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+.sublime-card-shell__action--save.is-saved .sublime-card-shell__save-plus-icon {
+  filter: none; /* check.svg already uses #C6C6C6 */
+}
+
+/* --- Text card: 10px padding, #F8F8F8, SF Pro 18/22, #404040, fade-out (no expand/collapse) --- */
+.sublime-card--text {
+  padding: 10px;
+  background: #F8F8F8;
+  border-radius: 15px;
+  color: #404040;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--text .sublime-card__body-wrap {
+  position: relative;
+}
+
+.sublime-card--text .sublime-card__body {
+  color: #404040;
+  font-feature-settings: "ss12" on;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.36px;
+  white-space: pre-line;
+}
+
+/* Visual fade at end of truncated text (non-interactive) */
+.sublime-card--text .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(248, 248, 248, 0) 0%,
+    rgba(248, 248, 248, 0.25) 25%,
+    rgba(248, 248, 248, 0.55) 55%,
+    #F8F8F8 100%
+  );
+  pointer-events: none;
+}
+
+/* Clickable area over the fade: click to expand truncated text (body, caption, or title). Hidden when expanded. */
+.sublime-card__expand-hit {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.sublime-card__body-wrap.is-expanded .sublime-card__expand-hit,
+.sublime-card__caption-text-wrap.is-expanded .sublime-card__expand-hit {
+  display: none;
+}
+
+/* Expand/collapse: "less" line when expanded (no "more" label; expand by clicking fade area) */
+.sublime-card__expand-wrap {
+  flex-shrink: 0;
+  padding-top: 6px;
+}
+
+.sublime-card__less-btn {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  color: #737373;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sublime-card__less-btn:hover {
+  color: #404040;
+}
+
+.sublime-card__less-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+/* --- Highlight card: text highlight + author • source (10px gap; body same as text card: SF Pro 18/22, #404040) --- */
+.sublime-card--highlight {
+  padding: 10px;
+  background: #F8F8F8;
+  border-radius: 15px;
+  color: #404040;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--highlight .sublime-card__body-wrap {
+  position: relative;
+}
+
+.sublime-card--highlight .sublime-card__body {
+  color: #404040;
+  font-feature-settings: "ss12" on;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.36px;
+  white-space: pre-line;
+}
+
+.sublime-card--highlight .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(248, 248, 248, 0) 0%,
+    rgba(248, 248, 248, 0.25) 25%,
+    rgba(248, 248, 248, 0.55) 55%,
+    #F8F8F8 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--highlight .sublime-card__source {
+  overflow: hidden;
+  color: #3D3D3D;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- Image card: image only (fully wrapped) or image + caption/source below (like highlight) --- */
+.sublime-card--image {
+  overflow: hidden;
+  border-radius: 15px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--image .sublime-card__img-wrap {
+  width: 100%;
+  min-height: 180px; /* reserve space before image loads so first card stays at top and gaps don’t shift */
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+}
+
+.sublime-card--image:not(:has(.sublime-card__caption-wrap)) .sublime-card__img-wrap {
+  border-radius: 15px;
+}
+
+.sublime-card--image .sublime-card__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.sublime-card--image .sublime-card__caption-wrap {
+  padding: 10px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--image .sublime-card__caption-text-wrap {
+  position: relative;
+}
+
+.sublime-card--image .sublime-card__caption {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+/* Fade at end of truncated image caption (same as text/highlight cards) */
+.sublime-card--image .sublime-card__caption-text-wrap .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--image .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- File/PDF card: first-page preview + optional title, caption, author, source (same pattern as image card) --- */
+.sublime-card--file {
+  overflow: hidden;
+  border-radius: 15px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--file .sublime-card__img-wrap {
+  width: 100%;
+  min-height: 180px;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+}
+
+.sublime-card--file:not(:has(.sublime-card__caption-wrap)) .sublime-card__img-wrap {
+  border-radius: 15px;
+}
+
+.sublime-card--file .sublime-card__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.sublime-card--file .sublime-card__caption-wrap {
+  padding: 10px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--file .sublime-card__caption-text-wrap {
+  position: relative;
+}
+
+.sublime-card--file .sublime-card__title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--file .sublime-card__caption {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--file .sublime-card__caption-text-wrap .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--file .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- Video card: native MP4 (autoplay loop muted preview) or YouTube embed; play icon bottom-left --- */
+.sublime-card--video {
+  overflow: hidden;
+  border-radius: 15px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sublime-card--video .sublime-card__video-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 180px;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  background: #000;
+}
+
+.sublime-card--video:not(:has(.sublime-card__caption-wrap)) .sublime-card__video-wrap {
+  border-radius: 15px;
+}
+
+.sublime-card--video .sublime-card__video {
+  width: 100%;
+  height: auto;
+  min-height: 180px;
+  display: block;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+.sublime-card--video .sublime-card__play-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  pointer-events: none;
+}
+
+.sublime-card--video .sublime-card__play-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sublime-card--video .sublime-card__caption-wrap {
+  padding: 10px;
+  background: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sublime-card--video .sublime-card__caption-text-wrap {
+  position: relative;
+}
+
+.sublime-card--video .sublime-card__title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--video .sublime-card__caption {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  font-feature-settings: "ss12" 1;
+  white-space: pre-line;
+  color: #000;
+}
+
+.sublime-card--video .sublime-card__caption-text-wrap .sublime-card__fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 229, 229, 0) 0%,
+    rgba(229, 229, 229, 0.25) 25%,
+    rgba(229, 229, 229, 0.55) 55%,
+    #E5E5E5 100%
+  );
+  pointer-events: none;
+}
+
+.sublime-card--video .sublime-card__source {
+  overflow: hidden;
+  color: #737373;
+  font-feature-settings: "ss12" 1;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- My Library default view (Figma 1842-12172) --- */
+/* Hidden by default; only visible when My Library tab is active */
+.library-view {
+  display: none;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 80px 32px 120px;
+  position: relative;
+}
+
+.library-view.library-view--visible {
+  display: flex;
+}
+
+/* My Library: floating More menu (•••) in upper right only; no background, not part of centered content */
+.library-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 16px 32px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.library-top-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.library-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.library-more-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.library-more-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-view-inner {
+  max-width: 550px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Section 1 — Search bar (Figma 1842-12172) */
+.library-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px 10px 5px;
+  background: #EFEFEF;
+  border-radius: 99.99px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.library-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.library-search-clear {
+  flex-shrink: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.library-search-wrap.has-value .library-search-clear {
+  display: flex;
+}
+
+.library-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.library-search {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.library-search::placeholder {
+  color: #A7A9AB;
+}
+
+/* Hide browser default search clear (x) so only our right-side close icon shows */
+.library-search::-webkit-search-cancel-button,
+.library-search::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+.library-search::-moz-search-cancel-button {
+  display: none;
+}
+
+.library-search:focus {
+  outline: none;
+}
+
+.library-search-wrap:focus-within {
+  outline: none;
+}
+
+/* Section 2 — Main modules: All cards, Collections, Canvases, Favorites — floating, no container; icon height fixed 81.42px, high-res (same as xx7) */
+.library-filters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.library-filter-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 12px 8px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  border-radius: 15px;
+  color: #404040;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.library-filter-btn.active {
+  background: transparent;
+}
+
+.library-filter-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.library-filter-btn:hover .library-filter-icon {
+  opacity: 0.9;
+}
+
+.library-filter-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-filter-icon {
+  flex-shrink: 0;
+  display: block;
+  height: 97.7px; /* 81.42 × 1.2 */
+  width: auto;
+  min-width: 0;
+  object-fit: contain;
+}
+
+.library-filter-label {
+  min-width: 0;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #404040;
+  text-align: center;
+}
+
+/* Wrapper for collapsible sections. 40px between sections when expanded (match original); 10px only between two collapsed sections. */
+.library-sections {
+  display: flex;
+  flex-direction: column;
+}
+
+.library-section + .library-section {
+  margin-top: 40px;
+}
+
+.library-section--collapsed + .library-section--collapsed {
+  margin-top: 10px;
+}
+
+/* Section titles */
+.library-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.library-section:has(.library-pinned-list) {
+  gap: 0;
+}
+
+.library-section:has(.library-media-grid) {
+  gap: 0;
+}
+
+/* Collapsible section header: button (icon + chevron + title). Chevron visible only on hover. */
+.library-section-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 4px 0 2px 10px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  border-radius: 15px;
+}
+
+.library-section-header-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-section-header__icon {
+  display: block;
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+/* Imports section icon: #D7D9D9 to match other section icons (light gray) */
+.library-section-header__icon--imports {
+  filter: brightness(0) saturate(100%) invert(85%);
+}
+
+.library-section-header-btn .library-section-title {
+  padding: 6px 0 6px 0;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.library-section-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #A7A9AB;
+  box-sizing: border-box;
+}
+
+/* Pinned collections & Imports: no icon, title 15/15, color #C7C5C4 */
+.library-section--pinned .library-section-header-btn .library-section-header__icon,
+.library-section--imports .library-section-header-btn .library-section-header__icon {
+  display: none;
+}
+.library-section--pinned .library-section-title,
+.library-section--imports .library-section-title {
+  font-size: 15px;
+  line-height: 15px;
+  color: #C7C5C4;
+}
+
+/* Media types: same title style, no icon */
+.library-section:has(.library-media-grid) .library-section-header-btn .library-section-header__icon {
+  display: none;
+}
+.library-section:has(.library-media-grid) .library-section-title {
+  font-size: 15px;
+  line-height: 15px;
+  color: #C7C5C4;
+}
+
+/* Imports list: item icons 25x25 (pinned collections keep 35x35) */
+.library-section--imports .library-pinned-item__icon {
+  width: 25px;
+  height: 25px;
+}
+
+/* Chevron: right of title, 5px separation; visible only on hover. Expanded: point down; collapsed: point right. */
+.library-section-header__chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  opacity: 0;
+  transition: opacity 200ms ease, transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg);
+  transform: rotate(90deg); /* SVG points right by default; 90deg = down when expanded */
+}
+
+.library-section-header-btn:hover .library-section-header__chevron,
+.library-section-header-btn:focus .library-section-header__chevron {
+  opacity: 1;
+}
+
+/* Collapsed: chevron points right */
+.library-section--collapsed .library-section-header__chevron {
+  transform: rotate(0deg);
+}
+
+/* Section body: collapsible content. Expanded: overflow visible so pills/cards shadow isn’t cut. Collapsed: max-height 0 + overflow hidden so content is fully hidden. */
+.library-section-body {
+  max-height: 2000px;
+  overflow: visible;
+  transition: max-height 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.library-section--collapsed .library-section-body {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* Legacy header class kept for any JS that might target it; visually replaced by .library-section-header-btn */
+.library-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 10px 0 4px 10px;
+  box-sizing: border-box;
+}
+
+.library-section-header .library-section-title {
+  padding: 0;
+}
+
+/* Section 3 — Pinned collections: title outside container; tight title→content gap */
+.library-section.library-section--pinned {
+  gap: 0;
+  overflow: visible;
+}
+
+.library-section--pinned .library-section-body {
+  overflow: visible;
+}
+
+/* Collapsed state must hide content (override overflow for pinned) */
+.library-section--pinned.library-section--collapsed .library-section-body {
+  overflow: hidden;
+}
+
+.library-section--pinned .library-pinned-card {
+  overflow: visible;
+}
+
+.library-pinned-card {
+  background: #F8F8F8;
+  border-radius: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.library-pinned-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.library-pinned-card .library-pinned-list {
+  padding: 0;
+}
+
+/* Pinned section only: row extends into left/right zones so hover persists when grabbing or opening more */
+.library-section--pinned .library-pinned-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-left: -44px;
+  margin-right: -32px;
+  padding-left: 44px;
+  padding-right: 32px;
+  box-sizing: content-box;
+}
+
+.library-section--pinned .library-pinned-row .library-pinned-item {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Left zone: drag handle (in-flow so row hover includes it) */
+.library-section--pinned .library-pinned-drag {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  margin-left: -44px;
+  margin-right: 0;
+}
+
+.library-section--pinned .library-pinned-row:hover .library-pinned-drag {
+  opacity: 1;
+}
+
+.library-section--pinned .library-pinned-drag:active {
+  cursor: grabbing;
+}
+
+.library-section--pinned .library-pinned-drag__icon {
+  width: 30px;
+  height: 30px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 - match other icons */
+}
+
+/* Right zone: more menu — compact so it doesn’t overlap the container */
+.library-section--pinned .library-pinned-more {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  margin-left: 0;
+  margin-right: -32px;
+  border-radius: 6px;
+}
+
+.library-section--pinned .library-pinned-row:hover .library-pinned-more {
+  opacity: 1;
+}
+
+.library-section--pinned .library-pinned-more:hover {
+  background: #e8e8e8;
+}
+
+.library-section--pinned .library-pinned-more img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+/* Dragging: elevated ghost so the grabbed row is visible above others */
+.library-section--pinned .library-pinned-row--dragging {
+  z-index: 10;
+  opacity: 1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: #fff;
+  transform: scale(1.02);
+}
+
+/* Drop indicator line (where item will be inserted) — aligned with card content */
+.library-section--pinned .library-pinned-row--drop-before::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: #4080ff;
+  border-radius: 1px;
+  z-index: 5;
+  pointer-events: none;
+  margin: 0 32px 0 44px;
+}
+
+.library-section--pinned .library-pinned-row--drop-after::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #4080ff;
+  border-radius: 1px;
+  z-index: 5;
+  pointer-events: none;
+  margin: 0 32px 0 44px;
+}
+
+.library-pinned-more-menu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 6px 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e8e8e8;
+}
+
+.library-pinned-more-menu__item {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  font: inherit;
+  font-size: 15px;
+  color: #404040;
+  cursor: pointer;
+}
+
+.library-pinned-more-menu__item:hover {
+  background: #f0f0f0;
+}
+
+.library-pinned-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 5px 0 5px 5px;
+  background: transparent;
+  border-radius: 15px;
+  color: #959595;
+  text-decoration: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: -0.02em;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-sizing: border-box;
+}
+
+.library-pinned-item:hover {
+  background: #e8e8e8;
+}
+
+.library-pinned-item__icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+/* Label can be direct child or inside label-wrap (locked items) */
+.library-pinned-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 15px;
+  color: #959595;
+}
+
+.library-pinned-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.library-pinned-label-wrap .library-pinned-label {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.library-pinned-lock {
+  flex-shrink: 0;
+  margin-left: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+/* Number to the left of chevron; 0 gap between number and chevron */
+.library-pinned-count {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: -0.02em;
+  color: #C6C6C6;
+}
+
+.library-pinned-chevron {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+/* Section 4 — Media types */
+.library-media-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 550px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.library-media-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  height: auto;
+  padding: 5px 10px 5px 3px;
+  background: #F8F8F8;
+  border: none;
+  border-radius: 999px;
+  color: #908F8E;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-sizing: border-box;
+}
+
+.library-media-btn:hover {
+  background: #eeeeee;
+}
+
+.library-media-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.library-media-icon {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(78%); /* #C6C6C6 */
+}
+
+.library-media-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  line-height: 15px;
+  color: #908F8E;
+}
+
+/* --- Placeholder views (Inbox, Profile) --- */
+.inbox-view,
+.profile-view {
+  display: none;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 80px 32px 120px;
+  background: #fff;
+}
+
+.inbox-view.inbox-view--visible,
+.profile-view.profile-view--visible {
+  display: flex;
+}
+
+.placeholder-view-inner {
+  flex: 1;
+  min-height: 0;
+}
+
+/* --- All cards page (reuses collection layout: title only, no Follow/Share/Chat) --- */
+.all-cards-view {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  overflow: hidden;
+}
+
+.all-cards-view.all-cards-view--visible {
+  display: flex;
+}
+
+/* --- Collections directory (My Library > Collections) --- */
+.collections-directory-view {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  overflow: hidden;
+}
+
+.collections-directory-view.collections-directory-view--visible {
+  display: flex;
+}
+
+/* Collections directory: only Shuffle, Filters (no bg), Search (circle); no More. Reuse All cards action styles. */
+.collections-directory-actions .collection-actions-group--three {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.collections-directory-actions .collection-actions-group--three .collection-action-btn:not(.collection-action-btn--circle) {
+  background: transparent;
+}
+
+.collections-directory-actions .collection-actions-group--three .collection-action-btn:not(.collection-action-btn--circle):hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.collections-directory-actions .collection-action-btn--circle {
+  background: #EFEFEF;
+  margin-left: 10px;
+}
+
+.collections-directory-actions .collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.collections-directory-list-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+  box-sizing: border-box;
+}
+
+.collections-directory-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.collections-directory-item {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 10px 14px 10px 10px;
+  height: 170px;
+  min-height: 170px;
+  box-sizing: border-box;
+  background: #EFEFEF;
+  border-radius: 15px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.collections-directory-item:hover {
+  background: #e8e8e8;
+}
+
+.collections-directory-item__left {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 0;
+  align-items: center;
+  align-content: start;
+}
+
+.collections-directory-item__icon-wrap {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collections-directory-item__icon {
+  width: 35px;
+  height: 35px;
+  display: block;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(56%) sepia(0%) saturate(0%); /* #908F8E */
+}
+
+.collections-directory-item__title {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+  overflow: hidden;
+  color: #908F8E;
+  font-feature-settings: 'ss12' on;
+  text-overflow: ellipsis;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 28px;
+  letter-spacing: -0.56px;
+  white-space: nowrap;
+}
+
+.collections-directory-item__description {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin: 0;
+  overflow: hidden;
+  color: #A7A9AB;
+  font-feature-settings: 'ss12' on;
+  text-overflow: ellipsis;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.collections-directory-item__owner {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: start;
+  margin: 0;
+  overflow: hidden;
+  color: #A7A9AB;
+  font-feature-settings: 'ss12' on;
+  text-overflow: ellipsis;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.collections-directory-item__right {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-height: 0;
+}
+
+.collections-directory-minis {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  max-height: 118px;
+}
+
+.collections-directory-mini {
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.collections-directory-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collections-directory-mini--text {
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  color: #737373;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-align: left;
+}
+
+.collections-directory-item__count-row {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  padding: 0;
+}
+
+.collections-directory-item__count {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #A7A9AB;
+  min-width: 1.5em;
+  text-align: right;
+}
+
+.collections-directory-item__chevron {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+  opacity: 0.5;
+  filter: brightness(0) saturate(100%) invert(72%) sepia(2%) saturate(500%) hue-rotate(180deg); /* #A7A9AB at 50% via opacity */
+}
+
+.collections-directory-mini-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* All cards top bar: expandable search (slides left, 10px from back button) */
+/* Buttery easing for search expand/collapse */
+.all-cards-top-bar-inner .all-cards-search-wrap {
+  flex: 0 0 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px;
+  background: rgba(229, 229, 229, 0.40);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 56.927px;
+  box-sizing: border-box;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+  visibility: hidden;
+}
+
+.all-cards-top-bar-inner.all-cards-search-expanded .all-cards-search-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  opacity: 1;
+  margin-left: 10px;
+  visibility: visible;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.all-cards-top-bar-inner .all-cards-actions {
+  overflow: hidden;
+  max-width: 200px;
+  opacity: 1;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
+}
+
+.all-cards-top-bar-inner.all-cards-search-expanded .all-cards-actions {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+}
+
+/* All Cards: only the Search icon has circle background (like Share on collection page); More, Shuffle, Filters have no background */
+.all-cards-actions .collection-actions-group--four .collection-action-btn:not(.collection-action-btn--circle) {
+  background: transparent;
+}
+
+.all-cards-actions .collection-actions-group--four .collection-action-btn:not(.collection-action-btn--circle):hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.all-cards-actions .collection-action-btn--circle {
+  background: #EFEFEF;
+}
+
+.all-cards-actions .collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.all-cards-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.all-cards-search-clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.all-cards-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.all-cards-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.all-cards-search-input::placeholder {
+  color: #A7A9AB;
+}
+
+.all-cards-search-input::-webkit-search-cancel-button,
+.all-cards-search-input::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.all-cards-search-input::-moz-search-cancel-button {
+  display: none;
+}
+
+.all-cards-search-input:focus {
+  outline: none;
+}
+
+.all-cards-search-wrap:focus-within {
+  outline: none;
+  background: rgba(229, 229, 229, 0.60);
+}
+
+/* --- Collection landing page: same expandable search (slide left from back, 10px gap; X and Escape collapse) --- */
+.collection-view .collection-search-wrap {
+  flex: 0 0 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 5px;
+  background: rgba(229, 229, 229, 0.40);
+  backdrop-filter: blur(37.452px);
+  -webkit-backdrop-filter: blur(37.452px);
+  border-radius: 56.927px;
+  box-sizing: border-box;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+  visibility: hidden;
+}
+
+.collection-view .collection-search-top-bar-inner.collection-search-expanded .collection-search-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  opacity: 1;
+  margin-left: 10px;
+  visibility: visible;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), margin 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.collection-view .collection-search-top-bar-inner .collection-actions {
+  overflow: hidden;
+  max-width: 500px;
+  opacity: 1;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
+}
+
+.collection-view .collection-search-top-bar-inner.collection-search-expanded .collection-actions {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: max-width 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+}
+
+.collection-search-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: block;
+}
+
+.collection-search-clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.collection-search-clear-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.collection-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #000000;
+  caret-color: #007AFF;
+}
+
+.collection-search-input::placeholder {
+  color: #A7A9AB;
+}
+
+.collection-search-input::-webkit-search-cancel-button,
+.collection-search-input::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.collection-search-input::-moz-search-cancel-button {
+  display: none;
+}
+
+.collection-search-input:focus {
+  outline: none;
+}
+
+.collection-search-wrap:focus-within {
+  outline: none;
+  background: rgba(229, 229, 229, 0.60);
+}
+
+/* All cards header: title only (no subtitle or meta) */
+.collection-header--title-only .collection-header__subtitle,
+.collection-header--title-only .collection-header__meta {
+  display: none;
+}
+
+/* --- Collection landing page (xx6) — scroll behind top bar and bottom nav like Sublime --- */
+.collection-view {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  overflow: hidden;
+}
+
+.collection-view.collection-view--visible {
+  display: flex;
+}
+
+.collection-top-bar {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 100%;
+  padding: 16px 32px;
+  background: transparent;
+}
+
+.collection-top-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.collection-top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 10px between back button and collapsible collection name */
+  min-width: 0;
+}
+
+.collection-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #EFEFEF;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.collection-back-btn:hover {
+  background: #E5E5E5;
+}
+
+.collection-back-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.collection-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.collection-back-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  max-width: 35px;
+  max-height: 35px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(68%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.collection-title-mini {
+  display: none;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 1.15;
+  letter-spacing: -0.56px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 2px;
+}
+
+.collection-top-bar.collection-top-bar--mini .collection-title-mini {
+  display: block;
+}
+
+.collection-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.collection-actions-group--four {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.collection-actions-group--four .collection-action-btn {
+  background: #fff;
+}
+
+.collection-actions-group--four .collection-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* All Cards page only: search trigger matches back button (same as .collection-back-btn) */
+#all-cards-top-bar .all-cards-actions .collection-action-btn--circle {
+  background: #EFEFEF;
+  margin-left: 10px; /* same separation as .collection-actions gap between group and chat/share on collection landing */
+}
+#all-cards-top-bar .all-cards-actions .collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.collection-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.collection-action-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.collection-action-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.collection-action-btn--circle {
+  background: #EFEFEF;
+}
+
+.collection-action-btn--circle:hover {
+  background: #E5E5E5;
+}
+
+.collection-action-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  max-width: 35px;
+  max-height: 35px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(68%) sepia(2%) saturate(500%) hue-rotate(180deg);
+}
+
+.collection-actions-group--four .collection-action-btn:nth-child(2) .collection-action-icon,
+.collection-actions-group--four .collection-action-btn:nth-child(3) .collection-action-icon {
+  filter: none;
+}
+
+.collection-action-btn--circle .collection-action-icon {
+  filter: none;
+}
+
+.collection-action-btn--chat .collection-icon-wrap {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+}
+
+.collection-action-btn--chat .collection-action-icon {
+  width: 28px;
+  height: 28px;
+  max-width: 28px;
+  max-height: 28px;
+}
+
+.collection-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 15px;
+  background: #EFEFEF;
+  color: #909090;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.collection-follow-btn:hover {
+  background: #E5E5E5;
+}
+
+.collection-follow-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.collection-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  /* 40px below bottom of top nav (nav ~76px) then content starts */
+  padding: 116px 32px 120px;
+  padding-bottom: max(120px, env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.collection-feed-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+  box-sizing: border-box;
+}
+
+.collection-header {
+  margin: 0 0 80px;
+  padding: 0 0 0 10px;
+}
+
+.collection-header__title-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.collection-header__title-row .collection-header__title {
+  margin: 0;
+}
+
+.collection-header__title-row .collection-header__icon {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+}
+
+.collection-header__title {
+  margin: 0 0 5px;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 28px;
+  letter-spacing: -0.56px;
+}
+
+.collection-header__subtitle {
+  margin: 0 0 5px;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+}
+
+.collection-header__meta {
+  margin: 0;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.32px;
+}
+
+/* Same two-column grid and card spacing as Sublime feed */
+.collection-feed {
+  --feed-gap: 90px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--feed-gap);
+  align-items: start;
+  align-content: start;
+}
+
+.collection-feed__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.collection-feed__col .sublime-card-shell {
+  flex-shrink: 0;
+  margin: 0 0 var(--feed-gap) 0;
+}
+
+.collection-feed__col .sublime-card-shell:last-child {
+  margin-bottom: 0;
+}
+
+.collection-feed__col .sublime-card-shell .sublime-feed__card,
+.collection-feed__col .sublime-card-shell .sublime-feed__card * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* --- xx12 (from xx11): Add Link / Add Upload (dedicated pages). No nav or + visible; white background. --- */
+body.add-link-open .nav-bar-e3,
+body.add-link-open .nav-add-e2-wrap,
+body.add-upload-open .nav-bar-e3,
+body.add-upload-open .nav-add-e2-wrap,
+body.add-collection-open .nav-bar-e3,
+body.add-collection-open .nav-add-e2-wrap,
+body.add-canvas-open .nav-bar-e3,
+body.add-canvas-open .nav-add-e2-wrap,
+body.add-note-open .nav-bar-e3,
+body.add-note-open .nav-add-e2-wrap {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.add-link-view,
+.add-upload-view,
+.add-collection-view,
+.add-canvas-view {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  background: #ffffff;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  box-sizing: border-box;
+}
+
+.add-note-view {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  background: #ffffff;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.add-link-view.add-link-view--visible,
+.add-upload-view.add-upload-view--visible,
+.add-collection-view.add-collection-view--visible,
+.add-canvas-view.add-canvas-view--visible {
+  display: flex;
+}
+
+.add-note-view.add-note-view--visible {
+  display: flex;
+}
+
+/* --- Note: zen doc full-page (telegra.ph-style) --- */
+.add-note-view .add-note-close {
+  left: 32px;
+  top: 32px;
+}
+
+/* Align header actions with close (X): same vertical axis — close is 32px top, 45px tall; center content in that band */
+.add-note-header {
+  flex-shrink: 0;
+  padding: 32px 24px 0 0;
+  padding-left: calc(32px + 45px + 16px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 77px; /* 32 + 45 so content centers in same band as close */
+  box-sizing: border-box;
+}
+
+.add-note-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Pills: border 1.5px #E5E5E5, radius 99999px; icon and copy gap 0; height 35px; 10px between elements; 20px before Save */
+.add-note-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0; /* no separation between icon and copy */
+  padding: 0 10px 0 5px; /* left 5, right 10 (Source/Note) */
+  height: 35px;
+  min-height: 35px;
+  border-radius: 99999px;
+  background: #ffffff;
+  border: 1.5px solid #E5E5E5;
+  color: #A7A7A7;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.add-note-pill-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg); /* #C6C6C6 */
+}
+
+.add-note-pill-label {
+  white-space: nowrap;
+}
+
+.add-note-pill.is-active {
+  background: #ffffff;
+  border-color: #E5E5E5;
+  color: #A7A7A7;
+}
+
+/* Collections: icon and copy gap 0; height 35px; 10px before plus */
+.add-note-collections-empty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0; /* no separation between folder icon and "Collections" */
+  padding: 0 5px;
+  height: 35px;
+  min-height: 35px;
+  border-radius: 99999px;
+  background: #ffffff;
+  border: 1.5px solid #E5E5E5;
+  color: #A7A7A7;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: auto;
+}
+
+.add-note-collections-empty .add-note-pill-plus {
+  margin-left: 10px;
+}
+
+/* Note collections plus: 25×25 round btn, background #EFEEEE, 19px icon */
+.add-note-collections-empty .add-note-pill-plus.add-link-add-collection-btn {
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  border: none;
+  background: #EFEEEE;
+  flex-shrink: 0;
+}
+
+.add-note-collections-empty .add-note-pill-plus.add-link-add-collection-btn:hover {
+  background: #e5e4e4;
+}
+
+.add-note-collections-empty .add-note-pill-plus .add-link-plus-icon {
+  width: 19px;
+  height: 19px;
+}
+
+.add-note-collections-empty .add-note-pill-icon {
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+
+/* Favorite & Private: icon and copy gap 0; height 35px; 15px between (icon+copy) and toggle */
+.add-note-toggle-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 5px;
+  height: 35px;
+  min-height: 35px;
+  border-radius: 99999px;
+  background: #ffffff;
+  border: 1.5px solid #E5E5E5;
+  color: #A7A7A7;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  cursor: pointer; /* whole row clickable */
+  box-sizing: border-box;
+}
+
+.add-note-toggle-inline .add-link-toggle {
+  margin-left: 15px; /* separation between (icon+copy) and toggle */
+}
+
+.add-note-toggle-inline .add-note-pill-icon {
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+.add-note-toggle-inline .add-link-toggle {
+  flex-shrink: 0;
+}
+
+/* 20px separation between header actions group and Save CTA */
+.add-note-header-actions .add-note-save-cta {
+  margin-left: 20px;
+}
+
+/* Body: 60px below top bar; content bleeds, no cap — scrollable */
+.add-note-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  padding: 60px 32px 48px 32px; /* 60px top = separation from header */
+  box-sizing: border-box;
+}
+
+.add-note-editor-wrap {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 0;
+}
+
+.add-note-form {
+  display: block;
+  width: 100%;
+  min-height: 0;
+}
+
+.add-note-editor {
+  width: 100%;
+  min-height: calc(100vh - 220px);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #000;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: -0.36px;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  caret-color: #007AFF;
+  overflow: hidden;
+}
+
+.add-note-editor::placeholder {
+  color: #D3D2D2;
+}
+
+/* New canvas: 10px between Name, Collections, Collaborators; 20px before Save */
+.add-canvas-view .add-link-field-wrap {
+  margin-bottom: 10px;
+}
+.add-canvas-view .add-canvas-collections-wrap.add-link-collections-wrap {
+  margin-bottom: 10px;
+}
+.add-canvas-view .add-canvas-collaborators-wrap.add-link-collections-wrap {
+  margin-bottom: 20px;
+}
+.add-canvas-view .add-canvas-collaborators-empty .add-link-collections-icon {
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+/* Canvas: Auto sync collections row — 35px height like other one-line items; info icon 12×12, 5px after label */
+.add-canvas-auto-sync-row {
+  flex-shrink: 0;
+  height: 35px;
+  min-height: 35px;
+}
+
+.add-canvas-auto-sync-label-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Override .add-link-toggle-row .add-link-actions-copy (flex:1) so label hugs and gap is 5px to info */
+.add-canvas-auto-sync-row .add-canvas-auto-sync-label-wrap .add-link-actions-copy {
+  flex: 0 0 auto;
+  width: max-content;
+}
+
+.add-canvas-auto-sync-info {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  display: block;
+  pointer-events: none;
+}
+
+/* Canvas: private-by-default copy left of Save, left-aligned with form, bottom-aligned with Save */
+.add-canvas-view .add-link-cta-wrap {
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.add-canvas-private-copy {
+  margin: 0;
+  color: #A7A7A7;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 380;
+  line-height: 10px;
+  letter-spacing: -0.2px;
+}
+
+/* New collection: Collaborators row (icon + label + plus), same pattern as collections empty */
+/* Collaborators wrap: same pattern as collections (flex 1, min-height 0, list scrolls, add row fixed). 20px before CTA. */
+.add-collection-collaborators-wrap {
+  margin-bottom: 20px;
+}
+
+.add-collection-collaborators-empty .add-link-collections-icon {
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+/* Collaborator row: avatar (25×25 container, 18.18 inner) + name (gap 0) + X. Same copy style as collection item. */
+.add-collection-collaborator-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  min-height: 35px;
+  padding: 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  cursor: default;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.add-collection-collaborator-avatar {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-collection-collaborator-avatar-inner {
+  width: 18.18px;
+  height: 18.18px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #E2E1E1;
+  display: block;
+}
+
+.add-collection-collaborator-avatar-img {
+  display: block;
+  width: 18.18px;
+  height: 18.18px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.add-collection-collaborator-name {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #6A6967;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.add-collection-collaborator-item .add-link-collection-item-remove {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.add-collection-collaborator-item .add-link-collection-item-remove:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.add-collection-collaborator-item .add-link-collection-item-remove img {
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+/* New collection: 10px between Name, Description, Private, Collaborators; 20px before Save */
+.add-collection-view .add-link-field-wrap {
+  margin-bottom: 10px;
+}
+.add-collection-view .add-link-toggles {
+  margin-bottom: 10px;
+}
+.add-collection-view .add-collection-collaborators-wrap.add-link-collections-wrap {
+  margin-bottom: 20px;
+}
+
+/* Upload form: wrapper contains empty state (Upload files) and add state (Add files), like collections */
+.add-upload-files-wrap {
+  margin-bottom: 10px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.add-upload-files-empty {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  padding: 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-upload-files-add-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  padding: 0 10px 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-upload-files-empty:hover,
+.add-upload-files-add-row:hover {
+  background: #e8e8e8;
+}
+
+.add-upload-files-wrap .add-upload-files-icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg); /* #C6C6C6 */
+}
+
+.add-upload-files-placeholder {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #A7A7A7;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+/* After first file: plus left, "Add files" right (same pattern as add-collection row) */
+.add-upload-files-add-row__plus-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: #E2E1E1;
+  flex-shrink: 0;
+}
+
+.add-upload-files-add-row .add-link-plus-icon {
+  width: 19.44px;
+  height: 19.44px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+.add-upload-files-add-row-copy {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #A7A7A7;
+  margin-left: auto;
+  text-align: right;
+}
+
+.add-upload-files-add-row:hover .add-upload-files-add-row-copy {
+  color: #404040;
+}
+
+.add-upload-file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Image previews: flex wrap, 2 per row, 10px gap horizontal and vertical. Cap height, scroll. */
+.add-upload-previews {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+  min-height: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.add-upload-previews.add-upload-previews--has-items {
+  display: flex;
+}
+
+.add-upload-preview-item {
+  position: relative;
+  flex: 0 0 calc(50% - 5px);
+  width: calc(50% - 5px);
+  max-width: calc(50% - 5px);
+  border-radius: 8px;
+  border: 1px solid #E0E0E0;
+  overflow: hidden;
+  background: #f5f5f5;
+  aspect-ratio: 3 / 4;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.add-upload-preview-item > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.add-upload-preview-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: opacity 0.15s ease;
+}
+
+.add-upload-preview-remove:hover {
+  opacity: 0.8;
+}
+
+.add-upload-preview-remove img {
+  width: 15px;
+  height: 15px;
+  display: block;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(60%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+.add-link-close {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  width: 45px;
+  height: 45px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  z-index: 2;
+}
+
+.add-link-close:hover .add-link-close-inner {
+  background: #e5e5e5;
+}
+
+.add-link-close:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.add-link-close-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #EFEFEF;
+}
+
+.add-link-close-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg); /* #C6C6C6 */
+}
+
+.add-link-modal {
+  width: 364.24px;
+  max-width: 100%;
+  max-height: calc(100vh - 80px);
+  background: #F9F9F9;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Save from card: overlay + modal on top of feed, smart position, subtle shadow */
+.save-from-card-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.save-from-card-overlay.is-visible {
+  display: flex;
+  pointer-events: auto;
+}
+
+.save-from-card-modal {
+  position: fixed;
+  width: 364.24px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 80px);
+  background: #F9F9F9;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+
+.add-link-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  font-weight: 400;
+  color: #404040;
+}
+
+.add-link-field-wrap {
+  position: relative;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+  background: #EFEFEF;
+  border-radius: 8px;
+}
+
+.add-link-field-wrap:last-of-type {
+  margin-bottom: 10px;
+}
+
+.add-link-field-placeholder {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  pointer-events: none;
+  color: #C9C9C8;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+}
+
+.add-link-field-placeholder--textarea {
+  top: 12px;
+  transform: none;
+}
+
+.add-link-field-wrap--has-value .add-link-field-placeholder {
+  visibility: hidden;
+}
+
+.add-link-input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 35px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #404040;
+  box-sizing: border-box;
+  caret-color: #007AFF;
+}
+
+.add-link-textarea {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #404040;
+  box-sizing: border-box;
+  caret-color: #007AFF;
+  resize: none;
+  min-height: 88px;
+  max-height: 200px;
+  overflow-y: auto;
+  transition: height 0.1s ease;
+}
+
+.add-link-input:focus,
+.add-link-textarea:focus {
+  outline: none;
+}
+
+.add-link-input::placeholder,
+.add-link-textarea::placeholder {
+  color: transparent;
+}
+
+.add-link-input.add-link-input--url {
+  color: #00AAFF;
+}
+
+/* New Collection / New Canvas: name field typed text is semi-bold (placeholder unchanged) */
+.add-collection-view #add-collection-name,
+.add-canvas-view #add-canvas-name {
+  font-weight: 600;
+}
+
+.add-link-collections-wrap {
+  margin-bottom: 10px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.add-link-collections-empty {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  padding: 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-link-collections-empty:hover {
+  background: #e8e8e8;
+}
+
+.add-link-collections-empty .add-link-collections-icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg); /* #C6C6C6 */
+}
+
+.add-link-collections-label {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #A7A7A7;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.add-link-actions-icon {
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg); /* #C6C6C6 */
+}
+
+.add-link-actions-copy {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #A7A7A7;
+}
+
+.add-link-add-collection-btn {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #E2E1E1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.add-link-add-collection-btn:hover {
+  background: #d8d8d8;
+}
+
+.add-link-plus-icon {
+  display: block;
+  width: 19.44px;
+  height: 19.44px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg); /* #C6C6C6 */
+}
+
+.add-link-collections-list-wrap {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.add-link-collections-list-wrap.add-link-collections-list-wrap--visible {
+  display: flex;
+}
+
+.add-link-collections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.add-link-collection-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  min-height: 35px;
+  padding: 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  cursor: default;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.add-link-collection-item .add-link-collections-icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+.add-link-collection-item-name {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #6A6967;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.add-link-collection-item-remove {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.add-link-collection-item-remove:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.add-link-collection-item-remove img {
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(0%) saturate(0%) hue-rotate(180deg);
+}
+
+.add-link-add-collection-row--bottom {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  padding: 0 10px 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border: none;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.add-link-add-collection-row--bottom:hover {
+  background: #e8e8e8;
+}
+
+.add-link-add-collection-row__plus-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: #E2E1E1;
+  flex-shrink: 0;
+}
+
+.add-link-add-collection-row--bottom .add-link-plus-icon {
+  width: 19.44px;
+  height: 19.44px;
+  flex-shrink: 0;
+}
+
+.add-link-add-collection-copy {
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: #A7A7A7;
+  margin-left: auto;
+  text-align: right;
+  padding: 0;
+}
+
+.add-link-add-collection-row--bottom:hover .add-link-add-collection-copy {
+  color: #404040;
+}
+
+.add-link-toggles {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.add-link-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: 0;
+  height: 35px;
+  padding: 0 5px;
+  background: #EFEFEF;
+  border-radius: 999px;
+  min-width: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-link-toggle-row:hover {
+  background: #e8e8e8;
+}
+
+.add-link-toggle-row .add-link-actions-icon {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+}
+
+.add-link-toggle-row .add-link-actions-copy {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.add-link-toggle-row .add-link-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.add-link-toggle {
+  width: 43.75px;
+  height: 17.5px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #DBDBDB;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.add-link-toggle[aria-checked="true"] {
+  background: #38744D;
+}
+
+.add-link-toggle-track {
+  display: none;
+}
+
+.add-link-toggle-thumb {
+  position: absolute;
+  top: 50%;
+  left: 2.72px;
+  width: 21.88px;
+  height: 12.03px;
+  border-radius: 999px;
+  background: #fff;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+}
+
+.add-link-toggle[aria-checked="true"] .add-link-toggle-thumb {
+  transform: translateY(-50%) translateX(16.43px);
+}
+
+.add-link-cta-wrap {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.add-link-save-cta {
+  height: 35px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: #CBFFA6;
+  color: #38744D;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "ss12" on;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-link-save-cta:hover {
+  background: #c4f59a;
+}
+
+.add-link-save-cta:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}

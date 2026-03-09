@@ -1,0 +1,125 @@
+/* Inspire me — prompt center, back top-left, inspiration button bottom center */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.inspire-me-page {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  color: #2c2c2c;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+
+/* Back button — same as collection landing (top left) */
+.inspire-me-back-btn {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  top: max(24px, env(safe-area-inset-top));
+  left: max(24px, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #EFEFEF;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}
+
+.inspire-me-back-btn:hover {
+  background: #E5E5E5;
+}
+
+.inspire-me-back-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
+
+.inspire-me-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+}
+
+.inspire-me-back-icon {
+  display: block;
+}
+
+/* Prompt — center middle, same style as collection name (collection-header__title) */
+.inspire-me-prompt {
+  margin: 0;
+  max-width: 560px;
+  text-align: center;
+  color: #908F8E;
+  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: 1.35;
+  letter-spacing: -0.56px;
+}
+
+.inspire-me-prompt.empty {
+  color: #a7a9ab;
+  font-style: italic;
+}
+
+/* Inspiration button — bottom center, same style as Follow on collection landing */
+.inspire-me-inspiration-btn {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 15px;
+  background: #EFEFEF;
+  color: #909090;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.inspire-me-inspiration-btn:hover:not(:disabled) {
+  background: #E5E5E5;
+}
+
+.inspire-me-inspiration-btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.inspire-me-inspiration-btn:focus-visible {
+  outline: 2px solid #404040;
+  outline-offset: 2px;
+}
